@@ -1,43 +1,43 @@
 function getRandomColor() {
-    return '#' + Math.floor(Math.random() * 16777215).toString(16);
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
 }
 
-$(document).ready(function() {
+$(document).ready(function () {
 
-    // setto un colore randomico all'inizio della pagina al logo
-    var lettere = $("#textBankName").text().split('');
+    $("#textBankName").on("click", function(e) {
+        e.preventDefault(); // Prevent the default behavior of the anchor element
+        location.reload(); // Refresh the page
+    });
 
-    var newText = '';
+    $("#textBankName").on("mouseover", function () {
 
-    for (var i = 0; i < lettere.length; i++)
-    {   
-        var randomColor = getRandomColor();
-        newText += '<span style="color: ' + randomColor + ';">' + lettere[i] + '</span>'
-    }
+        var lettere = this.textContent.split('');
+        var newText = '';
+    
+        for (var i = 0; i < lettere.length; i++) {   
+            newText += '<span style="color: '+ getRandomColor() +';">' + lettere[i] + '</span>';
+        }
+    
+        this.innerHTML = newText;
+    });
+    
+    
+    $("#top").mouseleave(function () { 
+        $("#textBankName").html('<a href="index.html">TWITCH_VAULT BANK</a>');
+        $("#textBankName").css("color", "black");
+    });
+    
+    $("#searchBar").blur(function () {  // Elimino il contenuto della searchbar quando si esce dalla searchbar!
+        
+        this.value = "";
 
-    $("#textBankName").html(newText);
+    });
 
-    ////////////////////////////////////////////////////////////////////
-
-});
+})
 
 
-$("#textBankName").on("mouseover", function () {
-    var lettere = this.textContent.split('');
-
-    var newText = '';
-
-    for (var i = 0; i < lettere.length; i++)
-    {   
-        var randomColor = getRandomColor();
-        newText += '<span style="color: ' + randomColor + ';">' + lettere[i] + '</span>'
-    }
-
-    this.innerHTML = newText;
-});
-
-$("#textBankName").on("mouseout", function () {
-
-    this.textContent = "TWITCH_VAULT BANK";
-
-});

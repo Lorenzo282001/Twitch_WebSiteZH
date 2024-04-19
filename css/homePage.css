@@ -21,7 +21,8 @@ body {
 
     border: 2px solid black;
     border-radius: 20%;
-    padding: 1.5px;
+    padding: 3px;
+    cursor: pointer;
 }
 
 /* */
@@ -45,7 +46,7 @@ body {
 
 #navBarUlLeft {
     position: absolute;
-    top: 0;
+    top: -0.5rem;
     left: 0;
     list-style: none;
     padding: 0;
@@ -72,8 +73,8 @@ body {
 
 #navBarCenter {
     position: absolute;
-    top: 0;
-    left: 50%;
+    top: -0.2rem;
+    left: 45%;
     transform: translateX(-50%); /* Trasla l'elemento verso sinistra del 50% della propria larghezza */
     list-style: none;
     padding: 0;
@@ -89,10 +90,10 @@ body {
 #navBarCenter li input {
     background-color: violet;
     border: 5px solid violet;
-    border-radius: 10%;
+    border-radius: 2%;
 
     /* Grandezza barra di ricerca */
-    width: 40em;
+    width: 20em;
     height: 2em;
 
 
@@ -100,10 +101,16 @@ body {
     font-weight: bold;
     color: darkmagenta;
 
+    transition: 0.3s;
 }
 
 #navBarCenter li input:focus {
+    transition: 0.3s;
     outline: none;
+
+    border-radius: 5%;
+
+    width: 40em;
 }
 
 /* end center navbar*/
