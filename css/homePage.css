@@ -1,0 +1,138 @@
+@import url('https://fonts.googleapis.com/css2?family=Jersey+25&display=swap');
+
+html {
+    font-size: 20px; /* = 1 rem */ /* em fa capo diretto alla font-size padre */
+}
+
+body {  
+
+    padding: 0;
+    margin: 0;
+
+    background-color: whitesmoke;
+
+}
+
+/* classi */
+
+.hoverList:hover {
+
+    background-color: plum;
+
+    border: 2px solid black;
+    border-radius: 20%;
+    padding: 1.5px;
+}
+
+/* */
+
+
+/* top website */
+#top {
+    background-color: rgb(141, 66, 154);
+    font-size: 32px;
+
+    font-family: "Jersey 25", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+
+    height: 3em; /*Root em*/
+
+    user-select: none;
+}
+
+/* left navbar*/    
+
+#navBarUlLeft {
+    position: absolute;
+    top: 0;
+    left: 0;
+    list-style: none;
+    padding: 0;
+}
+
+#navBarUlLeft li {
+    display: inline-block;
+    margin-left: 20px;
+
+    font-size: 50px;
+
+    cursor: pointer;
+    
+}
+
+#navBarUlLeft li a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* end left navbar*/
+
+/* center navbar*/
+
+#navBarCenter {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%); /* Trasla l'elemento verso sinistra del 50% della propria larghezza */
+    list-style: none;
+    padding: 0;
+
+}
+
+#navBarCenter li {
+    display: inline-block;
+    
+    
+}
+
+#navBarCenter li input {
+    background-color: violet;
+    border: 5px solid violet;
+    border-radius: 10%;
+
+    /* Grandezza barra di ricerca */
+    width: 40em;
+    height: 2em;
+
+
+    text-align: center;
+    font-weight: bold;
+    color: darkmagenta;
+
+}
+
+#navBarCenter li input:focus {
+    outline: none;
+}
+
+/* end center navbar*/
+
+/* right navbar */
+
+
+/* lista navbar obj*/
+#navBarUlRight {
+    position: absolute;
+    top: 0;
+    right: 0;
+    list-style: none;
+    padding: 0;
+}
+
+#navBarUlRight li {
+    display: inline-block;
+    margin-left: 20px;
+
+    
+}
+
+#navBarUlRight li:first-child {
+    margin-left: 0;
+}
+
+#navBarUlRight li:last-child {
+    margin-right: 2em;
+}
+
+/* end right navbar */ 
