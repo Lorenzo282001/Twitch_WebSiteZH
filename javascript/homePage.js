@@ -20,7 +20,7 @@ $(document).ready(function () {
         {
             $("#activeBarre").slideUp(500);
             $("#main").css("margin-top", "0")
-
+            $("#toggleBarre").html('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="50" height="50"><rect width="100" height="5" y="30" fill="rgb(32,32,32)"/><rect width="100" height="5" y="60" fill="rgb(32,32,32)"/><rect width="100" height="5" y="90" fill="rgb(32,32,32)"/></svg>');
         }
     
     });
@@ -63,10 +63,13 @@ $(document).ready(function () {
         {
             $("#activeBarre").slideDown(500); // Toggle the display with sliding animation
             $("#main").css("margin-top", "10em")
+
+            $("#toggleBarre").html('<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>');
         }
         else {
             $("#activeBarre").slideUp(500); // Toggle the display with sliding animation
             $("#main").css("margin-top", "3em")
+            $("#toggleBarre").html('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="50" height="50"><rect width="100" height="5" y="30" fill="rgb(32,32,32)"/><rect width="100" height="5" y="60" fill="rgb(32,32,32)"/><rect width="100" height="5" y="90" fill="rgb(32,32,32)"/></svg>');
         }
 
     });
@@ -82,6 +85,7 @@ $(document).ready(function () {
         // Verifica se le dimensioni della finestra coincidono con le dimensioni dello schermo
         if (windowWidth === screenWidth && windowHeight === screenHeight) {
             $("#activeBarre").slideUp(500); // Ripristino lo stato iniziale !
+            $("#toggleBarre").html('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="50" height="50"><rect width="100" height="5" y="30" fill="rgb(32,32,32)"/><rect width="100" height="5" y="60" fill="rgb(32,32,32)"/><rect width="100" height="5" y="90" fill="rgb(32,32,32)"/></svg>');
             return;
         }
 
