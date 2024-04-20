@@ -9,6 +9,22 @@ function getRandomColor() {
 
 $(document).ready(function () {
 
+    if ($(window).width() <= 550)
+    {
+        $("#main").css("margin-top", "10em");   
+    }
+
+    $('#main').on("click", function () {
+
+        if ($(window).width() >= 550)
+        {
+            $("#activeBarre").slideUp(500);
+            $("#main").css("margin-top", "0")
+
+        }
+    
+    });
+
     $("#textBankName").on("click", function(e) {
         e.preventDefault(); // Prevent the default behavior of the anchor element
         location.reload(); // Refresh the page
@@ -46,10 +62,11 @@ $(document).ready(function () {
         if (displayValue === 'none')
         {
             $("#activeBarre").slideDown(500); // Toggle the display with sliding animation
+            $("#main").css("margin-top", "10em")
         }
         else {
             $("#activeBarre").slideUp(500); // Toggle the display with sliding animation
-            
+            $("#main").css("margin-top", "3em")
         }
 
     });
@@ -70,10 +87,11 @@ $(document).ready(function () {
 
         if (windowWidth <= 550) {
             $("#activeBarre").slideDown(500);
+            $("#main").css("margin-top", "10em");  
         }
         else {
             $("#activeBarre").slideUp(500); // Ripristino lo stato iniziale !
-
+            $("#main").css("margin-top", "0");   
         }
 
     });

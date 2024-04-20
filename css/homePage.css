@@ -159,6 +159,29 @@ body {
 
 /* end right navbar */ 
 
+/* main */ 
+
+#main {
+
+    height: 100vh;
+    width: 100vw;
+
+    transition: 0.5s;
+}
+
+#footer {
+    position: relative;
+
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+
+    text-align: center;
+    color: wheat;
+  
+
+}
+
 @media screen and (max-width: 1860px) {
     
     #navBarUlRight {
