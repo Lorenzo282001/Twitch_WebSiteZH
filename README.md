@@ -17,3 +17,5 @@ Creare un sito web per una banca potrebbe essere un'ottima idea. Potresti concen
 # -- > CREAZIONE SITO WEB BANCA -- BRAIN_STORMING!
 
     - Nome Banca: TwitchVault Bank
+
+    - Colore Body -> rgb(32, 32, 32);

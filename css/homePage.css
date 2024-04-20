@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Jersey+25&display=swap');
 
+
 html {
     font-size: 20px; /* = 1 rem */ /* em fa capo diretto alla font-size padre */
 }
@@ -9,7 +10,7 @@ body {
     padding: 0;
     margin: 0;
 
-    background-color: whitesmoke;
+    background-color: rgb(32, 32, 32);
 
 }
 
@@ -25,8 +26,14 @@ body {
     cursor: pointer;
 }
 
-/* */
+.hoverListBarre:hover {
+    background-color: plum;
 
+    border: 2px solid black;
+
+    padding: 2px;
+    cursor: pointer;
+}
 
 /* top website */
 #top {
@@ -40,6 +47,10 @@ body {
     height: 3em; /*Root em*/
 
     user-select: none;
+}
+
+#activeBarre {
+    display: none;
 }
 
 /* left navbar*/    
@@ -142,4 +153,137 @@ body {
     margin-right: 2em;
 }
 
+#toggleBarre {
+    display: none;
+}
+
 /* end right navbar */ 
+
+@media screen and (max-width: 1860px) {
+    
+    #navBarUlRight {
+        display: none;
+    }
+
+    #navBarCenter {
+        display: none;
+    
+    }
+
+    /* Sidebar */
+    #toggleBarre {
+        position: absolute;
+        display: block;
+        top: 1rem;
+        right: 0;
+
+        margin-right: 10px;
+
+        padding: 0;
+    }
+
+    #toggleBarre:hover {
+
+        cursor: pointer;
+        border: 1px solid black;
+        border-radius: 10%;
+
+        padding: 2px;
+    }
+
+    #activeBarre {
+        position: absolute;
+        top: 3em;
+        left: 0;
+
+        background-color: violet;
+        width: 100%;
+        text-align: center;
+        padding: 0;
+
+    
+    }
+
+    #activeBarre ul {
+        list-style: none;
+        display: inline;
+    }
+
+    #activeBarre input {
+        background-color: violet;
+        border: 1px solid violet;
+        /* Grandezza barra di ricerca */
+        width: 20em;
+        height: 2em;
+
+
+        text-align: center;
+        font-weight: bold;
+        color: darkmagenta;
+
+    }
+
+    #activeBarre input:focus {
+        transition: 0.3s;
+        outline: none;
+    }
+
+}
+
+@media screen and (max-width: 550px) {
+
+    #navBarUlRight {
+        display: none;
+    }
+
+    #navBarCenter {
+        display: none;
+    
+    }
+
+    /* Sidebar */
+    #toggleBarre {
+        display: none;
+    }
+    
+    #activeBarre {
+        position: absolute;
+        top: 3em;
+        left: 0;
+
+        display: block;
+
+        background-color: violet;
+        width: 100%;
+        text-align: center;
+        padding: 0;
+
+    
+    }
+
+    #activeBarre ul {
+        list-style: none;
+        display: inline;
+    }
+
+    #activeBarre input {
+        background-color: violet;
+        border: 1px solid violet;
+
+        /* Grandezza barra di ricerca */
+        width: 20em;
+        height: 2em;
+
+
+        text-align: center;
+        font-weight: bold;
+        color: darkmagenta;
+
+    }
+    
+    #activeBarre input:focus {
+        transition: 0.3s;
+        outline: none;
+    }
+
+}
