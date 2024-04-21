@@ -40,7 +40,7 @@ body {
 /* top website */
 #top {
     background-color: rgb(141, 66, 154);
-    border-radius: 3px;
+    border-radius: 0px 0px 3px 3px;
     font-size: 32px;
 
     font-family: "Jersey 25", sans-serif;
@@ -178,6 +178,9 @@ body {
     width: 100%;
 
     user-select: none;
+
+    background-color: rebeccapurple;
+    border-radius: 0px 0px 10px 10px;
 }
 
 #topMain::before {
@@ -194,10 +197,11 @@ body {
 }
 
 .cardMain {
+    position: relative;
     border: 4px solid rgb(141, 66, 154);
     background-color: violet;
     border-radius: 20px;
-    margin-top: 4px;
+    margin-top: 1em;
     margin-right: 5px;
 
     font-family: "Bebas Neue", sans-serif;
@@ -207,6 +211,7 @@ body {
     text-align: center;
 
     width: 33.3%;
+    height: 80%;
 }
 
 #prestitiHomePage {
@@ -214,6 +219,7 @@ body {
 }
 
 .cardPrestiti {
+    position: relative;
     border: 4px solid rgb(141, 66, 154);
     background-color: violet;
     border-radius: 20px;
