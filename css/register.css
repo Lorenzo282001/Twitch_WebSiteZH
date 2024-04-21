@@ -1,0 +1,244 @@
+@import url('https://fonts.googleapis.com/css2?family=Jersey+25&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Jersey+25&display=swap');
+
+html {
+    font-size: 20px; /* = 1 rem */ /* em fa capo diretto alla font-size padre */
+}
+
+body {  
+
+    padding: 0;
+    margin: 0;
+
+    overflow-x: hidden;
+
+    background-color: rgb(32, 32, 32);
+
+}
+
+/* top website */
+#top {
+    background-color: rgb(141, 66, 154);
+    border-radius: 0px 0px 3px 3px;
+    font-size: 32px;
+
+    font-family: "Jersey 25", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+
+    height: 3em; /*Root em*/
+
+    user-select: none;
+}
+
+/* center navbar*/    
+
+#navBarUlCenter {
+    position: absolute;
+    top: -0.2rem;
+    left: 50%;
+    transform: translateX(-50%); /* Trasla l'elemento verso sinistra del 50% della propria larghezza */
+    list-style: none;
+    padding: 0;
+
+}
+
+#navBarUlCenter li {
+    display: inline-block;
+    margin-left: 20px;
+
+    font-size: 50px;
+
+    cursor: pointer;
+    
+}
+
+#navBarUlCenter li a {
+    text-decoration: none;
+    color: inherit;
+
+}
+
+/* end center navbar*/
+
+/* end right navbar */ 
+
+
+/* main */
+
+#main {
+    margin-top: 2em;
+    height: 70vh;
+}
+
+#cardRegister {
+ 
+    position: absolute;
+    border: 3px solid rebeccapurple;
+    border-radius: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    margin-top: 1em;
+    width: 40em;
+    height: 60vh;
+
+    text-align: center;
+
+    user-select: none;
+    background-color: violet;
+
+    overflow-y: auto;
+    /* Nascondi la barra di scorrimento solo su browser WebKit */
+    scrollbar-width: thin; /* Per Firefox */
+    scrollbar-color: transparent transparent; /* Per Firefox */
+
+}
+
+#cardRegister::-webkit-scrollbar
+{
+    width: 0;
+    background: transparent;
+}
+
+#cardRegister::-webkit-scrollbar-button:start,
+#cardRegister::-webkit-scrollbar-button:end
+{
+    display: none;
+}
+
+
+#cardRegister p {
+
+    position: relative;
+
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 40px;
+    font-style: italic;
+
+}
+
+#elementsRegister {
+
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 30px;
+    font-style: italic;
+
+
+}
+
+#elementsRegister ul {
+
+    list-style: none;
+    display: inline-block;
+}
+
+#elementsRegister ul li {
+
+    list-style: none;
+
+    margin-bottom: 1.5em;
+
+
+}
+
+#elementsRegister ul li input {
+    background-color: violet;
+    border: 2px solid rebeccapurple;
+    border-radius: 20px;
+    margin-left: 20px;
+
+    width: 15em;
+    height: 2em;
+
+    font-size: 18px;
+
+    color: black;
+    font-weight: bold;
+
+    text-align: center;
+
+}
+
+#elementsRegister ul li input:focus {
+
+    outline: none;
+    background-color: rebeccapurple;
+}
+
+#elementsRegister ul li input:hover {
+
+    background-color: rebeccapurple;
+    transition: 1s;
+}
+
+#listButtonsRegister {
+    display: inline-flex;
+
+
+
+}
+
+#listButtonsRegister li {
+
+    width: 4.5em;
+    margin: 10px;
+
+
+}
+
+
+
+#listButtonsRegister li button{
+
+    background-color: violet;
+    border: 2px solid rebeccapurple;
+    border-radius: 20px;
+    padding: 10px;
+
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 30px;
+    font-style: normal;
+
+    
+    cursor: pointer;
+
+}
+
+#listButtonsRegister li button:hover {
+
+    background-color: blueviolet;
+
+
+}
+
+/* end main */
+
+#footer {
+    position: absolute;
+
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+
+    margin-top: 5em;
+    text-align: center;
+    color: wheat;
+  
+    user-select: none;
+}
+
+@media screen and (max-width: 800px) {
+    
+    #navBarUlCenter{
+        transform:none;
+        left: 0;
+    }
+
+    #cardRegister {
+        width: 30em;
+    }
+
+
+
+}
