@@ -7,6 +7,7 @@ CREATE TABLE utentiBanca (
     nome VARCHAR(50),
     cognome VARCHAR(50),
     citta VARCHAR(255),
-    data_di_nascita DATE
+    data_di_nascita DATE,
+    admin BOOLEAN
 
 );

@@ -8,6 +8,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <!---->
 
+    <script src="../javascript/login.js" defer></script>
+
     <link rel="stylesheet" href="../css/login.css">
 
     <title>TwitchVault Bank - LoginConto</title>
@@ -36,18 +38,24 @@
 
             <p id="TitleLogin">Collegati al tuo conto</p>
 
+            <h2 id="failedLogin"></h2>
+
             <div id="elementsLogin">
 
-                <ul>
-                    <li>Username <input type="text" id="UsernameLogin"></li>
-                    <li>Password <input type="password" id="pwdLogin"></li>
-                </ul>
-
-                <ul id="listButtonsLogin">
-                    <li><button>Login</button></li>
-                    <li><button><a href="index.html" style="text-decoration: none; color: inherit;">Back</a></button></li>
-                </ul>
-
+                <form>
+                    
+                    <ul>
+                        <li>Username <input type="text" id="UsernameLogin"></li>
+                        <li>Password <input type="password" id="pwdLogin"></li>
+                    </ul>
+    
+                    <ul id="listButtonsLogin">
+                        <li><button id="loginButton">Login</button></li>
+                        <li><button><a href="index.html" style="text-decoration: none; color: inherit;">Back</a></button></li>
+                    </ul>
+    
+                </form>
+                
             </div>
 
         </div>

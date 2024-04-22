@@ -127,6 +127,24 @@ body {
 
 }
 
+#alreadyRegister {
+    position: relative;
+    left: 50%;
+
+    font-family: "Bebas Neue", sans-serif;
+    font-style: italic;
+
+    transform: translateX(-50%); /* Trasla l'elemento verso sinistra del 50% della propria larghezza */
+
+    width: 30%;
+    color: brown;
+    font-size: 20px;
+
+    text-align: center;
+    padding: 5px;
+
+}
+
 #elementsRegister ul {
 
     list-style: none;
@@ -139,6 +157,8 @@ body {
 
     margin-bottom: 1.5em;
 
+    text-align: left;
+    align-items: center;
 
 }
 
