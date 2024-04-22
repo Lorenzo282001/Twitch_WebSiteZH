@@ -120,16 +120,18 @@ body {
 
 #elementsRegister {
 
+    position: relative;
     font-family: "Bebas Neue", sans-serif;
     font-size: 30px;
     font-style: italic;
 
-
+    bottom: 1.5em;
 }
 
 #alreadyRegister {
     position: relative;
     left: 50%;
+    bottom: 1em;
 
     font-family: "Bebas Neue", sans-serif;
     font-style: italic;
@@ -143,6 +145,14 @@ body {
     text-align: center;
     padding: 5px;
 
+}
+
+#backBtn {
+    width: 4em;
+}
+
+#btn_Register {
+    width: 4em;
 }
 
 #elementsRegister ul {

@@ -82,7 +82,7 @@ $(document).ready(function () {
                     .catch(error => {
                         console.error('Errore -> [PROBABILE SERVER DB OFF]:', error);
                         
-                        $('#alreadyRegister').text("Errore -> [PROBABILE SERVER DB OFF]");
+                        $('#alreadyRegister').text("[SERVER DB OFF]");
                         $('#alreadyRegister').css("border" , "1px solid rebeccapurple");
                         $('#alreadyRegister').css("border-radius", "20px"); 
                         setTimeout(() => {
@@ -99,6 +99,16 @@ $(document).ready(function () {
                     event.preventDefault();
                 }
                 else {
+                    // Password e Confirm Password diverse
+                    $('#alreadyRegister').text("Le password non coincidono!");
+                    $('#alreadyRegister').css("border" , "1px solid rebeccapurple");
+                    $('#alreadyRegister').css("border-radius", "20px"); 
+                    setTimeout(() => {
+                        $('#alreadyRegister').text("");
+                        $('#alreadyRegister').css("border" , "none");
+                        window.location.href = 'register.html';
+                    }, 1500)  
+
                     event.preventDefault();
                 }
             }
@@ -108,6 +118,7 @@ $(document).ready(function () {
                 $('#alreadyRegister').css("border-radius", "20px"); 
                 setTimeout(() => {
                     $('#alreadyRegister').text("");
+                    $('#alreadyRegister').css("border" , "none");
                     window.location.href = 'register.html';
                 }, 1500)  
                 event.preventDefault();

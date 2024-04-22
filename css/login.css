@@ -79,7 +79,6 @@ body {
     left: 50%;
     transform: translateX(-50%);
 
-    margin-top: 1em;
     width: 40em;
     height: 40vh;
 
@@ -119,10 +118,12 @@ body {
 }
 
 #elementsLogin {
-
+    position: relative;
     font-family: "Bebas Neue", sans-serif;
     font-size: 30px;
     font-style: italic;
+
+    bottom: 3em;
 
 }
 
@@ -130,6 +131,7 @@ body {
 
     position: relative;
     left: 50%;
+    bottom: 1em;
 
     font-family: "Bebas Neue", sans-serif;
     font-style: italic;
@@ -142,6 +144,15 @@ body {
 
     text-align: center;
     padding: 5px;
+}
+
+#loginButton
+{
+    width: 4em;
+}
+
+#backBtn {
+    width: 4em;
 }
 
 #elementsLogin ul {
@@ -246,14 +257,14 @@ body {
 }
 
 @media screen and (max-width: 800px) {
-    
+
     #navBarUlCenter{
         transform:none;
         left: 0;
     }
 
     #cardLogin
- {
+    {
         width: 30em;
     }
 

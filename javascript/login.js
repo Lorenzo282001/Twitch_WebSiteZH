@@ -36,11 +36,12 @@ $(document).ready(function () {
                 .catch(error => {
                     console.error('Errore -> [PROBABILE SERVER DB OFF]:', error);
                     
-                    $('#failedLogin').text("Errore -> [PROBABILE SERVER DB OFF]");
+                    $('#failedLogin').text("[SERVER DB OFF]");
                     $('#failedLogin').css("border" , "1px solid rebeccapurple");
                     $('#failedLogin').css("border-radius", "20px"); 
                     setTimeout(() => {
                         $('#failedLogin').text("");
+                        $('#failedLogin').css("border" , "none");
                         window.location.href = 'index.html';
                     }, 1500)    
 
@@ -61,6 +62,7 @@ $(document).ready(function () {
 
                 setTimeout(() => {
                     $('#failedLogin').text("");
+                    $('#failedLogin').css("border" , "none");
                     window.location.href = 'login.html';
                 }, 1500)  
 
