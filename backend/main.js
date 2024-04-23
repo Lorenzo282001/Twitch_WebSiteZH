@@ -145,7 +145,7 @@ app.post('/message', (req, res) => {
 
   const message = req.body.testo;
 
-  console.log( countRighe + server + "\t"+ message);
+  console.log("\n" + countRighe + server + "\t"+ message);
   countRighe++;
 
   res.status(200).send('Ricevuto');

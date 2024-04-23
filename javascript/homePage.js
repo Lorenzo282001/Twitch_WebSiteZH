@@ -25,12 +25,17 @@ $(document).ready(function () {
             // Se ci sono messaggi nella risposta
             if (data.messages[0].admin === 1) {
                 localStorage.setItem("userBankAdmin", "si");
-                $(".user").css('color',"red");
+                $(".user").css('color',"gold");
                 $(".user").css('background-color',"rebeccapurple");
             }
             else {
                 localStorage.setItem("userBankAdmin", "no");   
             }
+
+            if (localStorage.getItem("userBankAdmin") === "si")
+                $(".user").html("Direttore: "+ localStorage.getItem("userBank"));
+            else 
+                $(".user").html(localStorage.getItem("userBank"));
         }
         else {
             window.location.href = 'index.html';
@@ -55,7 +60,32 @@ $(document).ready(function () {
         }
     });
 
-    $(".user").html(localStorage.getItem("userBank"));
+    // On click exit -> esce dall'account!
+    $(".exitAccount").on("click", function () {  
+
+        // Invia il messaggio di login al backend
+        fetch(`http://localhost:3000/message`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ testo: "[LOGOUT] - UserBank: " + localStorage.getItem("userBank") + " in log-out!"}),
+        })
+        .then(() => {
+            localStorage.setItem("userBank", ".");
+            localStorage.setItem("userBankAdmin", ".");
+    
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 1000)
+        })
+        .catch(error => {
+            console.error('Si è verificato un errore durante l\'invio del messaggio di login al backend:', error);
+            // Potresti gestire eventuali errori qui, se necessario
+        });
+    
+
+    });
 
 
     if ($(window).width() <= 550)

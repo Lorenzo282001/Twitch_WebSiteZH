@@ -39,7 +39,7 @@ $(document).ready(function () {
                                             headers: {
                                                 'Content-Type': 'application/json',
                                             },
-                                            body: JSON.stringify({ testo: "[LOGIN] - Username: " + username + " login effettuato con succsso!"}),
+                                            body: JSON.stringify({ testo: "[LOGIN] - Username: " + username + " login effettuato con successo!"}),
                                         })
                                         .then(() => {
                                             // Reindirizza l'utente alla pagina di homepage
