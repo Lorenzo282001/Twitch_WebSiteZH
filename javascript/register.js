@@ -55,6 +55,13 @@ $(document).ready(function () {
                                 }
                             )
                             .then(response => response.json())
+                            .then(data => {
+                                // Mandare l'utente alla pagina di HomePage
+                                setTimeout(() => {
+                                    $('#alreadyRegister').text("");
+                                    window.location.href = 'homepage.html';
+                                }, 1500)      
+                            })
                             .catch(error => {
                                 console.error('Errore -> [PROBABILE SERVER DB OFF]:', error);
                             
@@ -64,8 +71,7 @@ $(document).ready(function () {
                                 }
                             });
 
-                            // Mandare l'utente alla pagina di HomePage
-                            window.location.href = 'homepage.html';
+                            
                         }
                         else {
 

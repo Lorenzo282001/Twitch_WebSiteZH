@@ -19,3 +19,17 @@ Creare un sito web per una banca potrebbe essere un'ottima idea. Potresti concen
     - Nome Banca: TwitchVault Bank
 
     - Colore Body -> rgb(32, 32, 32);
+
+
+    /*fetch(`http://localhost:3000/message`, {
+
+                                        method:'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                        },
+                                        body: JSON.stringify({testo:"Login effettuato con successo da username -> " + username}),                                        
+
+                                    })
+                                    .catch(error => {
+                                        console.error('Si è verificato un errore:', error);
+                                    });*/

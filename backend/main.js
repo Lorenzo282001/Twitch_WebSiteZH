@@ -1,3 +1,38 @@
+// VARIABILI
+
+let countRighe = 1;
+let server = "\t[SERVER] -> ";
+let utente = "\t[USER] -> ";
+
+/////////
+
+const readline = require('readline'); // Scrivere in console...
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
+// Funzione per leggere l'input con il prompt
+function askQuestion() {
+  rl.question("> ", (input) => {
+    
+    console.log(utente + input);
+
+    if (input === '/ciao')
+    {
+      console.log(server + "Ciao da console!");
+    }
+ 
+    askQuestion(); // Richiama la funzione per continuare a chiedere l'input
+  });
+}
+
+
+
+// Avvia il processo di domande
+askQuestion();
+
 // Server Node per entrare nel database
 const nodemon = require('nodemon');
 
@@ -25,9 +60,11 @@ const connection = mysql.createConnection({
 connection.connect((err) => {
     if (err) {
       console.error('Error connecting to MySQL:', err);
+      countRighe++;
       return;
     }
-    console.log('Connected to MySQL database');
+    console.log(countRighe + '\tConnected to MySQL database\n');
+    countRighe++;
 });
 
 app.get('/checkUserDb', (req, res) => {
@@ -37,6 +74,7 @@ app.get('/checkUserDb', (req, res) => {
   connection.query(sql, [username], (err, result) => {
     if (err) {
       console.error('Errore durante l\'esecuzione della query SQL:', err);
+      countRighe++;
       res.status(500).json({ success: false, error: 'Errore del server' });
     } else {
       res.json({ success: true, messages: result });
@@ -52,10 +90,12 @@ app.get('/login', (req, res) => {
   connection.query(sql, [username, password], (err, result) => {
     if (err) {
       console.error('Errore durante l\'esecuzione della query SQL:', err);
+      countRighe++;
       res.status(500).json({ success: false, error: 'Errore del server' });
     } else {
       res.json({ success: true, messages: result });
-      console.log("Login in valutazione da: " + username);
+      console.log("\n"  + countRighe + server + "\t[LOGIN] - Richiesta Login da username -> " + username);
+      countRighe++;
     }
   });
 })
@@ -70,19 +110,35 @@ app.post('/newUserBank', (req, res) => {
   connection.query(query, (err, results) => {
     if (err) {
       console.error('Errore durante la query al database:', err);
+      countRighe++;
       res.status(500).json({ error: 'Errore durante la query al database' });
       return;
     }
     
     // Invia i risultati della query come risposta JSON
     res.json(results); 
-    console.log("Username: " + username + " has been registred!" + "\n\tEmail: " + email);
+    console.log("\n" + countRighe + server + "\t[REGISTRAZIONE] - Username: " + username + " has been registred!" + "\n\t\tEmail: " + email);
+
+    countRighe++;
   })
 
 });
 
+// RICEZIONE MESSAGGI DA PARTE DEL FRONTEND
+app.post('/message', (req, res) => {
+
+  const message = req.body.testo;
+
+  console.log( countRighe + server + "\t"+ message);
+  countRighe++;
+
+  res.status(200).send('Ricevuto');
+});
+
+
 // Start the server
 const port = 3000;
 app.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
+  console.log(countRighe + `\tServer running on http://localhost:${port}`);
+  countRighe++;
 });
