@@ -21,6 +21,8 @@ Creare un sito web per una banca potrebbe essere un'ottima idea. Potresti concen
     - Colore Body -> rgb(32, 32, 32);
 
 
+classe user -> Memorizzo il nome dell'utente e i suoi relativi dati!
+
     /*fetch(`http://localhost:3000/message`, {
 
                                         method:'POST',

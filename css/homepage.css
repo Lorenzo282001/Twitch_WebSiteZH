@@ -1,0 +1,317 @@
+@import url('https://fonts.googleapis.com/css2?family=Jersey+25&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Jersey+25&display=swap');
+
+html {
+    font-size: 20px; /* = 1 rem */ /* em fa capo diretto alla font-size padre */
+}
+
+body {  
+
+    padding: 0;
+    margin: 0;
+
+    overflow-x: hidden;
+
+    background-color: rgb(32, 32, 32);
+
+}
+
+/* classi */
+
+.hoverList:hover {
+
+    background-color: plum;
+
+    border: 2px solid black;
+    border-radius: 20%;
+    padding: 3px;
+    cursor: pointer;
+}
+
+.hoverListBarre:hover {
+    background-color: plum;
+
+    border: 2px solid black;
+
+    padding: 2px;
+    cursor: pointer;
+}
+
+/* top website */
+#top {
+    background-color: rgb(141, 66, 154);
+    border-radius: 0px 0px 3px 3px;
+    font-size: 32px;
+
+    font-family: "Jersey 25", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+
+    height: 3em; /*Root em*/
+
+    user-select: none;
+}
+
+#activeBarre {
+    display: none;
+}
+
+/* left navbar*/    
+
+#navBarUlLeft {
+    position: absolute;
+    top: -0.5rem;
+    left: 0;
+    list-style: none;
+    padding: 0;
+}
+
+#navBarUlLeft li {
+    display: inline-block;
+    margin-left: 20px;
+
+    font-size: 50px;
+
+    cursor: pointer;
+    
+}
+
+#navBarUlLeft li a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* end left navbar*/
+
+/* center navbar*/
+
+#navBarCenter {
+    position: absolute;
+    display: flex;
+    top: -0.2rem;
+    left: 45%;
+    transform: translateX(-50%); /* Trasla l'elemento verso sinistra del 50% della propria larghezza */
+    list-style: none;
+    padding: 0;
+
+    
+}
+
+#navBarCenter li {
+    display: inline-block;
+}
+
+#navBarCenter li input {
+    background-color: violet;
+    border: 5px solid violet;
+    border-radius: 2%;
+
+    /* Grandezza barra di ricerca */
+    width: 20em;
+    height: 2em;
+
+
+    text-align: center;
+    font-weight: bold;
+    color: darkmagenta;
+
+    transition: 0.3s;
+}
+
+#navBarCenter li input:focus {
+    transition: 0.3s;
+    outline: none;
+
+    border-radius: 5%;
+
+    width: 40em;
+}
+
+/* end center navbar*/
+
+/* right navbar */
+
+
+/* lista navbar obj*/
+#navBarUlRight {
+    position: absolute;
+    top: 0;
+    right: 0;
+    list-style: none;
+    padding: 0;
+}
+
+#navBarUlRight li {
+    display: inline-block;
+    margin-left: 20px;
+
+    
+}
+
+#navBarUlRight li:first-child {
+    margin-left: 0;
+}
+
+#navBarUlRight li:last-child {
+    margin-right: 2em;
+}
+
+#toggleBarre {
+    display: none;
+}
+
+/* end right navbar */ 
+
+/* main */ 
+
+#main {
+
+    height: 100vh;
+    width: 100vw;
+
+    transition: 0.5s;
+}
+
+/* end main */
+
+#footer {
+    position: relative;
+
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+
+    text-align: center;
+    color: wheat;
+  
+    user-select: none;
+}
+
+@media screen and (max-width: 1800px) {
+    
+    #navBarUlRight {
+        display: none;
+    }
+
+    #navBarCenter {
+        display: none;
+    
+    }
+
+    /* Sidebar */
+    #toggleBarre {
+        position: absolute;
+        display: block;
+        top: 1rem;
+        right: 0;
+
+        margin-right: 10px;
+
+        padding: 0;
+    }
+
+    #toggleBarre:hover {
+
+        cursor: pointer;
+    }
+
+    #activeBarre {
+        position: absolute;
+        top: 3em;
+        left: 0;
+
+        background-color: violet;
+        width: 100%;
+        text-align: center;
+        padding: 0;
+
+    
+    }
+
+    #activeBarre ul {
+        list-style: none;
+        display: inline;
+    }
+
+    #activeBarre input {
+        background-color: violet;
+        border: 1px solid violet;
+        /* Grandezza barra di ricerca */
+        width: 20em;
+        height: 2em;
+
+
+        text-align: center;
+        font-weight: bold;
+        color: darkmagenta;
+
+    }
+
+    #activeBarre input:focus {
+        transition: 0.3s;
+        outline: none;
+    }
+
+    #topMain {
+        display: none;
+    }
+
+}
+
+@media screen and (max-width: 550px) {
+
+    #navBarUlRight {
+        display: none;
+    }
+
+    #navBarCenter {
+        display: none;
+    
+    }
+
+    /* Sidebar */
+    #toggleBarre {
+        display: none;
+    }
+    
+    #activeBarre {
+        position: absolute;
+        top: 3em;
+        left: 0;
+
+        display: block;
+
+        background-color: violet;
+        width: 100%;
+        text-align: center;
+        padding: 0;
+
+    
+    }
+
+    #activeBarre ul {
+        list-style: none;
+        display: inline;
+    }
+
+    #activeBarre input {
+        background-color: violet;
+        border: 1px solid violet;
+
+        /* Grandezza barra di ricerca */
+        width: 20em;
+        height: 2em;
+
+
+        text-align: center;
+        font-weight: bold;
+        color: darkmagenta;
+
+    }
+    
+    #activeBarre input:focus {
+        transition: 0.3s;
+        outline: none;
+    }
+
+}

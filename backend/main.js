@@ -13,24 +13,25 @@ const rl = readline.createInterface({
   output: process.stdout
 });
 
-// Funzione per leggere l'input con il prompt
+// Funzione per leggere l'input con la console!
 function askQuestion() {
   rl.question("> ", (input) => {
     
-    console.log(utente + input);
+    if (input !== "")  
+      console.log(utente + input);
 
     if (input === '/ciao')
     {
       console.log(server + "Ciao da console!");
     }
  
-    askQuestion(); // Richiama la funzione per continuare a chiedere l'input
+    askQuestion(); // Richiamo la funzione per continuare a chiedere l'input
   });
 }
 
 
 
-// Avvia il processo di domande
+// Avvia il processo di input console!
 askQuestion();
 
 // Server Node per entrare nel database
@@ -100,6 +101,21 @@ app.get('/login', (req, res) => {
   });
 })
 
+app.get('/admin', (req, res) => {
+  const {username} = req.query;
+  
+  const sql = "SELECT * FROM utentibanca WHERE username = '" + username + "'";
+
+  connection.query(sql, [username], (err, result) => {
+    if (err) {
+      console.error('Errore durante l\'esecuzione della query SQL:', err);
+      countRighe++;
+      res.status(500).json({ success: false, error: 'Errore del server' });
+    } else {
+      res.json({ success: true, messages: result });
+    }
+  });
+})
 
 app.post('/newUserBank', (req, res) => {
 

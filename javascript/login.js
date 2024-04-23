@@ -43,6 +43,7 @@ $(document).ready(function () {
                                         })
                                         .then(() => {
                                             // Reindirizza l'utente alla pagina di homepage
+                                            localStorage.setItem("userBank", username);
                                             window.location.href = 'homepage.html';
                                     
                                         })

@@ -31,7 +31,6 @@ $(document).ready(function () {
                         if (data && data.messages && data.messages.length > 0) {
                             // Se ci sono messaggi nella risposta
                             if (data.messages[0].username === username) {
-                                console.log(data.messages[0].username + " " + username);
                                 alreadyRegistred = true;
                             }
                         }
@@ -57,9 +56,14 @@ $(document).ready(function () {
                             .then(response => response.json())
                             .then(data => {
                                 // Mandare l'utente alla pagina di HomePage
+                                $('#alreadyRegister').text("Registrazione effettuata con successo!");
+                                $('#alreadyRegister').css("color" , "green");
+                                $('#alreadyRegister').css("border" , "1px solid green");
+                                $('#alreadyRegister').css("border-radius", "20px"); 
                                 setTimeout(() => {
                                     $('#alreadyRegister').text("");
-                                    window.location.href = 'homepage.html';
+                                    $('#alreadyRegister').css("border" , "none");
+                                    window.location.href = 'index.html';
                                 }, 1500)      
                             })
                             .catch(error => {

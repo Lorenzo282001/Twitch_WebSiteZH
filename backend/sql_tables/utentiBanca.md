@@ -8,6 +8,6 @@ CREATE TABLE utentiBanca (
     cognome VARCHAR(50),
     citta VARCHAR(255),
     data_di_nascita DATE,
-    admin BOOLEAN
+    admin BOOLEAN DEFAULT 0
 
 );

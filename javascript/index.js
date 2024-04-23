@@ -7,55 +7,7 @@ function getRandomColor() {
     return color;
 }
 
-
-
 $(document).ready(function () {
-
-    fetch(`http://localhost:3000/admin?username=${localStorage.getItem("userBank")}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-        }
-    )
-    .then(response => response.json())
-    .then(data => {
-        
-        if (data && data.messages && data.messages.length > 0) {
-            // Se ci sono messaggi nella risposta
-            if (data.messages[0].admin === 1) {
-                localStorage.setItem("userBankAdmin", "si");
-                $(".user").css('color',"red");
-            }
-            else {
-                localStorage.setItem("userBankAdmin", "no");   
-            }
-        }
-        else {
-            window.location.href = 'index.html';
-        }
-
-
-    })
-    .catch(error => {
-        console.error('Errore -> [PROBABILE SERVER DB OFF]:', error);
-        
-        $('#alreadyRegister').text("[SERVER DB OFF]");
-        $('#alreadyRegister').css("border" , "1px solid rebeccapurple");
-        $('#alreadyRegister').css("border-radius", "20px"); 
-        setTimeout(() => {
-            $('#alreadyRegister').text("");
-            window.location.href = 'index.html';
-        }, 1500)    
-
-        // Aggiungi questo controllo per ottenere ulteriori dettagli sulla risposta dell'errore
-        if (error && error.response) {
-        console.log('Risposta dell\'errore:', error.response);
-        }
-    });
-
-    $(".user").html(localStorage.getItem("userBank"));
-
 
     if ($(window).width() <= 550)
     {
