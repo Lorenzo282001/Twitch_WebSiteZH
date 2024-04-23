@@ -24,7 +24,6 @@ body {
 
     border: 2px solid black;
     border-radius: 20%;
-    padding: 3px;
     cursor: pointer;
 }
 
@@ -51,6 +50,8 @@ body {
 
     user-select: none;
 }
+
+
 
 #activeBarre {
     display: none;
@@ -138,7 +139,17 @@ body {
     top: 0;
     right: 0;
     list-style: none;
-    padding: 0;
+    padding: 5px;
+}
+
+.user {
+    border: 2px solid black;
+    border-radius: 20px;
+    padding: 5px;
+}
+
+.user:hover {
+    background-color: rebeccapurple;
 }
 
 #navBarUlRight li {

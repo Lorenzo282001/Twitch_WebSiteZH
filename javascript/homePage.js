@@ -26,6 +26,7 @@ $(document).ready(function () {
             if (data.messages[0].admin === 1) {
                 localStorage.setItem("userBankAdmin", "si");
                 $(".user").css('color',"red");
+                $(".user").css('background-color',"rebeccapurple");
             }
             else {
                 localStorage.setItem("userBankAdmin", "no");   
