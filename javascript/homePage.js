@@ -11,6 +11,7 @@ function getRandomColor() {
 
 $(document).ready(function () {
 
+
     fetch(`http://localhost:3000/admin?username=${localStorage.getItem("userBank")}`, {
             method: 'GET',
             headers: {
@@ -44,7 +45,6 @@ $(document).ready(function () {
 
     })
     .catch(error => {
-        console.error('Errore -> [PROBABILE SERVER DB OFF]:', error);
         
         $('#alreadyRegister').text("[SERVER DB OFF]");
         $('#alreadyRegister').css("border" , "1px solid rebeccapurple");
@@ -52,7 +52,7 @@ $(document).ready(function () {
         setTimeout(() => {
             $('#alreadyRegister').text("");
             window.location.href = 'index.html';
-        }, 1500)    
+        }, 200)    
 
         // Aggiungi questo controllo per ottenere ulteriori dettagli sulla risposta dell'errore
         if (error && error.response) {
@@ -71,6 +71,15 @@ $(document).ready(function () {
             },
             body: JSON.stringify({ testo: "[LOGOUT] - UserBank: " + localStorage.getItem("userBank") + " in log-out!"}),
         })
+        .then(() => {
+            fetch(`http://localhost:3000/logoutSuccess`, { // Rimuovo (-)1 utente al backend!
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ testo: "" + localStorage.getItem("userBank")}),
+            })
+        }) 
         .then(() => {
             localStorage.setItem("userBank", ".");
             localStorage.setItem("userBankAdmin", ".");
@@ -101,6 +110,14 @@ $(document).ready(function () {
             $("#main").css("margin-top", "0")
             $("#toggleBarre").html('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="50" height="50"><rect width="100" height="5" y="30" fill="rgb(32,32,32)"/><rect width="100" height="5" y="60" fill="rgb(32,32,32)"/><rect width="100" height="5" y="90" fill="rgb(32,32,32)"/></svg>');
         }
+
+
+    
+    });
+
+    $('#containerWebSite').on("click", function () {
+
+        $("#containerProfile").slideUp(750); // Quando modifico la dimensione della pagina, tolgo le impostazioni del profilo automaticamente!
     
     });
 
@@ -138,17 +155,41 @@ $(document).ready(function () {
 
         var displayValue = $("#activeBarre").css("display");
 
+        if ($("#containerProfile").css("display") !== "none") {
+            $("#containerProfile").fadeOut(500);
+        }
+
         if (displayValue === 'none')
         {
             $("#activeBarre").slideDown(500); // Toggle the display with sliding animation
             $("#main").css("margin-top", "10em")
-
             $("#toggleBarre").html('<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>');
         }
         else {
+            $("#main").css("margin-top", "0em")
             $("#activeBarre").slideUp(500); // Toggle the display with sliding animation
-            $("#main").css("margin-top", "3em")
+            
             $("#toggleBarre").html('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="50" height="50"><rect width="100" height="5" y="30" fill="rgb(32,32,32)"/><rect width="100" height="5" y="60" fill="rgb(32,32,32)"/><rect width="100" height="5" y="90" fill="rgb(32,32,32)"/></svg>');
+        }
+
+    });
+
+    /* Settings Profile - Main */
+    $(".user").on("click", function () {   // On click user Name in top open settings profile!
+
+        if ($("#containerProfile").css("display") === "none") {
+
+            if ($("#activeBarre").css("display") !== "none")
+            {
+                $("#activeBarre").slideUp(500);
+                $("#main").css("margin-top", "0em")
+
+            }
+
+            $("#containerProfile").slideDown(750); // Toggle the display with sliding animation
+        
+        } else {
+            $("#containerProfile").slideUp(1000); // Toggle the display with sliding animation
         }
 
     });
@@ -177,8 +218,13 @@ $(document).ready(function () {
             $("#main").css("margin-top", "0");   
         }
 
+        $("#containerProfile").slideUp(750); // Quando modifico la dimensione della pagina, tolgo le impostazioni del profilo automaticamente!
     });
 
+ 
 })
+
+
+
 
 

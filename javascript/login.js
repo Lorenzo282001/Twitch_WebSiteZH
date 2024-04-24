@@ -42,10 +42,19 @@ $(document).ready(function () {
                                             body: JSON.stringify({ testo: "[LOGIN] - Username: " + username + " login effettuato con successo!"}),
                                         })
                                         .then(() => {
-                                            // Reindirizza l'utente alla pagina di homepage
-                                            localStorage.setItem("userBank", username);
-                                            window.location.href = 'homepage.html';
-                                    
+                                            fetch(`http://localhost:3000/loginSuccess`, { // Aggiungo +1 utente al backend!
+                                                method: 'POST',
+                                                headers: {
+                                                    'Content-Type': 'application/json',
+                                                },
+                                                body: JSON.stringify({testo: "" + username}),
+                                            })
+                                            .then(() => {
+                                                // Reindirizza l'utente alla pagina di homepage
+                                                localStorage.setItem("userBank", username);
+                                                window.location.href = 'homepage.html';
+                                        
+                                            })
                                         })
                                         .catch(error => {
                                             console.error('Si è verificato un errore durante l\'invio del messaggio di login al backend:', error);

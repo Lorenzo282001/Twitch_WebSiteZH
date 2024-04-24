@@ -177,17 +177,58 @@ body {
 /* main */ 
 
 #main {
-
     height: 100vh;
     width: 100vw;
 
     transition: 0.5s;
 }
 
+#containerProfile {
+    display: none; 
+    
+    background-color: orchid;
+    
+
+    width: 100%;
+    height: 60%;
+
+    user-select: none;
+}
+
+#cardImpostazioniUtente {
+    position: relative; /* Posiziona l'elemento in base alle coordinate specificate */
+    top: calc(10%); /* Sposta l'elemento sotto #containerProfile (60% + 20px di margine) */
+    left: 33%; /* Sposta l'elemento a sinistra */
+    transform: translateX(-95%);
+    width: 33%; /* Larghezza dell'elemento */
+    height: 80%; /* Altezza dell'elemento */
+    background-color: orchid; /* Colore di sfondo */
+    border: 2px solid black; /* Bordo */
+    box-shadow: 5px 20px 20px rgba(0, 0, 0, 0.2); /* Ombra */
+
+    font-family: "Bebas Neue", sans-serif;
+    font-weight: 400;
+    font-size: 30px;
+    font-style: normal;
+
+}
+
+#cardImpostazioniUtente p {
+
+    text-align: center;
+}
+
+#containerWebSite {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    
+}
+
 /* end main */
 
 #footer {
-    position: relative;
+    position: fixed;
 
     bottom: 0;
     left: 50%;
@@ -223,12 +264,11 @@ body {
     }
 
     #toggleBarre:hover {
-
         cursor: pointer;
     }
 
     #activeBarre {
-        position: absolute;
+        position: relative;
         top: 3em;
         left: 0;
 
@@ -267,7 +307,6 @@ body {
     #topMain {
         display: none;
     }
-
 }
 
 @media screen and (max-width: 550px) {
@@ -326,4 +365,5 @@ body {
         outline: none;
     }
 
+  
 }

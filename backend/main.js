@@ -1,8 +1,12 @@
 // VARIABILI
+let opt_input = ['opt', 'online', 'quit'];
 
 let countRighe = 1;
 let server = "\t[SERVER] -> ";
 let utente = "\t[USER] -> ";
+
+let loginNow = 0;
+let loginPeople = [];
 
 /////////
 
@@ -17,22 +21,62 @@ const rl = readline.createInterface({
 function askQuestion() {
   rl.question("> ", (input) => {
     
-    if (input !== "")  
-      console.log(utente + input);
+    switch(input) {
+      case 'opt':
+        countRighe++;
+        console.log(countRighe + server + " Comandi da console:");
+        for (let i in opt_input) {
+          countRighe++;
+          console.log(countRighe + "\t\t\t- " + opt_input[i]);
+        }
+        break;
+    
+      case 'online':
+        countRighe++;
+        console.log(countRighe + server + "Ci sono " + loginNow + " utenti nei propri conti!");
+        if (loginPeople.length > 0) {
+          for (let p in loginPeople) {
+            countRighe++;
+            console.log(countRighe + "\t\t- " + loginPeople[p]);
+          }
+        }
+        break;
+      case 'quit':
+          // Invia una richiesta di logout totale al server
+          fetch('http://localhost:3000/logoutAllUsers', { method: 'POST' })
+            .then(response => {
+              if (response.ok) {
+                console.log('Richiesta di logout inviata a tutti gli utenti.');
+                // Chiudi la connessione al database
+                connection.end((err) => {
+                  if (err) {
+                    console.error('Errore durante la chiusura della connessione al database:', err);
+                  }
 
-    if (input === '/ciao')
-    {
-      console.log(server + "Ciao da console!");
+                  // Reindirizza tutti gli utenti alla pagina principale
+                  res.status(302).json({ redirect: 'index.html' });
+                });
+              } else {
+                console.error('Errore durante l\'invio della richiesta di logout:', response.statusText);
+                // Se c'è un errore, termina il server comunque
+                console.log("Il server si spegne.");
+                process.exit(); // Termina il processo Node.js
+              }
+            })
+          .catch(error => {
+            console.error('Errore durante l\'invio della richiesta di logout:', error);
+            // Se c'è un errore, termina il server comunque
+            console.log("Il server si spegne.");
+            process.exit(); // Termina il processo Node.js
+          });
+        break;
     }
+    
+    
  
     askQuestion(); // Richiamo la funzione per continuare a chiedere l'input
   });
 }
-
-
-
-// Avvia il processo di input console!
-askQuestion();
 
 // Server Node per entrare nel database
 const nodemon = require('nodemon');
@@ -60,13 +104,21 @@ const connection = mysql.createConnection({
 
 connection.connect((err) => {
     if (err) {
-      console.error('Error connecting to MySQL:', err);
       countRighe++;
+      console.error('Error connecting to MySQL:', err);
       return;
     }
-    console.log(countRighe + '\tConnected to MySQL database\n');
+
     countRighe++;
+    console.log(countRighe + '\tConnected to MySQL database\n');
+
+    countRighe++;
+    console.log(countRighe + server + "--  Scrivi opt per i comandi -- \n");
+
+    // Avvia il processo di input console!
+    askQuestion();
 });
+
 
 app.get('/checkUserDb', (req, res) => {
   const username = req.query.username;
@@ -74,8 +126,8 @@ app.get('/checkUserDb', (req, res) => {
 
   connection.query(sql, [username], (err, result) => {
     if (err) {
-      console.error('Errore durante l\'esecuzione della query SQL:', err);
       countRighe++;
+      console.error('Errore durante l\'esecuzione della query SQL:', err);
       res.status(500).json({ success: false, error: 'Errore del server' });
     } else {
       res.json({ success: true, messages: result });
@@ -90,13 +142,13 @@ app.get('/login', (req, res) => {
 
   connection.query(sql, [username, password], (err, result) => {
     if (err) {
-      console.error('Errore durante l\'esecuzione della query SQL:', err);
       countRighe++;
+      console.error('Errore durante l\'esecuzione della query SQL:', err);
       res.status(500).json({ success: false, error: 'Errore del server' });
     } else {
       res.json({ success: true, messages: result });
-      console.log("\n"  + countRighe + server + "\t[LOGIN] - Richiesta Login da username -> " + username);
       countRighe++;
+      console.log("\n"  + countRighe + server + "\t[LOGIN] - Richiesta Login da username -> " + username);
     }
   });
 })
@@ -108,8 +160,8 @@ app.get('/admin', (req, res) => {
 
   connection.query(sql, [username], (err, result) => {
     if (err) {
-      console.error('Errore durante l\'esecuzione della query SQL:', err);
       countRighe++;
+      console.error('Errore durante l\'esecuzione della query SQL:', err);
       res.status(500).json({ success: false, error: 'Errore del server' });
     } else {
       res.json({ success: true, messages: result });
@@ -125,17 +177,16 @@ app.post('/newUserBank', (req, res) => {
 
   connection.query(query, (err, results) => {
     if (err) {
-      console.error('Errore durante la query al database:', err);
       countRighe++;
+      console.error('Errore durante la query al database:', err);
       res.status(500).json({ error: 'Errore durante la query al database' });
       return;
     }
     
     // Invia i risultati della query come risposta JSON
     res.json(results); 
-    console.log("\n" + countRighe + server + "\t[REGISTRAZIONE] - Username: " + username + " has been registred!" + "\n\t\tEmail: " + email);
-
     countRighe++;
+    console.log("\n" + countRighe + server + "\t[REGISTRAZIONE] - Username: " + username + " has been registred!" + "\n\t\tEmail: " + email);
   })
 
 });
@@ -144,17 +195,58 @@ app.post('/newUserBank', (req, res) => {
 app.post('/message', (req, res) => {
 
   const message = req.body.testo;
-
-  console.log("\n" + countRighe + server + "\t"+ message);
   countRighe++;
+  console.log("\n" + countRighe + server + "\t"+ message);
 
   res.status(200).send('Ricevuto');
 });
 
+//Ricezione login/logout success
+app.post('/loginSuccess', (req, res) => {
+
+  const username = req.body.testo;
+
+  loginNow++;
+  loginPeople.push(username);
+  res.status(200).send('Ricevuto');
+});
+
+app.post('/logoutSuccess', (req, res) => {
+  const username = req.body.testo;
+  let indiceUsername = loginPeople.indexOf(username);
+
+  if (indiceUsername !== -1)
+  {
+    loginPeople.splice(indiceUsername, 1);
+  }
+
+  if (loginNow>0)
+    loginNow--;
+  res.status(200).send('Ricevuto');
+});
+
+// Allo spegnimento del server node (quit)
+app.post('/logoutAllUsers', (req, res) => {
+  // Invia una richiesta di logout a tutti gli utenti connessi
+  // Ad esempio, puoi usare WebSockets o un altro metodo per comunicare con il frontend
+  // In questo esempio, si invia una risposta JSON al frontend
+  res.json({ message: 'Richiesta di logout inviata a tutti gli utenti' });
+
+  // Chiudi la connessione SQL
+  connection.end((err) => {
+    if (err) {
+      console.error('Errore durante la chiusura della connessione al database:', err);
+    }
+    
+    // Termina il server Node.js
+    countRighe++;
+    console.log(countRighe + "\t[SERVER] -> Connessione SQL terminata. Il server si spegne.");
+    process.exit(); // Termina il processo Node.js
+  });
+});
 
 // Start the server
 const port = 3000;
 app.listen(port, () => {
   console.log(countRighe + `\tServer running on http://localhost:${port}`);
-  countRighe++;
 });
