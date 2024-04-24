@@ -184,7 +184,7 @@ body {
 }
 
 #containerProfile {
-    display: none; 
+    display: block; 
     
     background-color: orchid;
     
@@ -211,11 +211,86 @@ body {
     font-size: 30px;
     font-style: normal;
 
+    overflow-y: scroll;
+    /* Nascondi la barra di scorrimento solo su browser WebKit */
+    scrollbar-width: thin; /* Per Firefox */
+    scrollbar-color: transparent transparent; /* Per Firefox */
+
 }
 
 #cardImpostazioniUtente p {
+    font-style: italic;
+    text-align: center;
+}
+
+/* Bottone per salvare le nuove impostazioni!*/
+#cardImpostazioniUtente p span #salvaImpostazioniProfilo {
+    position: relative;
+    background-color: orchid;
+    border: 2px solid black;
+    border-radius: 30px;
+
+    width: 4rem;
+    height: 3rem;
+
+    font-family: "Bebas Neue", sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    font-style: normal;
+
+    left: 4em;
+    box-shadow: 5px 20px 20px rgba(0, 0, 0, 0.2); /* Ombra */
+
+    transition: 0.5s;
+
+    padding: 0;
+}
+
+#cardImpostazioniUtente p span #salvaImpostazioniProfilo:hover {
+    background-color: rebeccapurple;
+
+    cursor: pointer;
+}
+
+#cardImpostazioniUtente ul {
+    list-style: none;    
+}
+
+#cardImpostazioniUtente ul li{
+    display: flex;
+    margin-bottom: 3em;
+    margin-right: 5em;
+
+    justify-content: space-between;
+    align-items: center;
+}
+
+#cardImpostazioniUtente ul li input {
+
+    color: black;
+
+    width: 70%;
+    height: 30%;
+    background-color: orchid;
+    border: 3px solid black;
+    border-radius: 20px;
 
     text-align: center;
+    font-size: 25px;
+    font-weight: bold;
+
+    transition: 0.5s;
+}
+
+
+#cardImpostazioniUtente ul li input:hover {
+
+    background-color: rebeccapurple;
+}
+
+#cardImpostazioniUtente ul li input:focus {
+
+    outline: none;
 }
 
 #containerWebSite {
@@ -307,6 +382,12 @@ body {
     #topMain {
         display: none;
     }
+
+    #cardImpostazioniUtente {
+        width: 80%;
+        left: 33%; /* Sposta l'elemento a sinistra */
+        transform: translateX(-33%);
+    }
 }
 
 @media screen and (max-width: 550px) {
@@ -365,5 +446,12 @@ body {
         outline: none;
     }
 
-  
+    #cardImpostazioniUtente {
+        width: 80%;
+        left: 33%; /* Sposta l'elemento a sinistra */
+        transform: translateX(-33%);
+
+    }
+
+
 }

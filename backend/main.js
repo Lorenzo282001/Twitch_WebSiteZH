@@ -191,6 +191,29 @@ app.post('/newUserBank', (req, res) => {
 
 });
 
+// Aggiorno le informazioni di un user!
+app.post('/optUserInfo', (req, res) => {
+
+  const {username, nome, cognome, eta, citta, dataNascita} = req.body; // mettere in ordine quello che esce dal body
+
+  const query = `INSERT INTO utentibanca (username, email, password) VALUES ('` + username + `', '` + email + `', '` + password + `')`;
+
+  connection.query(query, [username, nome, cognome, eta, citta, dataNascita],(err, results) => {
+    if (err) {
+      countRighe++;
+      console.error('Errore durante la query al database:', err);
+      res.status(500).json({ error: 'Errore durante la query al database' });
+      return;
+    }
+    
+    // Invia i risultati della query come risposta JSON
+    res.json(results); 
+    countRighe++;
+    console.log("\n" + countRighe + server + "\t[IMPOSTAZIONI] - Username: " + username + " change his options!");
+  })
+
+});
+
 // RICEZIONE MESSAGGI DA PARTE DEL FRONTEND
 app.post('/message', (req, res) => {
 

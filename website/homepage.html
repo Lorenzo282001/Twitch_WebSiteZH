@@ -96,13 +96,33 @@
             <!-- Nome, cognome, citta e data nascita -->
             
             <div id="cardImpostazioniUtente">
-                <p>Impostazioni Account</p>
+                <form>
+                    <p>Impostazioni Account <span><button id="salvaImpostazioniProfilo">Salva</button></span></p>
+
+                    <ul>
+                        <li>
+                            <span>Nome</span> <input type="text" name="nome">
+                        </li>
+                        <li>
+                            <span>Cognome</span> <input type="text" name="cognome">
+                        </li>
+                        <li>
+                            <span>Età</span> <input type="number" name="eta">
+                        </li>
+                        <li>
+                            <span>Città</span> <input type="text" name="citta">
+                        </li>
+                        <li>
+                            <span>Data di Nascita</span> <input type="date" min="10" name="data_nascita">
+                        </li>
+                    </ul>
+                </form>
+                
             </div>
 
         </div>
 
         <div id="containerWebSite">
-            s
         </div>
 
     </div>

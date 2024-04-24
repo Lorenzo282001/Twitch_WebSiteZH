@@ -112,12 +112,17 @@ $(document).ready(function () {
         }
 
 
+
     
     });
 
     $('#containerWebSite').on("click", function () {
 
         $("#containerProfile").slideUp(750); // Quando modifico la dimensione della pagina, tolgo le impostazioni del profilo automaticamente!
+
+        if ($(window).width() <= 550 && $("#activeBarre").css("display") !== "block") {
+            $("#activeBarre").slideDown(500);
+        }
     
     });
 
@@ -218,7 +223,8 @@ $(document).ready(function () {
             $("#main").css("margin-top", "0");   
         }
 
-        $("#containerProfile").slideUp(750); // Quando modifico la dimensione della pagina, tolgo le impostazioni del profilo automaticamente!
+        if ($("#containerProfile").css('display') !== "none")
+            $("#containerProfile").slideUp(750); // Quando modifico la dimensione della pagina, tolgo le impostazioni del profilo automaticamente!
     });
 
  
