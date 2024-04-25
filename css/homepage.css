@@ -11,7 +11,7 @@ body {
     margin: 0;
 
     overflow-x: hidden;
-    background-color: rgb(32, 32, 32);
+    background-color: goldenrod;
 
 }
 
@@ -32,7 +32,6 @@ body {
 
     border: 2px solid black;
 
-    padding: 2px;
     cursor: pointer;
 }
 
@@ -82,8 +81,6 @@ body {
 
     user-select: none;
 }
-
-
 
 #activeBarre {
     display: none;
@@ -207,12 +204,10 @@ body {
 /* main */ 
 
 #main {
+    margin-top: 0em;
     height: 100vh;
     width: 100vw;
-    margin-top: 0;
-    transition: 0.5s;
-
-    font-size: 30px;
+    z-index: 2;
     transition: 0.5s;
 }
 
@@ -221,9 +216,9 @@ body {
     display: none; /* DA METTERE NONE */
     background-color: orchid;
     
-    top: -0.8vh;
     width: 100%;
-    height: 60%;
+    height: 60vh;
+    margin-top: 0em;
 
     user-select: none;
 }
@@ -231,9 +226,9 @@ body {
 #cardImpostazioniUtente {
     position: relative; /* Posiziona l'elemento in base alle coordinate specificate */
     top: calc(10%); /* Sposta l'elemento sotto #containerProfile (60% + 20px di margine) */
-    left: 33%; /* Sposta l'elemento a sinistra */
-    transform: translateX(-95%);
-    width: 33%; /* Larghezza dell'elemento */
+    left: 50%; 
+    transform: translateX(-50%);
+    width: 80%; /* Larghezza dell'elemento */
     height: 80%; /* Altezza dell'elemento */
     background-color: orchid; /* Colore di sfondo */
     border: 2px solid black; /* Bordo */
@@ -355,18 +350,12 @@ body {
 }
 
 @media screen and (max-width: 1800px) {
-
-    #main{
-        margin-top: 1vh;
-    }
-    
     #navBarUlRight {
         display: none;
     }
 
     #navBarCenter {
         display: none;
-    
     }
 
     /* Sidebar */
@@ -387,15 +376,16 @@ body {
 
     #activeBarre {
         position: relative;
-        top: 12.5vh;
+        top: 3em;
         left: 0;
 
         background-color: violet;
+
         width: 100%;
         text-align: center;
-        padding: 0;
-
-    }
+        padding: 1px;
+        z-index: 1;
+    } 
 
     #activeBarre ul {
         list-style: none;
@@ -403,16 +393,22 @@ body {
     }
 
     #activeBarre ul li{
-        margin: 0.2em;
+        margin-bottom: 0.2em;
+    }
+
+    #activeBarre ul li:last-child{
+        margin-bottom: 0em;
     }
 
     #activeBarre input {
+        position: relative;
         background-color: violet;
-        border: 2px solid black;
+        border: 3px solid black;
         border-radius: 20px;
         /* Grandezza barra di ricerca */
         width: 20em;
-        height: 2em;
+        height: 2em;    
+        margin-top: 1em;
 
 
         text-align: center;
@@ -444,7 +440,7 @@ body {
 @media screen and (max-width: 550px) {
 
     #main{
-        margin-top: 42vh;
+        margin-top: 15em;
     }
 
     #navBarUlRight {
@@ -469,11 +465,8 @@ body {
         display: block;
 
         background-color: violet;
-        width: 100%;
         text-align: center;
         padding: 0;
-
-    
     }
 
     #activeBarre ul {
@@ -507,10 +500,7 @@ body {
         font-size: 25px;
     }
 
-    #containerProfile{
-        position: relative;
-        top: -42vh;
-    }
+
 
 
 

@@ -138,7 +138,7 @@ $(document).ready(function () {
         setTimeout(() => {
             $('#alreadyRegister').text("");
             window.location.href = 'index.html';
-        }, 200)    
+        }, 500)    
 
         // Aggiungi questo controllo per ottenere ulteriori dettagli sulla risposta dell'errore
         if (error && error.response) {
@@ -215,7 +215,7 @@ $(document).ready(function () {
     $('#containerWebSite').on("click", function () {
 
         $("#containerProfile").slideUp(750); // Quando modifico la dimensione della pagina, tolgo le impostazioni del profilo automaticamente!
-        $("#containerWebSite").css("top", "0");
+        $("#containerWebSite").css("margin-top", "0em");
     });
 
     $("#textBankName").on("click", function(e) {
@@ -249,12 +249,12 @@ $(document).ready(function () {
         {
             $("#activeBarre").slideDown(500); // Toggle the display with sliding animation
             $("#toggleBarre").html('<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>');
-            $("#containerWebSite").css("top", "34vh");
+            $("#containerWebSite").css("margin-top", "15em");
         }
         else {
             $("#activeBarre").slideUp(500); // Toggle the display with sliding animation
             $("#toggleBarre").html('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="50" height="50"><rect width="100" height="5" y="30" fill="rgb(32,32,32)"/><rect width="100" height="5" y="60" fill="rgb(32,32,32)"/><rect width="100" height="5" y="90" fill="rgb(32,32,32)"/></svg>');
-            $("#containerWebSite").css("top", "0");
+            $("#containerWebSite").css("margin-top", "0em");
         }
 
     });
@@ -263,8 +263,7 @@ $(document).ready(function () {
     $(".user").on("click", function () {   // On click user Name in top open settings profile!
 
         modifyOptionUser();
-        $("#containerWebSite").css("top", "0");
-
+        
         if ($("#containerProfile").css("display") === "none") {
 
             if ($("#activeBarre").css("display") !== "none")
@@ -274,6 +273,8 @@ $(document).ready(function () {
 
             $("#containerProfile").slideDown(750); // Toggle the display with sliding animation
             $("#containerProfile").css("display", "inline-flex")
+            $("#containerWebSite").css("margin-top", "0em");
+
         
         } else {
             $("#containerProfile").slideUp(750); // Toggle the display with sliding animation
@@ -282,6 +283,11 @@ $(document).ready(function () {
     });
 
     $(window).resize(function() {
+        $("#main").css("margin-top", "0em");
+        $("#containerWebSite").css("margin-top", "0em");
+        $("#toggleBarre").html('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="50" height="50"><rect width="100" height="5" y="30" fill="rgb(32,32,32)"/><rect width="100" height="5" y="60" fill="rgb(32,32,32)"/><rect width="100" height="5" y="90" fill="rgb(32,32,32)"/></svg>');
+
+
         var windowWidth = $(window).width();
         var windowHeight = $(window).height();
 
@@ -297,6 +303,7 @@ $(document).ready(function () {
         }
 
         if (windowWidth <= 550) {
+            $("#containerWebSite").css("margin-top", "15em");
             $("#activeBarre").slideDown(500);
         }
         else {
@@ -307,7 +314,7 @@ $(document).ready(function () {
             $("#containerProfile").slideUp(750); // Quando modifico la dimensione della pagina, tolgo le impostazioni del profilo automaticamente!
 
         
-
+     
         
     });
  
