@@ -1,12 +1,3 @@
-function getRandomColor() {
-    var letters = '0123456789ABCDEF';
-    var color = '#';
-    for (var i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-}
-
 function setOptionUser(nome, cognome, eta, citta, dataNascita) {  
 
     // Recupero i dati
@@ -82,58 +73,30 @@ $(document).ready(function () {
 
     $(document).on("click", ".buttonModifyOpt", function (event) {
         event.preventDefault();
+        $('#salvaImpostazioniProfilo').css('display', 'block');
     });
 
     $(document).on("click", "#modificaOptNomeButton", function () {
-        $('#liImpostazioniNome').html(`<span>Nome</span> <input class="inputSettings" id="settingsNome" type="text" name="nome" placeholder="Lascia vuoto per non modificare" style="width:8em"><span><button class='buttonModifyOpt' id="buttonSaveNome">Salva</button></span>`);
+        $('#liImpostazioniNome').html(`<span>Nome</span><input class="inputSettings" id="settingsNome" type="text" name="nome" placeholder="Lascia vuoto per non modificare" style="width:8em">`);
     });
 
     $(document).on("click", "#modificaOptCognomeButton", function () {
-        $('#liImpostazioniCognome').html(`<span>Cognome</span> <input class="inputSettings" id="settingsCognome" type="text" name="cognome" placeholder="Lascia vuoto per non modificare" style="width:8em"><span><button class='buttonModifyOpt' id="buttonSaveCognome">Salva</button></span>`);
+        $('#liImpostazioniCognome').html(`<span>Cognome</span> <input class="inputSettings" id="settingsCognome" type="text" name="cognome" placeholder="Lascia vuoto per non modificare" style="width:8em">`);
 
     });
 
     $(document).on("click", "#modificaOptEtaButton", function () {
-        $('#liImpostazioniEta').html(`<span>Età</span> <input class="inputSettings" id="settingsEta" type="number" name="eta" placeholder="Lascia vuoto per non modificare" style="width:8em"><span><button class='buttonModifyOpt' id="buttonSaveEta">Salva</button></span>`);
+        $('#liImpostazioniEta').html(`<span>Età</span> <input class="inputSettings" id="settingsEta" type="number" name="eta" placeholder="Lascia vuoto per non modificare" style="width:8em">`);
     });
 
     $(document).on("click", "#modificaOptCittaButton", function () {
-        $('#liImpostazioniCitta').html(`<span>Città</span> <input class="inputSettings" id="settingsCitta" type="text" name="citta" placeholder="Lascia vuoto per non modificare" style="width:8em"><button class='buttonModifyOpt' id="buttonSaveCitta">Salva</button></span>`);
+        $('#liImpostazioniCitta').html(`<span>Città</span> <input class="inputSettings" id="settingsCitta" type="text" name="citta" placeholder="Lascia vuoto per non modificare" style="width:8em">`);
     });
 
     $(document).on("click", "#modificaOptDataNascitaButton", function () {
-        $('#liImpostazioniDataNascita').html(`<span>Data di Nascita</span> <input class="inputSettings" id="settingsDataNascita" type="date" min="10" name="data_nascita" placeholder="Lascia vuoto per non modificare" style="width:8em"><button class='buttonModifyOpt' id="buttonSaveDataNascita">Salva</button></span>`);             
+        $('#liImpostazioniDataNascita').html(`<span>Data di Nascita</span> <input class="inputSettings" id="settingsDataNascita" type="date" min="10" name="data_nascita" placeholder="Lascia vuoto per non modificare" style="width:8em">`);             
  
     });
-
-    /// -- Save Buttons elements
-
-    $(document).on("click", "#buttonSaveNome", function (event) {
-       event.preventDefault(); 
-        setOptionUser();
-    });
-
-    $(document).on("click", "#buttonSaveCognome", function (event) {
-        event.preventDefault();
-        setOptionUser();
-    });
-
-    $(document).on("click", "#buttonSaveEta", function (event) {
-        event.preventDefault();
-        setOptionUser();
-    });
-
-    $(document).on("click", "#buttonSaveCitta", function (event) {
-        event.preventDefault();
-        setOptionUser();
-    });
-
-    $(document).on("click", "#buttonSaveDataNascita", function (event) {
-        event.preventDefault();
-        setOptionUser();
-    });
-
-    /// ----
 
     fetch(`http://localhost:3000/admin?username=${localStorage.getItem("userBank")}`, {
             method: 'GET',
@@ -240,51 +203,24 @@ $(document).ready(function () {
 
     });
 
-
-    if ($(window).width() <= 550)
-    {
-        $("#main").css("margin-top", "10em");   
-    }
-
     $('#main').on("click", function () {
 
         if ($(window).width() >= 550)
         {
             $("#activeBarre").slideUp(500);
-            $("#main").css("margin-top", "0")
             $("#toggleBarre").html('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="50" height="50"><rect width="100" height="5" y="30" fill="rgb(32,32,32)"/><rect width="100" height="5" y="60" fill="rgb(32,32,32)"/><rect width="100" height="5" y="90" fill="rgb(32,32,32)"/></svg>');
         }
-
-
-
-    
     });
 
     $('#containerWebSite').on("click", function () {
 
         $("#containerProfile").slideUp(750); // Quando modifico la dimensione della pagina, tolgo le impostazioni del profilo automaticamente!
-
-        if ($(window).width() <= 550 && $("#activeBarre").css("display") !== "block") {
-            $("#activeBarre").slideDown(500);
-        }
-    
+        $("#containerWebSite").css("top", "0");
     });
 
     $("#textBankName").on("click", function(e) {
         e.preventDefault(); // Prevent the default behavior of the anchor element
         location.reload(); // Refresh the page
-    });
-
-    $("#textBankName").on("mouseover", function () {
-
-        var lettere = this.textContent.split('');
-        var newText = '';
-    
-        for (var i = 0; i < lettere.length; i++) {   
-            newText += '<span style="color: '+ getRandomColor() +';">' + lettere[i] + '</span>';
-        }
-    
-        this.innerHTML = newText;
     });
     
     
@@ -306,19 +242,19 @@ $(document).ready(function () {
 
         if ($("#containerProfile").css("display") !== "none") {
             $("#containerProfile").fadeOut(500);
+            $("#containerProfile").css("display", "inline-flex")
         }
 
         if (displayValue === 'none')
         {
             $("#activeBarre").slideDown(500); // Toggle the display with sliding animation
-            $("#main").css("margin-top", "10em")
             $("#toggleBarre").html('<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>');
+            $("#containerWebSite").css("top", "34vh");
         }
         else {
-            $("#main").css("margin-top", "0em")
             $("#activeBarre").slideUp(500); // Toggle the display with sliding animation
-            
             $("#toggleBarre").html('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="50" height="50"><rect width="100" height="5" y="30" fill="rgb(32,32,32)"/><rect width="100" height="5" y="60" fill="rgb(32,32,32)"/><rect width="100" height="5" y="90" fill="rgb(32,32,32)"/></svg>');
+            $("#containerWebSite").css("top", "0");
         }
 
     });
@@ -326,21 +262,23 @@ $(document).ready(function () {
     /* Settings Profile - Main */
     $(".user").on("click", function () {   // On click user Name in top open settings profile!
 
+        modifyOptionUser();
+        $("#containerWebSite").css("top", "0");
+
         if ($("#containerProfile").css("display") === "none") {
 
             if ($("#activeBarre").css("display") !== "none")
             {
                 $("#activeBarre").slideUp(500);
-                $("#main").css("margin-top", "0em")
-
             }
 
             $("#containerProfile").slideDown(750); // Toggle the display with sliding animation
+            $("#containerProfile").css("display", "inline-flex")
         
         } else {
-            $("#containerProfile").slideUp(1000); // Toggle the display with sliding animation
+            $("#containerProfile").slideUp(750); // Toggle the display with sliding animation
         }
-
+        
     });
 
     $(window).resize(function() {
@@ -360,15 +298,17 @@ $(document).ready(function () {
 
         if (windowWidth <= 550) {
             $("#activeBarre").slideDown(500);
-            $("#main").css("margin-top", "10em");  
         }
         else {
             $("#activeBarre").slideUp(500); // Ripristino lo stato iniziale !
-            $("#main").css("margin-top", "0");   
         }
 
         if ($("#containerProfile").css('display') !== "none")
             $("#containerProfile").slideUp(750); // Quando modifico la dimensione della pagina, tolgo le impostazioni del profilo automaticamente!
+
+        
+
+        
     });
  
 })

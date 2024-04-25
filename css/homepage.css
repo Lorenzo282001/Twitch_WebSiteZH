@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Jersey+25&display=swap');
 
 html {
-    font-size: 20px; /* = 1 rem */ /* em fa capo diretto alla font-size padre */
+    font-size: 16px; /* = 1 rem */ /* em fa capo diretto alla font-size padre */
 }
 
 body {  
@@ -11,7 +11,6 @@ body {
     margin: 0;
 
     overflow-x: hidden;
-
     background-color: rgb(32, 32, 32);
 
 }
@@ -172,13 +171,12 @@ body {
     top: 0;
     right: 0;
     list-style: none;
-    padding: 5px;
 }
 
 .user {
     border: 2px solid black;
     border-radius: 20px;
-    padding: 5px;
+    padding: 10px;
 }
 
 .user:hover {
@@ -211,15 +209,19 @@ body {
 #main {
     height: 100vh;
     width: 100vw;
+    margin-top: 0;
+    transition: 0.5s;
 
+    font-size: 30px;
     transition: 0.5s;
 }
 
 #containerProfile {
-    display: none;
+    position: relative;
+    display: none; /* DA METTERE NONE */
     background-color: orchid;
     
-
+    top: -0.8vh;
     width: 100%;
     height: 60%;
 
@@ -250,6 +252,9 @@ body {
 }
 
 #cardImpostazioniUtente p {
+    position: relative;
+    display: flex;
+    justify-content: center;
     font-style: italic;
     text-align: center;
 }
@@ -261,8 +266,8 @@ body {
     border: 2px solid black;
     border-radius: 30px;
 
-    width: 4rem;
-    height: 3rem;
+    width: 3rem;
+    height: 2rem;
 
     font-family: "Bebas Neue", sans-serif;
     font-weight: 400;
@@ -270,6 +275,7 @@ body {
     font-style: normal;
 
     left: 4em;
+    margin-right: 3em;
     box-shadow: 5px 20px 20px rgba(0, 0, 0, 0.2); /* Ombra */
 
     transition: 0.5s;
@@ -288,12 +294,15 @@ body {
 }
 
 #cardImpostazioniUtente ul li{
+    position: relative;
     display: flex;
+    width: 100%;
     margin-bottom: 1em;
     margin-right: 5rem;
 
     justify-content: space-between;
     align-items: center;
+
 }
 
 #cardImpostazioniUtente ul li input {
@@ -328,7 +337,6 @@ body {
     position: relative;
     width: 100%;
     height: 100%;
-    
 }
 
 /* end main */
@@ -347,6 +355,10 @@ body {
 }
 
 @media screen and (max-width: 1800px) {
+
+    #main{
+        margin-top: 1vh;
+    }
     
     #navBarUlRight {
         display: none;
@@ -361,7 +373,7 @@ body {
     #toggleBarre {
         position: absolute;
         display: block;
-        top: 1rem;
+        top: 1em;
         right: 0;
 
         margin-right: 10px;
@@ -375,7 +387,7 @@ body {
 
     #activeBarre {
         position: relative;
-        top: 3em;
+        top: 12.5vh;
         left: 0;
 
         background-color: violet;
@@ -383,7 +395,6 @@ body {
         text-align: center;
         padding: 0;
 
-    
     }
 
     #activeBarre ul {
@@ -391,9 +402,14 @@ body {
         display: inline;
     }
 
+    #activeBarre ul li{
+        margin: 0.2em;
+    }
+
     #activeBarre input {
         background-color: violet;
-        border: 1px solid violet;
+        border: 2px solid black;
+        border-radius: 20px;
         /* Grandezza barra di ricerca */
         width: 20em;
         height: 2em;
@@ -419,9 +435,17 @@ body {
         left: 33%; /* Sposta l'elemento a sinistra */
         transform: translateX(-33%);
     }
+
+    .user {
+        padding: 6px;
+    }
 }
 
 @media screen and (max-width: 550px) {
+
+    #main{
+        margin-top: 42vh;
+    }
 
     #navBarUlRight {
         display: none;
@@ -459,8 +483,9 @@ body {
 
     #activeBarre input {
         background-color: violet;
-        border: 1px solid violet;
-
+        border: 2px solid black;
+        border-radius: 20px;
+        
         /* Grandezza barra di ricerca */
         width: 20em;
         height: 2em;
@@ -478,11 +503,15 @@ body {
     }
 
     #cardImpostazioniUtente {
-        width: 80%;
-        left: 33%; /* Sposta l'elemento a sinistra */
-        transform: translateX(-33%);
-
+        width: 90%;
+        font-size: 25px;
     }
+
+    #containerProfile{
+        position: relative;
+        top: -42vh;
+    }
+
 
 
 }

@@ -81,7 +81,7 @@ body {
 
     margin-top: 1em;
     width: 40em;
-    height: 60vh;
+    height: 75%;
 
     text-align: center;
 
@@ -94,6 +94,8 @@ body {
     scrollbar-color: transparent transparent; /* Per Firefox */
 
 }
+
+
 
 #cardRegister::-webkit-scrollbar
 {
@@ -159,6 +161,7 @@ body {
 
     list-style: none;
     display: inline-block;
+    text-align: center;
 }
 
 #elementsRegister ul li {
@@ -173,6 +176,8 @@ body {
 }
 
 #elementsRegister ul li input {
+    position: relative;
+    display: flex;
     background-color: violet;
     border: 2px solid rebeccapurple;
     border-radius: 20px;
@@ -202,11 +207,9 @@ body {
     transition: 1s;
 }
 
-#listButtonsRegister {
+#listButtonsRegister li {
+    position: relative;
     display: inline-flex;
-
-
-
 }
 
 #listButtonsRegister li {
@@ -266,9 +269,12 @@ body {
     }
 
     #cardRegister {
-        width: 30em;
+        width: 90%;
+        height: 70%;
     }
 
-
+    #elementsRegister ul li {
+        text-align: center;
+    }
 
 }

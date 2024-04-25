@@ -1,5 +1,3 @@
-
-
 $(document).ready(function () {
 
     $("#loginButton").on("click", function (event) {  
