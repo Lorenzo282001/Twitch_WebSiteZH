@@ -78,7 +78,6 @@ function modifyOptionUser() {
 }
 
 $(document).ready(function () {
-
     modifyOptionUser();
 
     $(document).on("click", ".buttonModifyOpt", function (event) {
@@ -87,8 +86,6 @@ $(document).ready(function () {
 
     $(document).on("click", "#modificaOptNomeButton", function () {
         $('#liImpostazioniNome').html(`<span>Nome</span> <input class="inputSettings" id="settingsNome" type="text" name="nome" placeholder="Lascia vuoto per non modificare" style="width:8em"><span><button class='buttonModifyOpt' id="buttonSaveNome">Salva</button></span>`);
-
-
     });
 
     $(document).on("click", "#modificaOptCognomeButton", function () {
@@ -373,7 +370,6 @@ $(document).ready(function () {
         if ($("#containerProfile").css('display') !== "none")
             $("#containerProfile").slideUp(750); // Quando modifico la dimensione della pagina, tolgo le impostazioni del profilo automaticamente!
     });
-
  
 })
 

@@ -7,7 +7,6 @@ let utente = "\t[USER] -> ";
 
 let loginNow = 0;
 let loginPeople = [];
-
 /////////
 
 const readline = require('readline'); // Scrivere in console...
@@ -20,7 +19,12 @@ const rl = readline.createInterface({
 // Funzione per leggere l'input con la console!
 function askQuestion() {
   rl.question("> ", (input) => {
-    
+
+    if (input !== ""){
+      countRighe++;
+      console.log(countRighe + utente + input + "\n");
+    }
+
     switch(input) {
       case 'opt':
         countRighe++;
@@ -78,6 +82,7 @@ function askQuestion() {
   });
 }
 
+
 // Server Node per entrare nel database
 const nodemon = require('nodemon');
 
@@ -85,6 +90,7 @@ const express = require('express');
 const mysql = require('mysql2');
 const bodyParser = require('body-parser');
 const cors = require('cors'); // Import the cors middleware
+const { count } = require('console');
 
 const app = express();
 
@@ -235,8 +241,11 @@ app.post('/loginSuccess', (req, res) => {
 
   const username = req.body.testo;
 
-  loginNow++;
-  loginPeople.push(username);
+  // Da pushare solo se non si trova già nell'array
+  if (!loginPeople.includes(username)){
+    loginPeople.push(username);
+    loginNow++;
+  }
   res.status(200).send('Ricevuto');
 });
 
