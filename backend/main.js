@@ -191,15 +191,21 @@ app.post('/newUserBank', (req, res) => {
 
 });
 
+
 // Aggiorno le informazioni di un user!
 app.post('/optUserInfo', (req, res) => {
 
-  const {username, nome, cognome, eta, citta, dataNascita} = req.body; // mettere in ordine quello che esce dal body
+  const {username, nome, cognome, eta, citta, dataNascita} = req.query; // mettere in ordine quello che esce dal body
 
-  const query = `INSERT INTO utentibanca (username, email, password) VALUES ('` + username + `', '` + email + `', '` + password + `')`;
+  // Potrebbero esserci diverse query in base a quale dato viene modificato
+  // Questa query viene updata solo se tutti i valori vengono modificati!
+  const query = `UPDATE utentibanca SET nome = CASE WHEN '${nome}' != '' AND '${nome}' != 'undefined' THEN '${nome}' ELSE nome END, cognome = CASE WHEN '${cognome}' != '' AND '${cognome}' != 'undefined' THEN '${cognome}' ELSE cognome END, eta = CASE WHEN '${eta}' != '' AND '${eta}' != 'undefined' THEN '${eta}' ELSE eta END, citta = CASE WHEN '${citta}' != '' AND '${citta}' != 'undefined' THEN '${citta}' ELSE citta END, data_di_nascita = CASE WHEN '${dataNascita}' != '' AND '${dataNascita}' != 'undefined' THEN '${dataNascita}' ELSE data_di_nascita END WHERE username = '${username}'`;
+
+
+  // Nella query se uno dei valori è "" (vuoto) nella connessione viene passato e aggiornato come NULL.
 
   connection.query(query, [username, nome, cognome, eta, citta, dataNascita],(err, results) => {
-    if (err) {
+    if (err) {  
       countRighe++;
       console.error('Errore durante la query al database:', err);
       res.status(500).json({ error: 'Errore durante la query al database' });

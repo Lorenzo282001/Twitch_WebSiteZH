@@ -7,10 +7,136 @@ function getRandomColor() {
     return color;
 }
 
+function setOptionUser(nome, cognome, eta, citta, dataNascita) {  
 
+    // Recupero i dati
+    fetch(`http://localhost:3000/optUserInfo?username=${localStorage.getItem("userBank")}&nome=${nome}&cognome=${cognome}&eta=${eta}&citta=${citta}&dataNascita=${dataNascita}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+    .then(() => {
+        
+        modifyOptionUser();
+
+    })
+    .catch(error => {
+        console.error('Si è verificato un errore durante l\'invio del messaggio di login al backend:', error);
+        // Potresti gestire eventuali errori qui, se necessario
+    });
+
+
+}
+
+function modifyOptionUser() {  
+    // Aggiornare i nuovi dati in HomePage!
+    fetch(`http://localhost:3000/checkUserDb?username=${localStorage.getItem("userBank")}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+
+        if (data && data.messages && data.messages.length > 0) {
+            
+                        // Modifico le impostazioni!
+            let ok = true;
+            for (let v in data.messages[0]){
+                if (data.messages[0][v] === null){
+                    ok = false;
+                    break;
+                }
+            }
+
+            if (ok){
+
+                if ($('.inputSettings').length) { // Non esiste l'elemento -- quindi tolgo il bottone SALVA
+                    $('#salvaImpostazioniProfilo').css("display", "none");
+                }
+
+                if (data.messages[0].nome !== null || data.messages[0].nome !== "undefind")
+                    nome = $('#liImpostazioniNome').html(`<span>Nome</span><div><span>${data.messages[0].nome}</span><span><span class = 'modificaOpt' id = 'modificaOptNome'><button class = 'buttonModifyOpt' id = 'modificaOptNomeButton'>Modifica</button></span></div>`);
+                if (data.messages[0].cognome !== null || data.messages[0].cognome !== "undefind")
+                    cognome = $('#liImpostazioniCognome').html(`<span>Cognome</span><div><span>${data.messages[0].cognome}</span><span><span class = 'modificaOpt' id = 'modificaOptCognome'><button class = 'buttonModifyOpt' id = 'modificaOptCognomeButton'>Modifica</button></span></div>`);
+                if (data.messages[0].eta !== null || data.messages[0].eta !== "undefind")    
+                    eta = $('#liImpostazioniEta').html(`<span>Età</span><div><span>${data.messages[0].eta}</span><span><span class = 'modificaOpt' id = 'modificaOptEta'><button class = 'buttonModifyOpt' id = 'modificaOptEtaButton'>Modifica</button></span></div>`);
+                if (data.messages[0].citta !== null || data.messages[0].citta !== "undefind")
+                    citta = $('#liImpostazioniCitta').html(`<span>Città</span><div><span>${data.messages[0].citta}</span><span><span class = 'modificaOpt' id = 'modificaOptCitta'><button class = 'buttonModifyOpt' id = 'modificaOptCittaButton'>Modifica</button></span></div>`);
+                if (data.messages[0].data_di_nascita !== null || data.messages[0].data_di_nascita !== "undefind")
+                    dataNascita = $('#liImpostazioniDataNascita').html(`<span>Data di Nascita</span><div><span>${data.messages[0].data_di_nascita.split("T")[0]}</span><span><span class = 'modificaOpt' id = 'modificaOptDataNascita'><button class = 'buttonModifyOpt' id = 'modificaOptDataNascitaButton'>Modifica</button></span></div>`);             
+            }
+        }
+
+
+    })
+    .catch(error => {
+        console.error('Si è verificato un errore nel backend:', error);
+    });
+}
 
 $(document).ready(function () {
 
+    modifyOptionUser();
+
+    $(document).on("click", ".buttonModifyOpt", function (event) {
+        event.preventDefault();
+    });
+
+    $(document).on("click", "#modificaOptNomeButton", function () {
+        $('#liImpostazioniNome').html(`<span>Nome</span> <input class="inputSettings" id="settingsNome" type="text" name="nome" placeholder="Lascia vuoto per non modificare" style="width:8em"><span><button class='buttonModifyOpt' id="buttonSaveNome">Salva</button></span>`);
+
+
+    });
+
+    $(document).on("click", "#modificaOptCognomeButton", function () {
+        $('#liImpostazioniCognome').html(`<span>Cognome</span> <input class="inputSettings" id="settingsCognome" type="text" name="cognome" placeholder="Lascia vuoto per non modificare" style="width:8em"><span><button class='buttonModifyOpt' id="buttonSaveCognome">Salva</button></span>`);
+
+    });
+
+    $(document).on("click", "#modificaOptEtaButton", function () {
+        $('#liImpostazioniEta').html(`<span>Età</span> <input class="inputSettings" id="settingsEta" type="number" name="eta" placeholder="Lascia vuoto per non modificare" style="width:8em"><span><button class='buttonModifyOpt' id="buttonSaveEta">Salva</button></span>`);
+    });
+
+    $(document).on("click", "#modificaOptCittaButton", function () {
+        $('#liImpostazioniCitta').html(`<span>Città</span> <input class="inputSettings" id="settingsCitta" type="text" name="citta" placeholder="Lascia vuoto per non modificare" style="width:8em"><button class='buttonModifyOpt' id="buttonSaveCitta">Salva</button></span>`);
+    });
+
+    $(document).on("click", "#modificaOptDataNascitaButton", function () {
+        $('#liImpostazioniDataNascita').html(`<span>Data di Nascita</span> <input class="inputSettings" id="settingsDataNascita" type="date" min="10" name="data_nascita" placeholder="Lascia vuoto per non modificare" style="width:8em"><button class='buttonModifyOpt' id="buttonSaveDataNascita">Salva</button></span>`);             
+ 
+    });
+
+    /// -- Save Buttons elements
+
+    $(document).on("click", "#buttonSaveNome", function (event) {
+       event.preventDefault(); 
+        setOptionUser();
+    });
+
+    $(document).on("click", "#buttonSaveCognome", function (event) {
+        event.preventDefault();
+        setOptionUser();
+    });
+
+    $(document).on("click", "#buttonSaveEta", function (event) {
+        event.preventDefault();
+        setOptionUser();
+    });
+
+    $(document).on("click", "#buttonSaveCitta", function (event) {
+        event.preventDefault();
+        setOptionUser();
+    });
+
+    $(document).on("click", "#buttonSaveDataNascita", function (event) {
+        event.preventDefault();
+        setOptionUser();
+    });
+
+    /// ----
 
     fetch(`http://localhost:3000/admin?username=${localStorage.getItem("userBank")}`, {
             method: 'GET',
@@ -58,6 +184,27 @@ $(document).ready(function () {
         if (error && error.response) {
         console.log('Risposta dell\'errore:', error.response);
         }
+    });
+
+    // Save new settings for userBank in HomePage
+    $('#salvaImpostazioniProfilo').on("click", function (event) {  
+
+        event.preventDefault();
+
+        let nome = $('#settingsNome').val();
+        let cognome = $('#settingsCognome').val();
+        let eta = $('#settingsEta').val();
+        let citta = $('#settingsCitta').val();
+        let dataNascita = $('#settingsDataNascita').val(); // Parsificare la data nel mondo corretto [Restituisce aaaa-mm-gg]
+
+        // Non verifico se il dato è vuoto o pieno perchè automaticamente la query nel backend
+        // se nota che la stringa è vuota , semplicemte imposta il valore nuovo a NULL!
+        setOptionUser(nome, cognome, eta,citta,dataNascita);
+    });
+
+    // Se clicco il botton modifica, riappare Salva ma al posto di modifica!
+    $(".modificaOpt").on("click", function (event) {  
+        event.preventDefault();
     });
 
     // On click exit -> esce dall'account!

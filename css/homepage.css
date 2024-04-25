@@ -37,6 +37,38 @@ body {
     cursor: pointer;
 }
 
+.modificaOpt {
+    position: relative;
+    display: inline-flex;
+    margin: 1em;
+}
+
+.buttonModifyOpt {
+    
+    padding: 0.5em;
+
+    font-family: "Bebas Neue", sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+    font-style: normal;
+
+    border: 2px solid black;
+    background-color: orchid;
+    transition: 0.5s;
+}
+
+.buttonModifyOpt:hover {
+    border-radius: 20px;
+    background-color: rgb(141, 66, 154);
+    color: pink;
+    cursor: pointer;
+}
+
+.inputSettings::placeholder { /* Placeholder dell' input nelle options utente */
+    font-size: 12px;
+    color: rebeccapurple;
+}
+
 /* top website */
 #top {
     background-color: rgb(141, 66, 154);
@@ -184,8 +216,7 @@ body {
 }
 
 #containerProfile {
-    display: block; 
-    
+    display: none;
     background-color: orchid;
     
 
@@ -258,8 +289,8 @@ body {
 
 #cardImpostazioniUtente ul li{
     display: flex;
-    margin-bottom: 3em;
-    margin-right: 5em;
+    margin-bottom: 1em;
+    margin-right: 5rem;
 
     justify-content: space-between;
     align-items: center;

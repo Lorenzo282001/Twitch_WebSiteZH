@@ -6,6 +6,7 @@ CREATE TABLE utentiBanca (
     password VARCHAR(255) NOT NULL,
     nome VARCHAR(50),
     cognome VARCHAR(50),
+    eta INT,
     citta VARCHAR(255),
     data_di_nascita DATE,
     admin BOOLEAN DEFAULT 0
