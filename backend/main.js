@@ -181,14 +181,28 @@ app.post('/newUserBank', (req, res) => {
 
   const query = `INSERT INTO utentibanca (username, email, password) VALUES ('` + username + `', '` + email + `', '` + password + `')`;
 
-  connection.query(query, (err, results) => {
+  connection.query(query, [username, email, password], (err, results) => {
     if (err) {
       countRighe++;
       console.error('Errore durante la query al database:', err);
       res.status(500).json({ error: 'Errore durante la query al database' });
       return;
     }
+
+    const utenteID = results.insertId; // ID DELL' UTENTE APPENA INSERITO
     
+    const queryToBankTable = 'INSERT INTO banca (utente_id, username) VALUES (?, ?)'; 
+
+    connection.query(queryToBankTable, [utenteID, username], (err, result) => {
+      if (err) {
+        console.error('Errore durante l\'inserimento nella tabella banca:', err);
+        res.status(500).send('Errore durante la creazione dell\'utente');
+        return;
+      }
+
+      res.status(200);
+    });
+
     // Invia i risultati della query come risposta JSON
     res.json(results); 
     countRighe++;

@@ -117,15 +117,15 @@ $(document).ready(function () {
             // Se ci sono messaggi nella risposta
             if (data.messages[0].admin === 1) {
                 localStorage.setItem("userBankAdmin", "si");
-                $(".user").css('color',"gold");
-                $(".user").css('background-color',"rebeccapurple");
+                $(".user").css('color',"darkred");
+                $(".user").css('background-color',"gold");
             }
             else {
                 localStorage.setItem("userBankAdmin", "no");   
             }
 
             if (localStorage.getItem("userBankAdmin") === "si")
-                $(".user").html("Direttore: "+ localStorage.getItem("userBank"));
+                $(".user").html("Admin: "+ localStorage.getItem("userBank"));
             else 
                 $(".user").html(localStorage.getItem("userBank"));
         }
@@ -136,18 +136,11 @@ $(document).ready(function () {
 
     })
     .catch(error => {
-        
-        $('#alreadyRegister').text("[SERVER DB OFF]");
-        $('#alreadyRegister').css("border" , "1px solid rebeccapurple");
-        $('#alreadyRegister').css("border-radius", "20px"); 
-        setTimeout(() => {
-            $('#alreadyRegister').text("");
-            window.location.href = 'index.html';
-        }, 500)    
+        window.location.href = 'index.html';
 
         // Aggiungi questo controllo per ottenere ulteriori dettagli sulla risposta dell'errore
         if (error && error.response) {
-        console.log('Risposta dell\'errore:', error.response);
+            console.log('Risposta dell\'errore:', error.response);
         }
     });
 
