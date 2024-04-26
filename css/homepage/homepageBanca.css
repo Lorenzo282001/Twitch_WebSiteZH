@@ -34,13 +34,13 @@
    position: absolute;
    
    right: 0;
-   margin-right: 8vw;
+   margin-right: 3vw;
 
    display: flex;
    justify-content: center;
    align-items: center;
 
-   padding: 10px;
+   padding: 0.2em;
 
    box-shadow: 2px 2px 2px 2px black;
 
@@ -49,8 +49,8 @@
 }
 
 #profiloUtente {
-   border: 1px solid black;
-   border-radius: 10px;
+   position: absolute;
+
    box-shadow: 2px 2px 2px 2px black;
 
    width: 6em;
@@ -68,12 +68,78 @@
    height: 80vh;
 
    background-color: red;
+
+}
+
+#containerInfoBankTop_center {
+   position: absolute;
+   display: flex;
+
+   left: 50%;
+   transform: translateX(-50%);
+
+   width: 20em;
+
+   justify-content: space-between;
+   align-items: center;
+
+}
+
+#containerInfoBankTop_center div {
+   padding: 0.2em;
+   width: 5em;
+
+   text-align: center;
+   box-shadow: 2px 2px 2px 2px black;
+
+}
+
+#TransazioniContainer {
+   position: sticky;
+   display: none;
+   top: 0;
+   z-index: 999;
+   height: 80vh;
+
+   background-color: gold;
+}
+
+#PrestitiContainer {
+   position: sticky;
+   display: none;
+   top: 0;
+   z-index: 999;
+   height: 80vh;
+
+   background-color: blue;
+}
+
+#BonificiContainer {
+   position: sticky;
+   display: none;
+   top: 0;
+   z-index: 999;
+   height: 80vh;
+
+   background-color: green;
+}
+
+@media screen and (max-width: 1200px) {
+   
+   #moneySection {
+      margin-right: 5vw;
+   }
+
+   #containerInfoBankTop_center {
+      display: none;
+   }
 }
 
 @media screen and (max-width: 600px) {
 
    #moneySection {
-      margin-right: 15vw;
-
+      margin-right: 12vw;
    }
+
+   
 }

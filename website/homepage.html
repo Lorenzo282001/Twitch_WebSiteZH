@@ -48,7 +48,8 @@
                     <li class="hoverList"><a href="index.html" style="text-decoration: none;color: inherit;">Home</a></li>
                     <li class="hoverList">About</li>       
                     <li>|</li>
-                    <li><a class="user" href="#" style="text-decoration: none;color: inherit;"></a></li>          
+                    <li><a class="user" href="#" style="text-decoration: none;color: inherit;"></a></li>       
+                    <li class="adminSection" style="display: none;"><a href="#" style="text-decoration: none;color: inherit">Admin Section</a></li>
                     <li>|</li>
                     <li class="exitAccount hoverList"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="40" height="20" viewBox="0 0 256 256" xml:space="preserve">
 
@@ -67,7 +68,7 @@
                 <ul>
                     <li class="hoverListBarre"><a href="index.html" style="text-decoration: none;color: inherit;">Home</a></li>
                     <li class="hoverListBarre">About</li>               
-                    <li><a class="user" href="#" style="position: relative;text-decoration: none;color: inherit;top: 0.2em;"></a></li>                
+                    <li><a class="user" href="#" style="position: relative;text-decoration: none;color: inherit;top: 0.2em;"></a></li>     
                     <li><input id="searchBarToggle" class="searchBar" type="text" placeholder="Search what do you need HERE!"></li>
                     <li class="exitAccount hoverListBarre"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="40" height="30" viewBox="0 0 256 256" xml:space="preserve">
 
@@ -124,15 +125,37 @@
 
         <div id="containerWebSite">
             
+            <!-- Top Main Page -->
             <div id="containerInfoBankTop"> <!-- Sticky to Page -->
                 
                 <div class="hoverListBarre" id="profiloUtente">Profilo Utente</div>
 
+                <div id="containerInfoBankTop_center">
+                    <div class="hoverListBarre" id="Transazioni">Transazioni</div>
+                    <div class="hoverListBarre" id="Prestiti">Prestiti</div>
+                    <div class="hoverListBarre" id="Bonifici">Bonifici</div>
+
+                </div>
+
                 <div class="hoverListBarre" id="moneySection"><span style = "margin-right:20px;">Saldo</span> €</div>
+                
 
             </div>
 
-            <div id="profiloUtenteContainer">
+            <!-- Main Page -->
+            <div class="tiraSu" id="profiloUtenteContainer"> 
+                
+            </div>
+
+            <div class="tiraSu" id="TransazioniContainer"> 
+                
+            </div>
+
+            <div class="tiraSu" id="PrestitiContainer"> 
+                
+            </div>
+
+            <div class="tiraSu" id="BonificiContainer"> 
                 
             </div>
 

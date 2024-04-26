@@ -40,13 +40,51 @@ $(document).ready(function () {
         console.error('Si è verificato un errore nel backend:', error);
         window.location.href = 'index.html';
     });
+
+    $("#moneySection").on("click", function () {
+        $(".tiraSu").slideUp(750);
+    });
     
     $("#profiloUtente").on("click", function () {
 
         if ($("#profiloUtenteContainer").css("display") === "none"){
+            $(".tiraSu").slideUp(750);
             $("#profiloUtenteContainer").slideDown(750);
         }else {
             $("#profiloUtenteContainer").slideUp(750);
+        }
+        
+    });
+
+    $("#Transazioni").on("click", function () {
+
+        if ($("#TransazioniContainer").css("display") === "none"){
+            $(".tiraSu").slideUp(750);
+            $("#TransazioniContainer").slideDown(750);
+        }else {
+            $("#TransazioniContainer").slideUp(750);
+        }
+        
+    });
+
+    $("#Prestiti").on("click", function () {
+
+        if ($("#PrestitiContainer").css("display") === "none"){
+            $(".tiraSu").slideUp(750);
+            $("#PrestitiContainer").slideDown(750);
+        }else {
+            $("#PrestitiContainer").slideUp(750);
+        }
+        
+    });
+
+    $("#Bonifici").on("click", function () {
+
+        if ($("#BonificiContainer").css("display") === "none"){
+            $(".tiraSu").slideUp(750);
+            $("#BonificiContainer").slideDown(750);
+        }else {
+            $("#BonificiContainer").slideUp(750);
         }
         
     });
