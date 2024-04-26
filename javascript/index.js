@@ -21,12 +21,6 @@ $(document).ready(function () {
         location.reload(); // Refresh the page
     });
     
-    
-    $("#top").mouseleave(function () { 
-        $("#textBankName").html('<a href="index.html">TWITCH_VAULT BANK</a>');
-        $("#textBankName").css("color", "black");
-    });
-    
     $(".searchBar").blur(function () {  // Elimino il contenuto della searchbar quando si esce dalla searchbar!
         
         this.value = "";

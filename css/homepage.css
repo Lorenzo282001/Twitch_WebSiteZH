@@ -154,7 +154,7 @@ body {
 
     border-radius: 5%;
 
-    width: 40em;
+    width: 25em;
 }
 
 /* end center navbar*/
@@ -208,7 +208,7 @@ body {
     height: 100vh;
     width: 100vw;
     z-index: 2;
-    transition: 0.5s;
+    transition: 0.2s;
 }
 
 #containerProfile {

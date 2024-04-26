@@ -70,6 +70,10 @@ function modifyOptionUser() {
 
 $(document).ready(function () {
 
+    if ($(window).width() <= 600) {
+        $("#containerWebSite").css("margin-top", "16.5em");
+    }
+
     modifyOptionUser();
 
     $(document).on("click", ".buttonModifyOpt", function (event) {
@@ -206,7 +210,7 @@ $(document).ready(function () {
 
     $('#main').on("click", function () {
 
-        if ($(window).width() >= 550)
+        if ($(window).width() >= 600)
         {
             $("#activeBarre").slideUp(500);
             $("#toggleBarre").html('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="50" height="50"><rect width="100" height="5" y="30" fill="rgb(32,32,32)"/><rect width="100" height="5" y="60" fill="rgb(32,32,32)"/><rect width="100" height="5" y="90" fill="rgb(32,32,32)"/></svg>');
@@ -216,18 +220,20 @@ $(document).ready(function () {
     $('#containerWebSite').on("click", function () {
 
         $("#containerProfile").slideUp(750); // Quando modifico la dimensione della pagina, tolgo le impostazioni del profilo automaticamente!
-        $("#containerWebSite").css("margin-top", "0em");
+        
+        if ($(window).width() <= 600) {
+            $("#activeBarre").slideDown();
+            $("#containerWebSite").css("margin-top", "16.5em");
+        }
+        else {
+            $("#containerWebSite").css("margin-top", "0em");
+        }       
+        
     });
 
     $("#textBankName").on("click", function(e) {
         e.preventDefault(); // Prevent the default behavior of the anchor element
         location.reload(); // Refresh the page
-    });
-    
-    
-    $("#top").mouseleave(function () { 
-        $("#textBankName").html('<a href="index.html">TWITCH_VAULT BANK</a>');
-        $("#textBankName").css("color", "black");
     });
     
     $(".searchBar").blur(function () {  // Elimino il contenuto della searchbar quando si esce dalla searchbar!
@@ -250,6 +256,7 @@ $(document).ready(function () {
         {
             $("#activeBarre").slideDown(500); // Toggle the display with sliding animation
             $("#toggleBarre").html('<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>');
+            $("#containerWebSite").css("margin-top", "16.5em");
         }
         else {
             $("#activeBarre").slideUp(500); // Toggle the display with sliding animation
@@ -273,9 +280,10 @@ $(document).ready(function () {
 
             $("#containerProfile").slideDown(750); // Toggle the display with sliding animation
             $("#containerProfile").css("display", "inline-flex")
-            $("#containerWebSite").css("margin-top", "3em");
+            $("#containerWebSite").css("margin-top", "0em");
         } else {
             $("#containerProfile").slideUp(750); // Toggle the display with sliding animation
+            $("#containerWebSite").css("margin-top", "0em");
         }
         
     });
@@ -300,8 +308,8 @@ $(document).ready(function () {
             return;
         }
 
-        if (windowWidth <= 550) {
-            $("#containerWebSite").css("margin-top", "0em");
+        if (windowWidth <= 600) {
+            $("#containerWebSite").css("margin-top", "16.5em");
             $("#activeBarre").slideDown(500);
         }
         else {
