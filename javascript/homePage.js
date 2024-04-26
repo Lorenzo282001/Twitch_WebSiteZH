@@ -69,6 +69,7 @@ function modifyOptionUser() {
 }
 
 $(document).ready(function () {
+
     modifyOptionUser();
 
     $(document).on("click", ".buttonModifyOpt", function (event) {
@@ -249,7 +250,6 @@ $(document).ready(function () {
         {
             $("#activeBarre").slideDown(500); // Toggle the display with sliding animation
             $("#toggleBarre").html('<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>');
-            $("#containerWebSite").css("margin-top", "15em");
         }
         else {
             $("#activeBarre").slideUp(500); // Toggle the display with sliding animation
@@ -273,9 +273,7 @@ $(document).ready(function () {
 
             $("#containerProfile").slideDown(750); // Toggle the display with sliding animation
             $("#containerProfile").css("display", "inline-flex")
-            $("#containerWebSite").css("margin-top", "0em");
-
-        
+            $("#containerWebSite").css("margin-top", "3em");
         } else {
             $("#containerProfile").slideUp(750); // Toggle the display with sliding animation
         }
@@ -303,7 +301,7 @@ $(document).ready(function () {
         }
 
         if (windowWidth <= 550) {
-            $("#containerWebSite").css("margin-top", "15em");
+            $("#containerWebSite").css("margin-top", "0em");
             $("#activeBarre").slideDown(500);
         }
         else {
