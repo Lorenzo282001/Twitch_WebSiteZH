@@ -4,3 +4,76 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Jersey+25&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Jersey+25&display=swap');
+
+
+#containerInfoBankTop {
+   position: sticky;
+   z-index: 1000;
+
+   top: 0;
+   width: 100%;
+   height: 6vh;
+
+   background-color: rgb(102, 51, 153, 0.4);
+   
+   padding: 10px;
+
+   display: flex;
+   align-items: center;
+
+   font-family: "Bebas Neue", sans-serif;
+   font-weight: 400;
+   font-size: 25px;
+   font-style: normal;
+
+   transition: 0.5s;
+   user-select: none;
+}
+
+#moneySection {
+   position: absolute;
+   
+   right: 0;
+   margin-right: 8vw;
+
+   display: flex;
+   justify-content: center;
+   align-items: center;
+
+   padding: 10px;
+
+   box-shadow: 2px 2px 2px 2px black;
+
+   text-align: center;
+   cursor: pointer;
+}
+
+#profiloUtente {
+   border: 1px solid black;
+   border-radius: 10px;
+   box-shadow: 2px 2px 2px 2px black;
+
+   width: 6em;
+   padding: 0.2em;
+
+   text-align: center;
+   cursor: pointer;
+}
+
+#profiloUtenteContainer {
+   position: sticky;
+   display: none;
+   top: 0;
+   z-index: 999;
+   height: 80vh;
+
+   background-color: red;
+}
+
+@media screen and (max-width: 600px) {
+
+   #moneySection {
+      margin-right: 15vw;
+
+   }
+}

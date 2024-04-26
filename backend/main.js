@@ -297,6 +297,25 @@ app.post('/logoutAllUsers', (req, res) => {
   });
 });
 
+// BANK QUERY CONNECTIONS
+
+app.get('/bankGetMoney', (req, res) => {
+  const {username} = req.query;
+  
+  const sql = `SELECT b.saldo FROM banca AS b JOIN utentibanca AS u ON b.utente_id = u.id WHERE u.username = '${username}'`;
+
+  connection.query(sql, [username], (err, result) => {
+    if (err) {
+      countRighe++;
+      console.error('Errore durante l\'esecuzione della query SQL:', err);
+      res.status(500).json({ success: false, error: 'Errore del server' });
+    } else {
+      res.json({ success: true, messages: result });
+    }
+  });
+})
+
+
 // Start the server
 const port = 3000;
 app.listen(port, () => {

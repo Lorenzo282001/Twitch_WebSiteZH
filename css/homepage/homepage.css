@@ -12,7 +12,6 @@ body {
 
     overflow-x: hidden;
     background-color: hotpink;
-
 }
 
 /* classi */
@@ -70,7 +69,7 @@ body {
 /* top website */
 #top {
     background-color: rgb(141, 66, 154);
-    border-radius: 0px 0px 3px 3px;
+
     font-size: 32px;
 
     font-family: "Jersey 25", sans-serif;
@@ -439,7 +438,7 @@ body {
     }
 }
 
-@media screen and (max-width: 550px) {
+@media screen and (max-width: 600px) {
 
     #navBarUlRight {
         display: none;
