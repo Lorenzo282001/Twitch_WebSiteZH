@@ -1,7 +1,11 @@
 // QUI CARICO GLI SCRIPT CHE GESTISCONO IN HOMEPAGE
 // TUTTO QUELLO CHE RIGUARDA LA BANCA
 
-let saldo;
+let saldo = 0;
+
+let deposito = $("#transazioniDeposito");
+let prelievo = $("#transazioniPrelievo");
+let cronologia = $("#transazioniCronologia");
 
 // Metodo per formattare il saldo, in modo che appena trova un gruppo 
 // di 3 cifre inserisce una virgola
@@ -61,6 +65,8 @@ $(document).ready(function () {
         if ($("#TransazioniContainer").css("display") === "none"){
             $(".tiraSu").slideUp(750);
             $("#TransazioniContainer").slideDown(750);
+            $("#transazioniDepositoMain").slideDown(750);
+            $("#TransazioniContainer").css("display", "flex");
         }else {
             $("#TransazioniContainer").slideUp(750);
         }
@@ -89,11 +95,58 @@ $(document).ready(function () {
         
     });
 
+    /* CLICK SUI TASTI LATERALI DI TRANSAZIONI */
+    deposito.on("click", function () {  
+
+        if ($("#transazioniPrelievoMain").css('display') === 'none' && $("#transazioniCronologiaMain").css('display') === 'none')
+        {
+            if ($("#transazioniDepositoMain").css("display") === "none")
+                $("#transazioniDepositoMain").slideDown(750);
+            else {
+                $("#transazioniDepositoMain").slideUp(750);
+            }
+        }
+        else {
+            $("#transazioniPrelievoMain").hide();
+            $("#transazioniCronologiaMain").hide();
+            $("#transazioniDepositoMain").slideDown(750);
+        }
+        
+    });
+
+    prelievo.on("click", function () {  
+        if ($("#transazioniDepositoMain").css('display') === 'none' && $("#transazioniCronologiaMain").css('display') === 'none'){
+            if ($("#transazioniPrelievoMain").css("display") === "none")
+                $("#transazioniPrelievoMain").slideDown(750);
+            else{ 
+                $("#transazioniPrelievoMain").slideUp(750);
+            }
+        }
+        else{
+            $("#transazioniDepositoMain").hide();
+            $("#transazioniCronologiaMain").hide();
+            $("#transazioniPrelievoMain").slideDown(750);
+        }
+       
+
+    });
+
+    cronologia.on("click", function () {  
+        if ($("#transazioniPrelievoMain").css('display') === 'none' && $("#transazioniDepositoMain").css('display') === 'none') {
+            if ($("#transazioniCronologiaMain").css("display") === "none")
+                $("#transazioniCronologiaMain").slideDown(750);
+            else{ 
+                $("#transazioniCronologiaMain").slideUp(750);
+            }
+        }
+        else {
+            $("#transazioniDepositoMain").hide();
+            $("#transazioniPrelievoMain").hide();
+            $("#transazioniCronologiaMain").slideDown(750);
+        }
+    });
+
+    /** */
+
 });
 
-// on window change size 
-$(window).resize(function() {
-
-
-
-});
