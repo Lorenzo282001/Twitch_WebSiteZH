@@ -395,6 +395,10 @@ body {
 
 @media screen and (max-height: 900px) {
 
+    #textBankName {
+        font-size: 40px;
+    }
+
     #topMain {
         display: none;
     }

@@ -1,12 +1,11 @@
 
-.boxTransazioni {
+.boxTransazioniLeft {
 
     position: relative;
     width: 100%;
     height: 100%;
     box-sizing: border-box;
 
-    border: 2px solid gray;
     text-align: center;
 
     padding: 20px;
@@ -16,17 +15,39 @@
     align-items: center;
     justify-content: center;
 
+    font-style: italic;
+
+    cursor: pointer;
+    transition: 0.5s;
 }
 
+.boxTransazioniLeft:hover {
+    background-color: rebeccapurple;
+    text-decoration: underline;
+
+    border: 3px solid violet;
+}
+
+.boxTransazioniRight {
+
+}
+
+
+/* CONTAINER */ 
 #TransazioniContainer {
     position: sticky;
-    display: block; /* Da mettere none */ 
+    display: flex; /* Da mettere none */ 
     top: 0;
+    margin-top: 0.1em;
     z-index: 999;
     height: 80vh;
 
-    box-sizing: border-box;
+    font-family: "Bebas Neue", sans-serif;
+    font-weight: 400;
+    font-size: 25px;
+    font-style: normal;
 
+    box-sizing: border-box;
 }
 
 #containerScelteTransazioni {
@@ -34,7 +55,6 @@
     width: 15%;
     height: 100%;
     
-    background-color: greenyellow;
     border: 3px solid black;
 
     display: flex;
@@ -43,4 +63,22 @@
     align-items: center;    
     margin: 0;
     padding: 0;
+}
+
+#containerTransazioniChange {
+    width: 80%;
+    height: 100%;
+    border: 3px solid black;
+    
+    margin: 0;
+    padding: 0;
+}
+
+
+@media screen and (max-width: 800px) {
+
+    #TransazioniContainer {
+        font-size: 16px;
+    }
+
 }

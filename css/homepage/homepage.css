@@ -448,6 +448,10 @@ body {
 
 @media screen and (max-width: 600px) {
 
+    #textBankName {
+        font-size: 40px;
+    }
+
     #navBarUlRight {
         display: none;
     }

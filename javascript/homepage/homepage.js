@@ -87,7 +87,7 @@ $(document).ready(function () {
     setInterval(checkRedirectLogOut, 1000); // Effettua il controllo ogni secondo
 
     if ($(window).width() <= 600) {
-        $("#containerWebSite").css("margin-top", "16.5em");
+        $("#containerWebSite").css("margin-top", "15em");
     }
 
     modifyOptionUser();
@@ -230,10 +230,10 @@ $(document).ready(function () {
         
         if ($(window).width() <= 600) {
             $("#activeBarre").slideDown();
-            $("#containerWebSite").css("margin-top", "16.5em");
+            $("#containerWebSite").css("margin-top", "15em");
         }
         else {
-            $("#containerWebSite").css("margin-top", "0em");
+            $("#containerWebSite").css("margin-top", "0");
         }       
         
     });
