@@ -18,8 +18,11 @@ $(document).ready(function () {
 
     $("#loginButton").on("click", function (event) {  
 
+        // Disabilito possibilità di modificare il testo quando si preme sul bottone
         var username = $("#UsernameLogin").val();
+        $('#UsernameLogin').prop('disabled', true);
         var password = $("#pwdLogin").val();
+        $('#pwdLogin').prop('disabled', true);
 
         if (username !== undefined && password !== undefined)
         {

@@ -20,11 +20,16 @@ $(document).ready(function () {
 
     $("#btn_Register").on("click", function (event) {
 
-
+        // Disabilito possibilità di modificare il testo quando si preme sul bottone
         var username = $("#UsernameRegister").val();
+        $('#UsernameLogin').prop('disabled', true);
         var email = $("#emailRegister").val();
+        $('#emailRegister').prop('disabled', true);
         var password = $("#pwdRegister").val();
+        $('#pwdRegister').prop('disabled', true);
         var confirm_password = $("#confPwdRegister").val();
+        $('#confPwdRegister').prop('disabled', true);
+
 
         if (username !== undefined && email !== undefined && password !== undefined && confirm_password !== undefined)
         {
