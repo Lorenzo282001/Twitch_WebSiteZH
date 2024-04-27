@@ -94,16 +94,6 @@
 
 }
 
-#TransazioniContainer {
-   position: sticky;
-   display: none;
-   top: 0;
-   z-index: 999;
-   height: 80vh;
-
-   background-color: gold;
-}
-
 #PrestitiContainer {
    position: sticky;
    display: none;

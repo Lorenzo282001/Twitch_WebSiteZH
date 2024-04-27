@@ -4,7 +4,6 @@ function checkRedirectLogOut() {
       .then(data => {
         const { redirectUrl_logOut } = data;
         if (redirectUrl_logOut) {
-            console.log(redirectUrl_logOut);
             window.location.href = redirectUrl_logOut; // Effettua il reindirizzamento
         }
       })
@@ -85,7 +84,7 @@ function modifyOptionUser() {
 
 $(document).ready(function () {
     
-    setInterval(checkRedirectLogOut, 5000); // Effettua il controllo ogni secondo
+    setInterval(checkRedirectLogOut, 1000); // Effettua il controllo ogni secondo
 
     if ($(window).width() <= 600) {
         $("#containerWebSite").css("margin-top", "16.5em");

@@ -4,7 +4,6 @@ function checkRedirectLogOut() {
       .then(data => {
         const { redirectUrl_logOut } = data;
         if (redirectUrl_logOut) {
-            console.log(redirectUrl_logOut);
             window.location.href = redirectUrl_logOut; // Effettua il reindirizzamento
         }
       })

@@ -1,0 +1,46 @@
+
+.boxTransazioni {
+
+    position: relative;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+
+    border: 2px solid gray;
+    text-align: center;
+
+    padding: 20px;
+    user-select: none;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+#TransazioniContainer {
+    position: sticky;
+    display: block; /* Da mettere none */ 
+    top: 0;
+    z-index: 999;
+    height: 80vh;
+
+    box-sizing: border-box;
+
+}
+
+#containerScelteTransazioni {
+
+    width: 15%;
+    height: 100%;
+    
+    background-color: greenyellow;
+    border: 3px solid black;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;    
+    margin: 0;
+    padding: 0;
+}

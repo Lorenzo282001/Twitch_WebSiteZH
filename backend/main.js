@@ -19,7 +19,7 @@ let server = "\t[SERVER] -> ";
 let utente = "\t[USER] -> ";
 
 let loginNow = 0;
-let loginPeople = [];
+let loginPeople = []; // username 
 
 let redirectUrl_logOut = ''; // Memorizza l'URL di reindirizzamento [on logout]
 /////////
@@ -30,6 +30,10 @@ const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout
 });
+
+function getClientIp(req) {
+  return req.headers['x-forwarded-for'] || req.connection.remoteAddress.replace(/^.*:/, '');
+}
 
 // Funzione per leggere l'input con la console!
 function askQuestion() {
@@ -97,11 +101,11 @@ function askQuestion() {
 app.use(cors()); // Use the cors middleware
 
 app.use((req, res, next) => {
-  const clientIP = req.ip; // Ottieni l'indirizzo IP del client
+  const clientIP = getClientIp(req); // Ottieni l'indirizzo IP del client (req.ip)
   if (!executedMiddleware.has(clientIP)) {
     // Esegui il middleware solo se il client non lo ha già eseguito
     countRighe++;
-    console.log(countRighe + server + 'A new connection from IP -> ', clientIP + " - [ " + new Date(Date.now()) + " ]");
+    console.log(countRighe + server + '\tA new connection from IP -> ', clientIP + " - [ " + new Date(Date.now()) + " ]");
     executedMiddleware.add(clientIP); // Aggiungi l'IP del client al set dei client che hanno eseguito il middleware
   }
   next(); // Passa il controllo al middleware successivo
