@@ -23,6 +23,10 @@ Creare un sito web per una banca potrebbe essere un'ottima idea. Potresti concen
 
     - Uso il . nei localstorage quando voglio significare che non è associato nessuna variabile!
 
+# Altre idee
+
+    -- Aggiungere carte di credito, IBAN (per ogni carta) [GESTIONE CARTE]
+
 # IDEE - DESIGN
     Ecco un'idea di come potresti organizzare visivamente la sezione delle transazioni sul tuo sito web bancario:
     Layout Generale:

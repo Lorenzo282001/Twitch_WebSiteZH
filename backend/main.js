@@ -349,6 +349,28 @@ app.get('/bankGetMoney', (req, res) => {
   });
 })
 
+app.post('/aggiornaSaldo', (req, res) => {
+  try {
+    const { nuovoSaldo, username } = req.body; // Supponendo che username sia incluso nel body della richiesta
+    // Esegui la query per aggiornare il saldo nel database
+    const sql = `UPDATE banca AS b JOIN utentibanca AS u ON b.utente_id = u.id SET b.saldo = b.saldo + ? WHERE u.username = ?`;
+
+    connection.query(sql, [nuovoSaldo, username], (err, result) => {
+      if (err) {
+        countRighe++;
+        console.error('Errore durante l\'esecuzione della query SQL:', err);
+        res.status(500).json({ success: false, error: 'Errore del server' });
+      } else {
+        res.json({ success: true, messages: result });
+      }
+    });
+    
+    res.status(200);
+  } catch (error) {
+    console.error('Errore durante l\'aggiornamento del saldo:', error);
+    res.status(500).send('Si è verificato un errore durante l\'aggiornamento del saldo');
+  }
+});
 
 // Start the server
 const port = 3000;
