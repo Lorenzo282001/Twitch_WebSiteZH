@@ -1,3 +1,18 @@
+function checkRedirectLogOut() {
+    fetch('http://localhost:3000/logoutAll')
+      .then(response => response.json())
+      .then(data => {
+        const { redirectUrl_logOut } = data;
+        if (redirectUrl_logOut) {
+            console.log(redirectUrl_logOut);
+            window.location.href = redirectUrl_logOut; // Effettua il reindirizzamento
+        }
+      })
+      .catch(error => {
+        console.error('Errore durante il controllo dell\'URL di reindirizzamento:', error);
+    });
+}
+
 function setOptionUser(nome, cognome, eta, citta, dataNascita) {  
 
     // Recupero i dati
@@ -69,6 +84,8 @@ function modifyOptionUser() {
 }
 
 $(document).ready(function () {
+    
+    setInterval(checkRedirectLogOut, 5000); // Effettua il controllo ogni secondo
 
     if ($(window).width() <= 600) {
         $("#containerWebSite").css("margin-top", "16.5em");

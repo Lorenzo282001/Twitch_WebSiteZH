@@ -1,5 +1,17 @@
+// Server Node per entrare nel database
+const nodemon = require('nodemon');
+
+const express = require('express');
+const mysql = require('mysql2');
+const bodyParser = require('body-parser');
+const cors = require('cors'); // Import the cors middleware
+const { count } = require('console');
+
+const app = express();
+
 // VARIABILI
 let opt_input = ['opt', 'online', 'quit'];
+const executedMiddleware = new Set(); // Set per memorizzare i client che hanno già eseguito il middleware
 
 let countRighe = 1;
 let server = "\t[SERVER] -> ";
@@ -7,6 +19,8 @@ let utente = "\t[USER] -> ";
 
 let loginNow = 0;
 let loginPeople = [];
+
+let redirectUrl_logOut = ''; // Memorizza l'URL di reindirizzamento [on logout]
 /////////
 
 const readline = require('readline'); // Scrivere in console...
@@ -18,6 +32,7 @@ const rl = readline.createInterface({
 
 // Funzione per leggere l'input con la console!
 function askQuestion() {
+
   rl.question("> ", (input) => {
 
     if (input !== ""){
@@ -46,59 +61,79 @@ function askQuestion() {
         }
         break;
       case 'quit':
-          // Invia una richiesta di logout totale al server
-          fetch('http://localhost:3000/logoutAllUsers', { method: 'POST' })
-            .then(response => {
-              if (response.ok) {
-                console.log('Richiesta di logout inviata a tutti gli utenti.');
-                // Chiudi la connessione al database
-                connection.end((err) => {
-                  if (err) {
-                    console.error('Errore durante la chiusura della connessione al database:', err);
-                  }
+        // Invia una richiesta di logout totale al server
+        redirectUrl_logOut = 'index.html';
 
-                  // Reindirizza tutti gli utenti alla pagina principale
-                  res.status(302).json({ redirect: 'index.html' });
-                });
+        // Esegui la chiusura della connessione dopo 5 secondi (5000 millisecondi)
+        let secondsLeft = 5; // Numero di secondi rimanenti prima della chiusura
+        const countdownInterval = setInterval(() => {
+          console.log(`Chiusura della connessione tra ${secondsLeft} secondo${secondsLeft !== 1 ? 'i' : ''}...`);
+          secondsLeft--;
+
+          // Quando il conto alla rovescia raggiunge 0, chiudi la connessione
+          if (secondsLeft === 0) {
+            clearInterval(countdownInterval); // Interrompi il countdown
+            connection.end((err) => {
+              if (err) {
+                console.error('Errore durante la chiusura della connessione al database:', err);
               } else {
-                console.error('Errore durante l\'invio della richiesta di logout:', response.statusText);
-                // Se c'è un errore, termina il server comunque
-                console.log("Il server si spegne.");
-                process.exit(); // Termina il processo Node.js
+                console.log('Connessione al database chiusa con successo.');
+                executedMiddleware.clear(); // Cancello il set di IP
+                rl.close(); // Chiudi l'interfaccia readline
+                process.exit(0);
               }
-            })
-          .catch(error => {
-            console.error('Errore durante l\'invio della richiesta di logout:', error);
-            // Se c'è un errore, termina il server comunque
-            console.log("Il server si spegne.");
-            process.exit(); // Termina il processo Node.js
-          });
+            });
+          }
+        }, 1000); // Esegui ogni secondo (1000 millisecondi)
         break;
     }
     
-    
- 
     askQuestion(); // Richiamo la funzione per continuare a chiedere l'input
   });
 }
 
-
-// Server Node per entrare nel database
-const nodemon = require('nodemon');
-
-const express = require('express');
-const mysql = require('mysql2');
-const bodyParser = require('body-parser');
-const cors = require('cors'); // Import the cors middleware
-const { count } = require('console');
-
-const app = express();
-
-
 // Middleware to parse JSON and form data
 app.use(cors()); // Use the cors middleware
+
+app.use((req, res, next) => {
+  const clientIP = req.ip; // Ottieni l'indirizzo IP del client
+  if (!executedMiddleware.has(clientIP)) {
+    // Esegui il middleware solo se il client non lo ha già eseguito
+    console.log('Connection IP:', clientIP);
+    executedMiddleware.add(clientIP); // Aggiungi l'IP del client al set dei client che hanno eseguito il middleware
+  }
+  next(); // Passa il controllo al middleware successivo
+});
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+process.on('SIGINT', () => {
+  redirectUrl_logOut = 'index.html';
+  
+  // Esegui la chiusura della connessione dopo 5 secondi (5000 millisecondi)
+  let secondsLeft = 5; // Numero di secondi rimanenti prima della chiusura
+  const countdownInterval = setInterval(() => {
+    console.log(`Chiusura della connessione tra ${secondsLeft} secondo${secondsLeft !== 1 ? 'i' : ''}...`);
+    secondsLeft--;
+
+    // Quando il conto alla rovescia raggiunge 0, chiudi la connessione
+    if (secondsLeft === 0) {
+      clearInterval(countdownInterval); // Interrompi il countdown
+      connection.end((err) => {
+        if (err) {
+          console.error('Errore durante la chiusura della connessione al database:', err);
+        } else {
+          console.log('Connessione al database chiusa con successo.');
+          executedMiddleware.clear(); // Cancello il set di IP
+          rl.close(); // Chiudi l'interfaccia readline
+          process.exit(0);
+        }
+      });
+    }
+  }, 1000); // Esegui ogni secondo (1000 millisecondi)
+
+});
 
 // MySQL connection
 const connection = mysql.createConnection({
@@ -278,23 +313,13 @@ app.post('/logoutSuccess', (req, res) => {
 });
 
 // Allo spegnimento del server node (quit)
-app.post('/logoutAllUsers', (req, res) => {
-  // Invia una richiesta di logout a tutti gli utenti connessi
-  // Ad esempio, puoi usare WebSockets o un altro metodo per comunicare con il frontend
-  // In questo esempio, si invia una risposta JSON al frontend
-  res.json({ message: 'Richiesta di logout inviata a tutti gli utenti' });
+app.get('/logoutAll', (req, res) => {
+  // Invia l'URL di reindirizzamento al frontend
+  res.json({ redirectUrl_logOut });
 
-  // Chiudi la connessione SQL
-  connection.end((err) => {
-    if (err) {
-      console.error('Errore durante la chiusura della connessione al database:', err);
-    }
-    
-    // Termina il server Node.js
-    countRighe++;
-    console.log(countRighe + "\t[SERVER] -> Connessione SQL terminata. Il server si spegne.");
-    process.exit(); // Termina il processo Node.js
-  });
+  redirectUrl_logOut = '';
+  loginPeople = [];
+  loginNow = 0;
 });
 
 // BANK QUERY CONNECTIONS

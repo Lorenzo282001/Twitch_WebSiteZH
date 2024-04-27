@@ -1,5 +1,22 @@
+function checkRedirectLogOut() {
+    fetch('http://localhost:3000/logoutAll')
+      .then(response => response.json())
+      .then(data => {
+        const { redirectUrl_logOut } = data;
+        if (redirectUrl_logOut) {
+            console.log(redirectUrl_logOut);
+            window.location.href = redirectUrl_logOut; // Effettua il reindirizzamento
+        }
+      })
+      .catch(error => {
+        console.error('Errore durante il controllo dell\'URL di reindirizzamento:', error);
+    });
+}
+
 
 $(document).ready(function () {
+    setInterval(checkRedirectLogOut, 1000); // Effettua il controllo ogni secondo
+
 
     $("#btn_Register").on("click", function (event) {
 
