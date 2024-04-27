@@ -1,5 +1,6 @@
 # Twitch_WebSiteZH
 
+classe user -> Memorizzo il nome dell'utente e i suoi relativi dati!
 
 ## IDEE PER CREAZIONE SITO WEB
 Creare un sito web per una banca potrebbe essere un'ottima idea. Potresti concentrarti su diversi aspetti:
@@ -22,22 +23,81 @@ Creare un sito web per una banca potrebbe essere un'ottima idea. Potresti concen
 
     - Uso il . nei localstorage quando voglio significare che non è associato nessuna variabile!
 
-classe user -> Memorizzo il nome dell'utente e i suoi relativi dati!
+# IDEE - DESIGN
+    Ecco un'idea di come potresti organizzare visivamente la sezione delle transazioni sul tuo sito web bancario:
+    Layout Generale:
 
-    /*fetch(`http://localhost:3000/message`, {
+    Potresti dividere la sezione delle transazioni in una griglia o una tabella per una migliore organizzazione visiva. Ad esempio, potresti avere una colonna per la data, una per l'importo, una per il tipo di transazione e una per altre informazioni rilevanti.
+    Deposito:
 
-                                        method:'POST',
-                                        headers: {
-                                            'Content-Type': 'application/json',
-                                        },
-                                        body: JSON.stringify({testo:"Login effettuato con successo da username -> " + username}),                                        
+    Per il deposito, potresti includere un modulo semplice dove gli utenti possono inserire l'importo del deposito e selezionare il metodo di pagamento desiderato, come carta di credito, bonifico bancario o altri metodi disponibili. Potresti anche includere una conferma visiva del deposito riuscito.
+    Prelievo:
 
-                                    })
-                                    .catch(error => {
-                                        console.error('Si è verificato un errore:', error);
-                                    });*/
+    Analogamente al deposito, per il prelievo potresti fornire un modulo in cui gli utenti inseriscono l'importo che desiderano prelevare e selezionano il conto bancario dal quale effettuare il prelievo. Potresti includere anche una conferma visiva del prelievo avvenuto con successo.
+    Bonifico:
 
-- SVG DOOR EXIT:
-/*
-var doorExit = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="40" height="20" viewBox="0 0 256 256" xml:space="preserve"><defs></defs><g style="stroke: none; stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: none; fill-rule: nonzero; opacity: 1;" transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)"><path d="M 86.356 46.27 c 0.031 -0.065 0.059 -0.131 0.085 -0.199 c 0.042 -0.11 0.076 -0.222 0.104 -0.336 c 0.016 -0.062 0.034 -0.123 0.046 -0.186 c 0.034 -0.181 0.055 -0.364 0.055 -0.548 l 0 0 c 0 0 0 0 0 0 c 0 -0.184 -0.022 -0.367 -0.055 -0.548 c -0.012 -0.064 -0.03 -0.124 -0.046 -0.186 c -0.029 -0.114 -0.062 -0.226 -0.104 -0.336 c -0.026 -0.068 -0.055 -0.134 -0.086 -0.199 c -0.046 -0.099 -0.099 -0.194 -0.156 -0.288 c -0.039 -0.063 -0.077 -0.126 -0.12 -0.186 c -0.02 -0.027 -0.033 -0.057 -0.054 -0.084 L 74.316 27.93 c -1.009 -1.313 -2.894 -1.561 -4.207 -0.551 c -1.313 1.009 -1.561 2.893 -0.551 4.207 L 77.56 42 H 30.903 c -1.657 0 -3 1.343 -3 3 c 0 1.657 1.343 3 3 3 h 46.656 l -8.001 10.414 c -1.01 1.314 -0.763 3.197 0.551 4.207 c 0.545 0.419 1.188 0.621 1.826 0.621 c 0.9 0 1.79 -0.403 2.381 -1.172 l 11.71 -15.242 c 0.021 -0.027 0.035 -0.057 0.055 -0.085 c 0.043 -0.06 0.08 -0.122 0.119 -0.184 C 86.257 46.464 86.31 46.369 86.356 46.27 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" /><path d="M 60.442 90 H 9.353 c -1.657 0 -3 -1.343 -3 -3 V 3 c 0 -1.657 1.343 -3 3 -3 h 51.089 c 1.657 0 3 1.343 3 3 v 30.054 c 0 1.657 -1.343 3 -3 3 s -3 -1.343 -3 -3 V 6 H 12.353 v 78 h 45.089 V 55.61 c 0 -1.657 1.343 -3 3 -3 s 3 1.343 3 3 V 87 C 63.442 88.657 62.1 90 60.442 90 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" /></g></svg>';
-*/
+    Per il bonifico, potresti creare un modulo che richieda all'utente di inserire le informazioni del beneficiario, come nome, IBAN o numero di conto, e l'importo del bonifico. Potresti anche includere una sezione per inserire una descrizione o un motivo del bonifico.
+    Cronologia Transazioni:
+
+    Per la cronologia delle transazioni, potresti visualizzare le transazioni in un elenco ordinato per data, mostrando per ciascuna transazione la data, l'ora, l'importo e il tipo di transazione (deposito, prelievo, bonifico, ecc.). Potresti anche includere opzioni di filtraggio o di ricerca per facilitare la navigazione degli utenti attraverso le transazioni.
+    Grafica e Colori:
+
+    Utilizza colori e grafica coerenti con il tema del tuo sito web bancario. Potresti utilizzare colori neutri e professionale per trasmettere affidabilità e sicurezza.
+    Feedback Interattivo:
+
+    Assicurati di fornire feedback visivi immediati agli utenti dopo ogni transazione o azione che completano. Ad esempio, puoi utilizzare messaggi di conferma o animazioni per indicare che il deposito, il prelievo o il bonifico sono stati effettuati con successo.
+    Responsive Design:
+
+    Assicurati che il layout e il design siano responsivi, in modo che la sezione delle transazioni sia ben visualizzata su diversi dispositivi, inclusi computer desktop, tablet e smartphone.
+
+# IDEE -- ChatGpt
+    - Profilo Utente:
+
+        Informazioni personali: Consentire agli utenti di visualizzare e modificare le proprie informazioni personali, come nome, cognome, indirizzo, e-mail, numero di telefono, ecc.
+        Modifica password: Fornire agli utenti la possibilità di modificare la propria password per garantire la sicurezza del loro account.
+        Disconnessione: Aggiungi un'opzione per disconnettersi in modo sicuro dall'account dell'utente.
+
+    - [Transazioni]:
+
+        Deposito: Consentire agli utenti di effettuare depositi sul proprio conto bancario, indicando l'importo e il metodo di pagamento.
+        Prelievo: Fornire agli utenti la possibilità di prelevare fondi dal proprio conto bancario, specificando l'importo desiderato.
+        Bonifico: Consentire agli utenti di trasferire fondi da e verso altri conti bancari, inserendo le informazioni del beneficiario e l'importo del bonifico.
+        Cronologia transazioni: Mostra agli utenti un elenco dettagliato delle transazioni effettuate, inclusi data, ora, importo e tipo di transazione.
+
+    - Prestiti:
+
+        Richiesta di prestito: Permettere agli utenti di presentare una richiesta di prestito indicando l'importo desiderato, il motivo del prestito e la durata prevista del rimborso.
+        Gestione prestiti: Se gli utenti hanno già ottenuto un prestito, consenti loro di visualizzare lo stato del prestito, il saldo residuo e il piano di rimborso.
+        Calcolatore prestiti: Fornire agli utenti uno strumento per calcolare i pagamenti mensili previsti per un determinato importo di prestito e tasso di interesse.
+
+    - Bonifici:
+
+        Bonifico nazionale: Consentire agli utenti di effettuare bonifici verso conti bancari nazionali, inserendo le informazioni del beneficiario e l'importo del bonifico.
+        Bonifico internazionale: Se supportato dalla tua banca, permettere agli utenti di effettuare bonifici verso conti bancari internazionali, indicando le informazioni del beneficiario e l'importo del bonifico.
+        Memorizzazione beneficiari: Offrire agli utenti la possibilità di salvare i dettagli dei beneficiari frequenti per facilitare bonifici futuri.
+
+    - Saldo:
+
+        Visualizzazione saldo: Mostra agli utenti il saldo attuale sul proprio conto bancario, aggiornando le informazioni in tempo reale.
+        Grafico storico saldo: Se vuoi fornire un'analisi visuale del saldo dell'utente nel tempo, potresti includere un grafico che mostra l'andamento del saldo nel corso del tempo.
+
+    Per quanto riguarda l'area riservata agli operatori bancari, potresti includere le seguenti funzionalità:
+
+        Gestione account cliente: Consentire agli operatori bancari di visualizzare e gestire gli account dei clienti, inclusi aggiunta, rimozione o modifica di informazioni.
+        Autorizzazione prestiti: Gli operatori bancari possono esaminare e approvare le richieste di prestito presentate dai clienti.
+        Monitoraggio transazioni: Fornire agli operatori bancari uno strumento per monitorare le transazioni effettuate dai clienti per individuare attività sospette o anomalie.
+        Assistenza clienti: Gli operatori bancari possono fornire assistenza e supporto ai clienti tramite chat o sistema di messaggistica integrato.
+
+    - Offerte Speciali:
+
+        Se la tua banca offre promozioni o offerte speciali per i suoi clienti, potresti includere un collegamento diretto alle offerte attuali o agli sconti disponibili.
+
+    - Assistenza Clienti:
+
+        Offri agli utenti un rapido accesso all'assistenza clienti, consentendo loro di contattare facilmente un rappresentante della banca in caso di domande o problemi.
+    
+    - Notifiche:
+
+        Mostra le notifiche importanti o gli avvisi relativi all'account dell'utente. Ad esempio, notifiche di transazioni completate, messaggi importanti dalla banca, avvisi di sicurezza, ecc.
+
+

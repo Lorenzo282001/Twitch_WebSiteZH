@@ -10,6 +10,7 @@ const { count } = require('console');
 const app = express();
 
 // VARIABILI
+let firstTime = true; // Variabile per tenere traccia del primo colpo CTRL + C
 let opt_input = ['opt', 'online', 'quit'];
 const executedMiddleware = new Set(); // Set per memorizzare i client che hanno già eseguito il middleware
 
@@ -67,7 +68,7 @@ function askQuestion() {
         // Esegui la chiusura della connessione dopo 5 secondi (5000 millisecondi)
         let secondsLeft = 5; // Numero di secondi rimanenti prima della chiusura
         const countdownInterval = setInterval(() => {
-          console.log(`Chiusura della connessione tra ${secondsLeft} secondo${secondsLeft !== 1 ? 'i' : ''}...`);
+          console.log(`Chiusura della connessione tra ${secondsLeft} second${secondsLeft !== 1 ? 'i' : 'o'}.`);
           secondsLeft--;
 
           // Quando il conto alla rovescia raggiunge 0, chiudi la connessione
@@ -99,7 +100,8 @@ app.use((req, res, next) => {
   const clientIP = req.ip; // Ottieni l'indirizzo IP del client
   if (!executedMiddleware.has(clientIP)) {
     // Esegui il middleware solo se il client non lo ha già eseguito
-    console.log('Connection IP:', clientIP);
+    countRighe++;
+    console.log(countRighe + server + 'A new connection from IP -> ', clientIP + " - [ " + new Date(Date.now()) + " ]");
     executedMiddleware.add(clientIP); // Aggiungi l'IP del client al set dei client che hanno eseguito il middleware
   }
   next(); // Passa il controllo al middleware successivo
@@ -109,30 +111,33 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 process.on('SIGINT', () => {
-  redirectUrl_logOut = 'index.html';
+  if (firstTime) {
+    redirectUrl_logOut = 'index.html';
   
-  // Esegui la chiusura della connessione dopo 5 secondi (5000 millisecondi)
-  let secondsLeft = 5; // Numero di secondi rimanenti prima della chiusura
-  const countdownInterval = setInterval(() => {
-    console.log(`Chiusura della connessione tra ${secondsLeft} secondo${secondsLeft !== 1 ? 'i' : ''}...`);
-    secondsLeft--;
+    // Esegui la chiusura della connessione dopo 5 secondi (5000 millisecondi)
+    let secondsLeft = 5; // Numero di secondi rimanenti prima della chiusura
+    const countdownInterval = setInterval(() => {
+      console.log(`Chiusura della connessione tra ${secondsLeft} second${secondsLeft !== 1 ? 'i' : 'o'}.`);
+      secondsLeft--;
 
-    // Quando il conto alla rovescia raggiunge 0, chiudi la connessione
-    if (secondsLeft === 0) {
-      clearInterval(countdownInterval); // Interrompi il countdown
-      connection.end((err) => {
-        if (err) {
-          console.error('Errore durante la chiusura della connessione al database:', err);
-        } else {
-          console.log('Connessione al database chiusa con successo.');
-          executedMiddleware.clear(); // Cancello il set di IP
-          rl.close(); // Chiudi l'interfaccia readline
-          process.exit(0);
-        }
-      });
-    }
-  }, 1000); // Esegui ogni secondo (1000 millisecondi)
-
+      // Quando il conto alla rovescia raggiunge 0, chiudi la connessione
+      if (secondsLeft === 0) {
+        clearInterval(countdownInterval); // Interrompi il countdown
+        connection.end((err) => {
+          if (err) {
+            console.error('Errore durante la chiusura della connessione al database:', err);
+          } else {
+            console.log('Connessione al database chiusa con successo.');
+            executedMiddleware.clear(); // Cancello il set di IP
+            rl.close(); // Chiudi l'interfaccia readline
+            process.exit(0);
+          }
+        });
+      }
+    }, 1000); // Esegui ogni secondo (1000 millisecondi)
+    
+    firstTime = false; // Imposta il flag a false dopo il primo colpo
+  }
 });
 
 // MySQL connection

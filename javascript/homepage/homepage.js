@@ -141,11 +141,8 @@ $(document).ready(function () {
             else {
                 localStorage.setItem("userBankAdmin", "no");   
             }
-
-            if (localStorage.getItem("userBankAdmin") === "si")
-                $(".user").html("Admin - "+ localStorage.getItem("userBank"));
-            else 
-                $(".user").html(localStorage.getItem("userBank"));
+            
+            $(".user").html(localStorage.getItem("userBank"));
         }
         else {
             window.location.href = 'index.html';
