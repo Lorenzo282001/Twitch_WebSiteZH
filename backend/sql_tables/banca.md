@@ -3,6 +3,7 @@ CREATE TABLE banca (
     utente_id INT NOT NULL,
     username VARCHAR(255) NOT NULL,
     saldo FLOAT(2) DEFAULT 0,
+    pin INT NOT NULL,                                            // Pin da aggiungere nel db
 
     FOREIGN KEY (utente_id) REFERENCES utentibanca(id)
 );

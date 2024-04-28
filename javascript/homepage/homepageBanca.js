@@ -21,7 +21,45 @@ function formattaNumero(numero) {
     
     // Ricostruisci il numero con la parte intera e la parte decimale
     return parti.join('.');
-  }
+}
+
+
+
+function addMoneyDeposito(nuovoSaldo) {  
+    if (nuovoSaldo != ""){
+        fetch(`http://localhost:3000/aggiornaSaldo?nuovoSaldo=${nuovoSaldo}&username=${localStorage.getItem('userBank')}`, { // Aggiungo +1 utente al backend!
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }    
+        })
+        .then(() => {
+            // Prendo i soldi da username
+            fetch(`http://localhost:3000/bankGetMoney?username=${localStorage.getItem("userBank")}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data && data.messages && data.messages.length > 0) {
+                    saldo = data.messages[0].saldo;
+                    $("#moneySection").html(`<span style = "margin-right:20px;">Saldo</span> €` + formattaNumero(saldo));
+                }
+            })
+            .catch(error => {
+                console.error('Si è verificato un errore nel backend:', error);
+                window.location.href = 'index.html';
+            });
+        })
+        .catch(error => {
+            console.error('Si è verificato un errore durante l\'invio del messaggio di login al backend:', error);
+            // Potresti gestire eventuali errori qui, se necessario
+            window.location.href = 'homepage.html';
+        });
+    }
+};
 
 // on document ready
 $(document).ready(function () {
@@ -45,6 +83,17 @@ $(document).ready(function () {
         window.location.href = 'index.html';
     });
 
+    /* FORM DEPOSITO SEND MONEY */
+    $("#formInputDeposito form").on("click", function (event) {
+        event.preventDefault();
+    });
+
+    $("#addMoney").on("click", function (event) {
+        event.preventDefault();
+        addMoneyDeposito($(saldoDepositoToAdd).val());
+    });
+    /* */ 
+    
     $("#moneySection").on("click", function () {
         $(".tiraSu").slideUp(750);
     });

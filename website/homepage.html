@@ -171,11 +171,30 @@
                         
                         <div id="boxDepositoMain">
 
-                            <p> -- Deposita qui i tuoi soldi -- </p>
-                            
-                            <form>
-                                <input type="text" name="newSaldo" id="inputNewSaldo">
-                            </form>
+                            <div id="titleDepositoMain">
+                                <p> -- Deposita qui i tuoi soldi -- </p>
+                            </div>
+                            <hr style="background-color: black;width: 95%;height: 2px;">
+
+                                
+                            <div id="formInputDeposito">
+                                
+                                <form>
+                                    
+                                    <div id="divSpanDeposito"><span>Inserire soldi </span></div>
+                                    <div id="divInputDepositoSaldo"><input class="inputTransazione" type="number" id="saldoDepositoToAdd"></div>
+
+
+                                    <div id="divSpanPin"><span>Inserire Pin </span></div>
+                                    <div id="divInputDepositoPin"><input class="inputTransazione" type="number"></div>
+
+
+
+                                    <button id="addMoney">Confirm</button>
+
+                                </form>
+                                
+                            </div>
 
                             
 
