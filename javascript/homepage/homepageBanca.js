@@ -27,36 +27,47 @@ function formattaNumero(numero) {
 
 function addMoneyDeposito(nuovoSaldo) {  
     if (nuovoSaldo != ""){
-        fetch(`http://localhost:3000/aggiornaSaldo?nuovoSaldo=${nuovoSaldo}&username=${localStorage.getItem('userBank')}`, { // Aggiungo +1 utente al backend!
-            method: 'POST',
+
+        pinInput = $("#pinInputDeposito").val();
+
+        
+        fetch(`http://localhost:3000/getUserPinBank?username=${localStorage.getItem('userBank')}`, { // Controllo il PIN prima del deposito
+            method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
             }    
         })
-        .then(() => {
-            // Prendo i soldi da username
-            fetch(`http://localhost:3000/bankGetMoney?username=${localStorage.getItem("userBank")}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
+        .then(response => response.json())
+        .then(  data => {
+            // Verifio se data esiste, e se il pin è corretto!
+            if (data && data.getPin && data.getPin.length > 0) {
+                if (data.getPin[0].pin === parseInt(pinInput)) {
+                    fetch(`http://localhost:3000/aggiornaSaldo?nuovoSaldo=${nuovoSaldo}&username=${localStorage.getItem('userBank')}`, { // Aggiungo +1 utente al backend!
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        }    
+                        })
+                        .then(() => {
+                            $("#saldoDepositoToAdd").val('');
+                            location.reload();
+                        })
                 }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data && data.messages && data.messages.length > 0) {
-                    saldo = data.messages[0].saldo;
-                    $("#moneySection").html(`<span style = "margin-right:20px;">Saldo</span> €` + formattaNumero(saldo));
+                else { // Pin Errato
+                    $("#messaggioPin").css('color', "red");
+                    $("#messaggioPin").text("Pin inserito errato!");
+                    
+                    setInterval(() => {
+                        $("#messaggioPin").text('');
+                        $("#pinInputDeposito").val('');
+                        $("#saldoDepositoToAdd").val('');
+                    }, 2000);
                 }
-            })
-            .catch(error => {
-                console.error('Si è verificato un errore nel backend:', error);
-                window.location.href = 'index.html';
-            });
+            }
         })
         .catch(error => {
             console.error('Si è verificato un errore durante l\'invio del messaggio di login al backend:', error);
             // Potresti gestire eventuali errori qui, se necessario
-            window.location.href = 'homepage.html';
         });
     }
 };

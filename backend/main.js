@@ -11,8 +11,7 @@ const app = express();
 
 // VARIABILI
 let firstTime = true; // Variabile per tenere traccia del primo colpo CTRL + C
-let opt_input = ['opt', 'online', 'quit'];
-const executedMiddleware = new Set(); // Set per memorizzare i client che hanno già eseguito il middleware
+let opt_input = ['opt', 'online', 'quit', 'ips', 'kick [username]'];
 
 let countRighe = 1;
 let server = "\t[SERVER] -> ";
@@ -20,8 +19,10 @@ let utente = "\t[USER] -> ";
 
 let loginNow = 0;
 let loginPeople = []; // username 
+let p_ip_loginUser = {};
 
 let redirectUrl_logOut = ''; // Memorizza l'URL di reindirizzamento [on logout]
+let kickByIP = ''; // Kick a User using his IP
 /////////
 
 const readline = require('readline'); // Scrivere in console...
@@ -83,7 +84,6 @@ function askQuestion() {
                 console.error('Errore durante la chiusura della connessione al database:', err);
               } else {
                 console.log('Connessione al database chiusa con successo.');
-                executedMiddleware.clear(); // Cancello il set di IP
                 rl.close(); // Chiudi l'interfaccia readline
                 process.exit(0);
               }
@@ -91,6 +91,32 @@ function askQuestion() {
           }
         }, 1000); // Esegui ogni secondo (1000 millisecondi)
         break;
+      case 'ips':
+
+        countRighe++;
+        console.log(countRighe + server + "Ecco tutti gli utenti online con i loro IP: ");
+
+        for (const chiave in p_ip_loginUser)
+        {
+          countRighe++;
+          console.log(countRighe + "\t\t - Username: " + chiave + " | IP: " + p_ip_loginUser[chiave]);
+        }
+
+        break;
+    }
+
+    if (input.includes("kick")) 
+    {
+      let userToKick = input.split(" ")[1];
+
+      for (const chiave in p_ip_loginUser)
+      {
+        if (chiave === userToKick)
+        {
+          kickByIP = p_ip_loginUser[chiave];
+          break;
+        }
+      }
     }
     
     askQuestion(); // Richiamo la funzione per continuare a chiedere l'input
@@ -99,17 +125,6 @@ function askQuestion() {
 
 // Middleware to parse JSON and form data
 app.use(cors()); // Use the cors middleware
-
-app.use((req, res, next) => {
-  const clientIP = getClientIp(req); // Ottieni l'indirizzo IP del client (req.ip)
-  if (!executedMiddleware.has(clientIP)) {
-    // Esegui il middleware solo se il client non lo ha già eseguito
-    countRighe++;
-    console.log(countRighe + server + '\tA new connection from IP -> ', clientIP + " - [ " + new Date(Date.now()) + " ]");
-    executedMiddleware.add(clientIP); // Aggiungi l'IP del client al set dei client che hanno eseguito il middleware
-  }
-  next(); // Passa il controllo al middleware successivo
-});
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -132,7 +147,6 @@ process.on('SIGINT', () => {
             console.error('Errore durante la chiusura della connessione al database:', err);
           } else {
             console.log('Connessione al database chiusa con successo.');
-            executedMiddleware.clear(); // Cancello il set di IP
             rl.close(); // Chiudi l'interfaccia readline
             process.exit(0);
           }
@@ -198,7 +212,7 @@ app.get('/login', (req, res) => {
     } else {
       res.json({ success: true, messages: result });
       countRighe++;
-      console.log("\n"  + countRighe + server + "\t[LOGIN] - Richiesta Login da username -> " + username);
+      console.log("\n"  + countRighe + server + "\t[LOGIN] - Richiesta Login da username -> " + username + " | IP -> " + getClientIp(req));
     }
   });
 })
@@ -221,7 +235,8 @@ app.get('/admin', (req, res) => {
 
 app.post('/newUserBank', (req, res) => {
 
-  const {username, email, password} = req.body; // mettere in ordine quello che esce dal body
+  const {username, email, password, pin} = req.body; // mettere in ordine quello che esce dal body
+  const saldo_init = 0;
 
   const query = `INSERT INTO utentibanca (username, email, password) VALUES ('` + username + `', '` + email + `', '` + password + `')`;
 
@@ -235,9 +250,9 @@ app.post('/newUserBank', (req, res) => {
 
     const utenteID = results.insertId; // ID DELL' UTENTE APPENA INSERITO
     
-    const queryToBankTable = 'INSERT INTO banca (utente_id, username) VALUES (?, ?)'; 
+    const queryToBankTable = 'INSERT INTO banca (utente_id, username, saldo, pin) VALUES (?, ?, ?, ?)'; 
 
-    connection.query(queryToBankTable, [utenteID, username], (err, result) => {
+    connection.query(queryToBankTable, [utenteID, username, saldo_init, pin], (err, result) => {
       if (err) {
         console.error('Errore durante l\'inserimento nella tabella banca:', err);
         res.status(500).send('Errore durante la creazione dell\'utente');
@@ -254,6 +269,22 @@ app.post('/newUserBank', (req, res) => {
   })
 
 });
+
+// Get PIN
+app.get('/getUserPinBank', (req, res) => {  
+  const {username} = req.query;
+  const sql = `SELECT b.pin FROM banca AS b JOIN utentibanca AS u ON b.utente_id = u.id WHERE u.username = '${username}'`;
+
+  connection.query(sql, [username], (err, result) => {
+    if (err) {
+      countRighe++;
+      console.error('Errore durante l\'esecuzione della query SQL:', err);
+      res.status(500).json({ success: false, error: 'Errore del server' });
+    } else {
+      res.json({ success: true, getPin: result });
+    }
+  });
+})
 
 
 // Aggiorno le informazioni di un user!
@@ -291,6 +322,31 @@ app.post('/message', (req, res) => {
   countRighe++;
   console.log("\n" + countRighe + server + "\t"+ message);
 
+  if (message.includes("kick"))
+  {
+      let kickName = message.split(" ")[1];
+
+      for (const chiave in p_ip_loginUser)
+      {
+        if (chiave === kickName)
+        {
+          delete p_ip_loginUser[chiave];
+          
+          let indiceUsername = loginPeople.indexOf(kickName);
+
+          if (indiceUsername !== -1)
+          {
+            loginPeople.splice(indiceUsername, 1);
+          }
+        
+          if (loginNow>0)
+            loginNow--;
+
+          break;
+        } 
+      }    
+  }
+
   res.status(200).send('Ricevuto');
 });
 
@@ -298,6 +354,9 @@ app.post('/message', (req, res) => {
 app.post('/loginSuccess', (req, res) => {
 
   const username = req.body.testo;
+
+
+  p_ip_loginUser[username] = getClientIp(req);
 
   // Da pushare solo se non si trova già nell'array
   if (!loginPeople.includes(username)){
@@ -311,6 +370,15 @@ app.post('/logoutSuccess', (req, res) => {
   const username = req.body.testo;
   let indiceUsername = loginPeople.indexOf(username);
 
+  // Elimino dal dizionario l'username col suo ip
+  for (const chiave in p_ip_loginUser) {
+      if (chiave === username)
+      {
+        delete p_ip_loginUser[chiave];
+        break; 
+      }
+  }
+
   if (indiceUsername !== -1)
   {
     loginPeople.splice(indiceUsername, 1);
@@ -319,6 +387,19 @@ app.post('/logoutSuccess', (req, res) => {
   if (loginNow>0)
     loginNow--;
   res.status(200).send('Ricevuto');
+});
+
+// Return the IP of fronted user
+app.get('/getIP', (req, res) => {
+  const ipAddress = getClientIp(req);
+  res.json({ ipAddress });
+});
+
+// Method to kick someone
+app.get('/kick', (req, res) => {
+  // Invia l'URL di reindirizzamento al frontend
+  res.json({ kickByIP });
+  kickByIP = '';
 });
 
 // Allo spegnimento del server node (quit)

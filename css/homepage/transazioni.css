@@ -69,6 +69,7 @@
     font-style: normal;
 
     box-sizing: border-box;
+
 }
 
 #containerScelteTransazioni {
@@ -101,6 +102,7 @@
 
     display: none;
    /* background-color: bisque; */
+
 }
 
 #transazioniPrelievoMain {
@@ -125,6 +127,11 @@
 
     margin: 1em;
     user-select: none;
+    overflow-y: scroll;
+    /* Nascondi la barra di scorrimento solo su browser WebKit */
+    scrollbar-width: thin; /* Per Firefox */
+    scrollbar-color: transparent transparent; /* Per Firefox */
+
 }
 
 #formInputDeposito {
@@ -154,7 +161,7 @@
     border: 3px solid black;
     border-radius: 20%;
 
-    margin-top: 10em;
+    margin-top: 4em;
     width: 8em;
     height: 2em;
 
@@ -172,6 +179,10 @@
 
 #divSpanPin {
     margin-top: 2em;
+}
+
+#messaggioPin {
+    margin-top: 1em;
 }
 
 @media screen and (max-width: 800px) {

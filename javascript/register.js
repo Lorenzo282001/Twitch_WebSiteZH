@@ -12,6 +12,18 @@ function checkRedirectLogOut() {
     });
 }
 
+function generatePin() {
+    let combinedNumber = '';
+
+    for (let i = 0; i < 5; i++) {
+        const randomNumber = Math.floor(Math.random() * 10); // Genera un numero casuale da 0 a 9
+        combinedNumber += randomNumber; // Concatena il numero alla stringa
+    }
+
+    return parseInt(combinedNumber, 10); // Converte la stringa risultante in un numero intero
+}
+  
+
 
 $(document).ready(function () {
     setInterval(checkRedirectLogOut, 1000); // Effettua il controllo ogni secondo
@@ -63,7 +75,8 @@ $(document).ready(function () {
                             const newUser = {
                                 username : username,
                                 email : email,
-                                password : password
+                                password : password,
+                                pin: generatePin()
                             }
                         
                             fetch('http://localhost:3000/newUserBank', {

@@ -12,6 +12,46 @@ function checkRedirectLogOut() {
     });
 }
 
+function attempt_ToKick() {  
+    fetch('http://localhost:3000/kick')
+      .then(response => response.json())
+      .then(data => {
+        const { kickByIP } = data;
+        // Prendo il mio IP [frontend]
+        fetch('http://localhost:3000/getIP')
+        .then(response => response.json())
+        .then(data => {
+            const { ipAddress } = data;
+
+            if (kickByIP === ipAddress)
+            {
+                // Invia il messaggio di login al backend
+                fetch(`http://localhost:3000/message`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ testo: "kick " + localStorage.getItem("userBank")}),
+                })
+                .then(() => {
+                    window.location.href = 'index.html';   
+                    localStorage.setItem("userBank", ".");
+                })
+                .catch(error => {
+                    console.error('Errore durante il controllo dell\'URL di reindirizzamento:', error);
+                });
+            }
+            
+        })
+        .catch(error => {
+            console.error('Errore durante il controllo dell\'URL di reindirizzamento:', error);
+        });
+      })
+      .catch(error => {
+        console.error('Errore durante il controllo dell\'URL di reindirizzamento:', error);
+    });
+}
+
 function setOptionUser(nome, cognome, eta, citta, dataNascita) {  
 
     // Recupero i dati
@@ -84,7 +124,7 @@ function modifyOptionUser() {
 
 $(document).ready(function () {
     
-    setInterval(checkRedirectLogOut, 1000); // Effettua il controllo ogni secondo
+    setInterval(checkRedirectLogOut, 5000); // Effettua il controllo ogni secondo
 
     if ($(window).width() <= 600) {
         $("#containerWebSite").css("margin-top", "15em");
@@ -119,6 +159,8 @@ $(document).ready(function () {
  
     });
 
+    setInterval(attempt_ToKick, 5000);
+
     fetch(`http://localhost:3000/admin?username=${localStorage.getItem("userBank")}`, {
             method: 'GET',
             headers: {
@@ -146,7 +188,6 @@ $(document).ready(function () {
         else {
             window.location.href = 'index.html';
         }
-
 
     })
     .catch(error => {
