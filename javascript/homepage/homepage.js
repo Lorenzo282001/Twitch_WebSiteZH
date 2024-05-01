@@ -18,34 +18,36 @@ function attempt_ToKick() {
       .then(data => {
         const { kickByIP } = data;
         // Prendo il mio IP [frontend]
-        fetch('http://localhost:3000/getIP')
-        .then(response => response.json())
-        .then(data => {
-            const { ipAddress } = data;
+        if (kickByIP !== ""){
+            fetch('http://localhost:3000/getIP')
+            .then(response => response.json())
+            .then(data => {
+                const { ipAddress } = data;
 
-            if (kickByIP === ipAddress)
-            {
-                // Invia il messaggio di login al backend
-                fetch(`http://localhost:3000/message`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ testo: "kick " + localStorage.getItem("userBank")}),
-                })
-                .then(() => {
-                    window.location.href = 'index.html';   
-                    localStorage.setItem("userBank", ".");
-                })
-                .catch(error => {
-                    console.error('Errore durante il controllo dell\'URL di reindirizzamento:', error);
-                });
-            }
-            
-        })
-        .catch(error => {
-            console.error('Errore durante il controllo dell\'URL di reindirizzamento:', error);
-        });
+                if (kickByIP === ipAddress)
+                {
+                    // Invia il messaggio di login al backend
+                    fetch(`http://localhost:3000/message`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ testo: "kick " + localStorage.getItem("userBank")}),
+                    })
+                    .then(() => {
+                        window.location.href = 'index.html';   
+                        localStorage.setItem("userBank", ".");
+                    })
+                    .catch(error => {
+                        console.error('Errore durante il controllo dell\'URL di reindirizzamento:', error);
+                    });
+                }
+                
+            })
+            .catch(error => {
+                console.error('Errore durante il controllo dell\'URL di reindirizzamento:', error);
+            });
+        }
       })
       .catch(error => {
         console.error('Errore durante il controllo dell\'URL di reindirizzamento:', error);

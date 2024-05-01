@@ -284,14 +284,14 @@
 }
 
 #depoisitiPage:hover {
-    transition: 0.5s;
     background-color: rebeccapurple;
+    border: 1px solid hotpink;
     border-radius: 20px;
 }
 
 #prelieviPage:hover {
-    transition: 0.5s;
     background-color: rebeccapurple;
+    border: 1px solid hotpink;
     border-radius: 20px;
 }
 

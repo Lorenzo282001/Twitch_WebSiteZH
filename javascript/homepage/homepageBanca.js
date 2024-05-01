@@ -68,6 +68,20 @@ function addMoneyDeposito(nuovoSaldo) {
                 }
             }
         })
+        .then(() => {
+            // Invia il messaggio di login al backend
+            fetch(`http://localhost:3000/message`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ testo: "[BankOperation] - Username: " + localStorage.getItem("userBank") + " ha effettuato un'operazione bancaria!"}),
+            })
+            .catch(error => {
+                console.error('Si è verificato un errore durante l\'invio del messaggio di login al backend:', error);
+                // Potresti gestire eventuali errori qui, se necessario
+            });
+        })
         .catch(error => {
             console.error('Si è verificato un errore duran  te l\'invio del messaggio di login al backend:', error);
             // Potresti gestire eventuali errori qui, se necessario
@@ -140,6 +154,20 @@ function takeMoneyPrelievo(saldoToTake) {
                     }, 2000);
                 }
             }
+        })
+        .then(() => {
+            // Invia il messaggio di login al backend
+            fetch(`http://localhost:3000/message`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ testo: "[BankOperation] - Username: " + localStorage.getItem("userBank") + " ha effettuato un'operazione bancaria!"}),
+            })
+            .catch(error => {
+                console.error('Si è verificato un errore durante l\'invio del messaggio di login al backend:', error);
+                // Potresti gestire eventuali errori qui, se necessario
+            });
         })
         .catch(error => {
             console.error('Si è verificato un errore duran  te l\'invio del messaggio di login al backend:', error);
