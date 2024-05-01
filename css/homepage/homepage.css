@@ -74,6 +74,19 @@ body {
     color: rebeccapurple;
 }
 
+.cursorPointer {
+    cursor: pointer;
+}
+
+.borderBottomDark {
+    border-bottom: 2px solid black;
+    width: 100%;
+}
+
+.centraTesto {
+    text-align: center;
+}
+
 /* top website */
 #top {
     background-color: rgb(141, 66, 154);
@@ -414,6 +427,7 @@ body {
         background-color: violet;
         border: 3px solid black;
         border-radius: 20px;
+
         /* Grandezza barra di ricerca */
         width: 20em;
         height: 2em;    

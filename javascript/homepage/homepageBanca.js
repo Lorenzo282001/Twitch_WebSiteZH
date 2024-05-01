@@ -29,7 +29,6 @@ function addMoneyDeposito(nuovoSaldo) {
     if (nuovoSaldo != ""){
 
         pinInput = $("#pinInputDeposito").val();
-
         
         fetch(`http://localhost:3000/getUserPinBank?username=${localStorage.getItem('userBank')}`, { // Controllo il PIN prima del deposito
             method: 'GET',
@@ -52,13 +51,17 @@ function addMoneyDeposito(nuovoSaldo) {
                             $("#saldoDepositoToAdd").val('');
                             location.reload();
                         })
+                        .catch(error => {
+                            console.error('Si è verificato un errore duran  te l\'invio del messaggio di login al backend:', error);
+                            // Potresti gestire eventuali errori qui, se necessario
+                        });
                 }
                 else { // Pin Errato
-                    $("#messaggioPin").css('color', "red");
-                    $("#messaggioPin").text("Pin inserito errato!");
+                    $("#messaggioPinDeposito").css('color', "red");
+                    $("#messaggioPinDeposito").text("Pin inserito errato!");
                     
-                    setInterval(() => {
-                        $("#messaggioPin").text('');
+                    setTimeout(() => {
+                        $("#messaggioPinDeposito").text('');
                         $("#pinInputDeposito").val('');
                         $("#saldoDepositoToAdd").val('');
                     }, 2000);
@@ -66,11 +69,86 @@ function addMoneyDeposito(nuovoSaldo) {
             }
         })
         .catch(error => {
-            console.error('Si è verificato un errore durante l\'invio del messaggio di login al backend:', error);
+            console.error('Si è verificato un errore duran  te l\'invio del messaggio di login al backend:', error);
             // Potresti gestire eventuali errori qui, se necessario
         });
     }
 };
+
+function takeMoneyPrelievo(saldoToTake) {
+
+    if (saldoToTake != "")
+    {
+        pinInput = $("#pinInputPrelievo").val();
+
+        fetch(`http://localhost:3000/getUserPinBank?username=${localStorage.getItem('userBank')}`, { // Controllo il PIN prima del deposito
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            }    
+        })
+        .then(response => response.json())
+        .then(  data => {
+            // Verifio se data esiste, e se il pin è corretto!
+            if (data && data.getPin && data.getPin.length > 0) {
+                if (data.getPin[0].pin === parseInt(pinInput)) {
+                    fetch(`http://localhost:3000/bankGetMoney?username=${localStorage.getItem("userBank")}`, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data && data.messages && data.messages.length > 0) {
+                            saldo = data.messages[0].saldo;
+                            
+                            if (parseFloat(saldo) >= parseFloat(saldoToTake)){
+                                // Ho messo un meno (-) davanti al nuovSaldo per far capire che si sta effettuando un prelievo!
+                                fetch(`http://localhost:3000/aggiornaSaldo?nuovoSaldo=-${saldoToTake}&username=${localStorage.getItem('userBank')}`, { // Aggiungo +1 utente al backend!
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                }    
+                                })
+                                .then(() => {
+                                    $("#saldoPrelievoToRemove").val('');
+                                    location.reload();
+                                })
+                            }
+                            else {
+                                $("#messaggioPinPrelievo").css('color', "red");
+                                $("#messaggioPinPrelievo").text("Saldo insufficiente!");
+                                
+                                setTimeout(() => {
+                                    $("#messaggioPinPrelievo").text('');
+                                    $("#pinInputPrelievo").val('');
+                                    $("#saldoPrelievoToRemove").val('');
+                                }, 2000);   
+                            }
+                        }
+                    })
+                }
+                else { // Pin Errato
+                    $("#messaggioPinPrelievo").css('color', "red");
+                    $("#messaggioPinPrelievo").text("Pin inserito errato!");
+                    
+                    setTimeout(() => {
+                        $("#messaggioPinPrelievo").text('');
+                        $("#pinInputPrelievo").val('');
+                        $("#saldoPrelievoToRemove").val('');
+                    }, 2000);
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Si è verificato un errore duran  te l\'invio del messaggio di login al backend:', error);
+            // Potresti gestire eventuali errori qui, se necessario
+        });
+
+    }
+
+}
 
 // on document ready
 $(document).ready(function () {
@@ -94,6 +172,25 @@ $(document).ready(function () {
         window.location.href = 'index.html';
     });
 
+    // Carico il numero di transazioni totali nella pagina TRANSAZIONI
+    fetch(`http://localhost:3000/getTransazioniTotali?username=${localStorage.getItem("userBank")}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data && data.messages && data.messages.length > 0) {
+            numeroTransazioniTotali = data.messages[0].numero_transazioni;
+            $("#transazioniTotaliPage").html("Transazioni Totali: " + numeroTransazioniTotali);
+        }
+    })
+    .catch(error => {
+        console.error('Si è verificato un errore nel backend:', error);
+        window.location.href = 'index.html';
+    });
+
     /* FORM DEPOSITO SEND MONEY */
     $("#formInputDeposito form").on("click", function (event) {
         event.preventDefault();
@@ -101,10 +198,23 @@ $(document).ready(function () {
 
     $("#addMoney").on("click", function (event) {
         event.preventDefault();
-        addMoneyDeposito($(saldoDepositoToAdd).val());
+        addMoneyDeposito($("#saldoDepositoToAdd").val());
     });
     /* */ 
+
+    /* FORM PRELIEVO TAKE MONEY */
+    $("#formInputPrelievo form").on("click", function (event) {
+        event.preventDefault();
+    });
+
+    $("#takeMoney").on("click", function (event) {
+        event.preventDefault();
+        takeMoneyPrelievo($("#saldoPrelievoToRemove").val());
+    });
+
+    /* */
     
+    /* Section main top right */
     $("#moneySection").on("click", function () {
         $(".tiraSu").slideUp(750);
     });
@@ -123,9 +233,9 @@ $(document).ready(function () {
     $("#Transazioni").on("click", function () {
 
         if ($("#TransazioniContainer").css("display") === "none"){
-            $(".tiraSu").slideUp(750);
+            $(".tiraSu").slideUp(0);
             $("#TransazioniContainer").slideDown(750);
-            $("#transazioniDepositoMain").slideDown(750);
+            $("#transazioniCronologiaMain").slideDown(750);
             $("#TransazioniContainer").css("display", "flex");
         }else {
             $("#TransazioniContainer").slideUp(750);
@@ -136,7 +246,7 @@ $(document).ready(function () {
     $("#Prestiti").on("click", function () {
 
         if ($("#PrestitiContainer").css("display") === "none"){
-            $(".tiraSu").slideUp(750);
+            $(".tiraSu").slideUp(0);
             $("#PrestitiContainer").slideDown(750);
         }else {
             $("#PrestitiContainer").slideUp(750);
@@ -147,13 +257,15 @@ $(document).ready(function () {
     $("#Bonifici").on("click", function () {
 
         if ($("#BonificiContainer").css("display") === "none"){
-            $(".tiraSu").slideUp(750);
+            $(".tiraSu").slideUp(0);
             $("#BonificiContainer").slideDown(750);
         }else {
             $("#BonificiContainer").slideUp(750);
         }
         
     });
+
+    $("#transazioniCronologiaMain").slideDown(750); // Al caricamento della pagina scendo giù le transazioni totali dell'utente!
 
     /* CLICK SUI TASTI LATERALI DI TRANSAZIONI */
     deposito.on("click", function () {  

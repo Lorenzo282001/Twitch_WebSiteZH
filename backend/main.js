@@ -430,10 +430,44 @@ app.get('/bankGetMoney', (req, res) => {
   });
 })
 
+// Take number of transcrizioni 
+app.get("/getTransazioniTotali", (req, res) => {
+
+  const {username} = req.query;
+  
+  const sql = `SELECT b.numero_transazioni FROM banca AS b JOIN utentibanca AS u ON b.utente_id = u.id WHERE u.username = '${username}'`;
+
+  connection.query(sql, [username], (err, result) => {
+    if (err) {
+      countRighe++;
+      console.error('Errore durante l\'esecuzione della query SQL:', err);
+      res.status(500).json({ success: false, error: 'Errore del server' });
+    } else {
+      res.json({ success: true, messages: result });
+    }
+  });
+
+});
+
+// REMIND: When i put from fronted the money , there are two possibilities:
+// 1. (+) Add money to Saldo
+// 2. (-) Remove monet from Saldo
 app.post('/aggiornaSaldo', (req, res) => {
   const { nuovoSaldo, username } = req.query; 
   // Esegui la query per aggiornare il saldo nel database
-  const sql = `UPDATE banca AS b JOIN utentibanca AS u ON b.utente_id = u.id SET b.saldo = b.saldo + ${nuovoSaldo} WHERE u.username = '${username}'`;
+
+  let sql;
+  let tipo_transazione;
+
+  if (!nuovoSaldo.includes("-")){
+    sql = `UPDATE banca AS b JOIN utentibanca AS u ON b.utente_id = u.id SET b.saldo = b.saldo + ${nuovoSaldo} WHERE u.username = '${username}'`;
+    tipo_transazione = "deposito";
+  }
+  else {
+    // Ricordati di togliere il meno qui!
+    sql = `UPDATE banca AS b JOIN utentibanca AS u ON b.utente_id = u.id SET b.saldo = b.saldo - ${nuovoSaldo.split("-")[1]} WHERE u.username = '${username}'`;
+    tipo_transazione = "prelievo";
+  }
 
   connection.query(sql, [nuovoSaldo, username], (err, result) => {
     if (err) {
@@ -441,8 +475,28 @@ app.post('/aggiornaSaldo', (req, res) => {
       console.error('Errore durante l\'esecuzione della query SQL:', err);
       res.status(500).json({ success: false, error: 'Errore del server' });
     } else {
-      countRighe++;
-      console.log(countRighe + server + " Username: " + username + " ha fatto un deposito!");
+
+      // Carico la transazione
+      if (tipo_transazione === "deposito")
+      {
+        
+      }
+      else if (tipo_transazione === "prelievo")
+      {
+        
+      }
+      
+      // Aggiungo la nuova transazioni
+      let sql_aggiornaTransazioni = `UPDATE banca AS b JOIN utentibanca AS u ON b.utente_id = u.id SET numero_transazioni = numero_transazioni + 1 WHERE u.username = '${username}'`;
+
+      connection.query(sql_aggiornaTransazioni, [username], (err, result) => {
+        if (err) {
+          countRighe++;
+          console.error('Errore durante l\'esecuzione della query SQL:', err);
+          res.status(500).json({ success: false, error: 'Errore del server' });
+        }
+      })
+
       res.json({ success: true, messages: result });
     }
   });

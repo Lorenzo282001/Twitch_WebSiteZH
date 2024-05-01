@@ -1,4 +1,5 @@
 
+
 .boxTransazioniLeft {
 
     position: relative;
@@ -81,7 +82,6 @@
 
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;    
     margin: 0;
     padding: 0;
@@ -101,18 +101,14 @@
 #transazioniDepositoMain {
 
     display: none;
-   /* background-color: bisque; */
-
 }
 
 #transazioniPrelievoMain {
     display: none;
-    background-color: brown;
 }
 
 #transazioniCronologiaMain {
     display: none;
-    background-color: green;
 }
 
 #boxDepositoMain {
@@ -131,6 +127,8 @@
     /* Nascondi la barra di scorrimento solo su browser WebKit */
     scrollbar-width: thin; /* Per Firefox */
     scrollbar-color: transparent transparent; /* Per Firefox */
+
+    text-align: center;
 
 }
 
@@ -184,6 +182,125 @@
 #messaggioPin {
     margin-top: 1em;
 }
+
+/* PRELIEVO */
+
+#boxPrelievoMain {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    height: calc(100% - 2em);
+
+    border: 1px solid blueviolet;
+    box-shadow: 10px 10px 10px 10px blueviolet;
+
+    margin: 1em;
+    user-select: none;
+    overflow-y: scroll;
+    /* Nascondi la barra di scorrimento solo su browser WebKit */
+    scrollbar-width: thin; /* Per Firefox */
+    scrollbar-color: transparent transparent; /* Per Firefox */
+
+}
+
+#formInputPrelievo {
+    width: 95%;
+    height: 70%;
+    margin-top: 2em;
+    display: flex;
+    flex-direction: column; /* Cambia l'orientamento del flex container a verticale */
+    align-items: center; /* Allinea i figli al centro rispetto all'asse trasversale (orizzontale) */
+
+    font-family: "Bebas Neue", sans-serif;
+    font-weight: 400;
+    font-size: 28px;
+    font-style: normal;
+}
+
+#formInputPrelievo form {
+    display: flex;
+    flex-direction: column; /* Cambia l'orientamento del form a verticale */
+    align-items: center; /* Allinea i figli al centro rispetto all'asse trasversale (orizzontale) */
+    width: 100%; /* Assicura che il form occupi tutto lo spazio disponibile */
+}
+
+#formInputPrelievo form button{
+
+    background-color: hotpink;
+    border: 3px solid black;
+    border-radius: 20%;
+
+    margin-top: 4em;
+    width: 8em;
+    height: 2em;
+
+    font-family: "Bebas Neue", sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    font-style: normal;
+
+    cursor: pointer;
+}
+
+#formInputPrelievo form button:hover{
+    background-color: rebeccapurple;
+}
+
+/* */
+
+/* TRANSAZIONI CRONOLOGIA */
+#boxTransazioniCronologiaMain {
+
+    display: flex;
+    flex-direction: column;
+
+    height: calc(100% - 2em);
+
+    border: 1px solid blueviolet;
+    box-shadow: 10px 10px 10px 10px blueviolet;
+
+    margin: 1em;
+    user-select: none;
+    overflow-y: scroll;
+    /* Nascondi la barra di scorrimento solo su browser WebKit */
+    scrollbar-width: thin; /* Per Firefox */
+    scrollbar-color: transparent transparent; /* Per Firefox */
+
+}
+
+#tabellaTransazioni {
+    height: 100%;
+}
+
+#depoisitiPage:hover {
+    transition: 0.5s;
+    background-color: rebeccapurple;
+}
+
+#prelieviPage:hover {
+    transition: 0.5s;
+    background-color: rebeccapurple;
+}
+
+.rowTableTransazioni {
+
+    display: flex;
+
+}
+
+.columnTableTransazioni {
+
+    width: 100%;
+    text-align: center;
+
+}
+
+.columnTableTransazioni {
+
+}
+
+
 
 @media screen and (max-width: 800px) {
 

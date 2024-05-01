@@ -167,14 +167,13 @@
 
                 <div id="containerTransazioniChange"> <!-- Dove mostro le cose -->
                         
-                    <div class="boxTransazioniRight" id="transazioniDepositoMain">
+                    <div class="boxTransazioniRight centraTesto tiraSu" id="transazioniDepositoMain">
                         
                         <div id="boxDepositoMain">
 
-                            <div id="titleDepositoMain">
+                            <div class="borderBottomDark" id="titleDepositoMain">
                                 <p> ATM - SEZIONE DEPOSITO  </p>
                             </div>
-                            <hr style="background-color: black;width: 95%;height: 2px;">
 
                                 
                             <div id="formInputDeposito">
@@ -189,7 +188,7 @@
                                     <div id="divInputDepositoPin"><input class="inputTransazione" type="password" id="pinInputDeposito" autocomplete="off" value=""></div>
 
 
-                                    <span id="messaggioPin"></span>
+                                    <span id="messaggioPinDeposito"></span>
                                     <button id="addMoney">Confirm</button>
                                     
                                 </form>
@@ -202,11 +201,57 @@
 
                     </div>
 
-                    <div class="boxTransazioniRight" id="transazioniPrelievoMain">
+                    <div class="boxTransazioniRight tiraSu" id="transazioniPrelievoMain">
                         
+                        <div id="boxPrelievoMain">
+
+                            <div class="borderBottomDark centraTesto" id="titlePrelievoMain">
+                                <p> ATM - SEZIONE PRELIEVO  </p>
+                            </div>
+
+                                
+                            <div id="formInputPrelievo">
+                                
+                                <form>
+                                    
+                                    <div id="divSpanPrelievo"><span>PRELEVARE</span></div>
+                                    <div id="divInputPrelievoSaldo"><input class="inputTransazione" type="number" id="saldoPrelievoToRemove" autocomplete="off" value=""></div>
+
+
+                                    <div id="divSpanPin"><span>Inserire Pin </span></div>
+                                    <div id="divInputPrelievoPin"><input class="inputTransazione" type="password" id="pinInputPrelievo" autocomplete="off" value=""></div>
+
+
+                                    <span id="messaggioPinPrelievo"></span>
+                                    <button id="takeMoney">Confirm</button>
+                                    
+                                </form>
+                                
+                            </div>
+
+                            
+
+                        </div>
+
+
                     </div>
 
-                    <div class="boxTransazioniRight" id="transazioniCronologiaMain">
+                    <div class="boxTransazioniRight tiraSu" id="transazioniCronologiaMain">
+
+                        <div id="boxTransazioniCronologiaMain">
+
+                            <div id="tabellaTransazioni">
+
+                                <div class="rowTableTransazioni borderBottomDark">
+                                    <div class="columnTableTransazioni" id="transazioniTotaliPage">Transazioni Totali</div>
+                                    <div class="columnTableTransazioni cursorPointer" id="depoisitiPage">Depositi</div>
+                                    <div class="columnTableTransazioni cursorPointer" id="prelieviPage">Prelievi</div>
+                                </div>
+
+                            </div>
+                            
+
+                        </div>
 
                     </div>
 
