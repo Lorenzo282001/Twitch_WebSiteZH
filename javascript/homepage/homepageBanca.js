@@ -194,14 +194,14 @@ function getTransazioni() {
                 
                 if (combinedArray[x].data_deposito) {
                     rowData += `<div class="columnTableTransazioni"><span class='depositoPiu'>+</span></div>`;
-                    rowData += `<div class="columnTableTransazioni">€ ${combinedArray[x].importo}</div>`;
+                    rowData += `<div class="columnTableTransazioni">€ ${formattaNumero(combinedArray[x].importo)}</div>`;
                     rowData += `<div class="columnTableTransazioni">${combinedArray[x].codice_transazione}</div>`;
                     rowData += `<div class="columnTableTransazioni">${new Date(combinedArray[x].data_deposito).toUTCString()}</div>`;
                 }
                 
                 if (combinedArray[x].data_prelievo) {
                     rowData += `<div class="columnTableTransazioni"><span class='prelievoMeno'>-</span></div>`;
-                    rowData += `<div class="columnTableTransazioni">€ ${combinedArray[x].importo}</div>`;
+                    rowData += `<div class="columnTableTransazioni">€ ${formattaNumero(combinedArray[x].importo)}</div>`;
                     rowData += `<div class="columnTableTransazioni">${combinedArray[x].codice_transazione}</div>`;
                     rowData += `<div class="columnTableTransazioni">${new Date(combinedArray[x].data_prelievo).toUTCString()}</div>`;
                 }
