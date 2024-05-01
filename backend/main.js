@@ -449,11 +449,71 @@ app.get("/getTransazioniTotali", (req, res) => {
 
 });
 
+// Prendo tutte le transazioni che siano depositi o prelievi
+app.get("/getAllTransactions", (req, res) => {
+  const {username} = req.query;
+
+  const sql_bankToID = `SELECT b.id FROM banca AS b JOIN utentibanca AS u ON b.utente_id = u.id WHERE u.username = '${username}'`;
+
+  connection.query(sql_bankToID, (err, results) => {
+    if (err) {
+      console.error('Errore durante l\'esecuzione della query SQL:', err);
+      return res.status(500).json({ success: false, error: 'Errore del server' });
+    }
+
+    if (results.length === 0) {
+      console.error('Nessuna banca trovata per l\'username:', username);
+      return res.status(404).json({ success: false, error: 'Banca non trovata' });
+    }
+
+    const id_bank = results[0].id;
+    
+    const sql_depositi = `SELECT * FROM depositi WHERE id_userBanca = '${id_bank}'`;
+    const sql_prelievi = `SELECT * FROM prelievi WHERE id_userBanca = '${id_bank}'`;  
+
+    // Esegui entrambe le query contemporaneamente utilizzando Promise.all()
+    Promise.all([
+      new Promise((resolve, reject) => {
+        connection.query(sql_depositi, (err, result_depositi) => {
+          if (err) {
+            console.error('Errore durante l\'esecuzione della query SQL per i depositi:', err);
+            return reject(err);
+          }
+          resolve(result_depositi);
+        });
+      }),
+      new Promise((resolve, reject) => {
+        connection.query(sql_prelievi, (err, result_prelievi) => {
+          if (err) {
+            console.error('Errore durante l\'esecuzione della query SQL per i prelievi:', err);
+            return reject(err);
+          }
+          resolve(result_prelievi);
+        });
+      })
+    ])
+    .then(([result_depositi, result_prelievi]) => {
+      // Combina i risultati in un'unica risposta
+      const result = {
+        depositi: result_depositi,
+        prelievi: result_prelievi
+      };
+      res.json({ success: true, messages: result });
+    })
+    .catch(err => {
+      console.error('Errore durante l\'esecuzione di una delle query:', err);
+      res.status(500).json({ success: false, error: 'Errore del server' });
+    });
+  });
+});
+
+
+
 // REMIND: When i put from fronted the money , there are two possibilities:
 // 1. (+) Add money to Saldo
 // 2. (-) Remove monet from Saldo
 app.post('/aggiornaSaldo', (req, res) => {
-  const { nuovoSaldo, username } = req.query; 
+  let { nuovoSaldo, username } = req.query; 
   // Esegui la query per aggiornare il saldo nel database
 
   let sql;
@@ -465,7 +525,8 @@ app.post('/aggiornaSaldo', (req, res) => {
   }
   else {
     // Ricordati di togliere il meno qui!
-    sql = `UPDATE banca AS b JOIN utentibanca AS u ON b.utente_id = u.id SET b.saldo = b.saldo - ${nuovoSaldo.split("-")[1]} WHERE u.username = '${username}'`;
+    nuovoSaldo = nuovoSaldo.split("-")[1];
+    sql = `UPDATE banca AS b JOIN utentibanca AS u ON b.utente_id = u.id SET b.saldo = b.saldo - ${nuovoSaldo} WHERE u.username = '${username}'`;
     tipo_transazione = "prelievo";
   }
 
@@ -477,25 +538,65 @@ app.post('/aggiornaSaldo', (req, res) => {
     } else {
 
       // Carico la transazione
-      if (tipo_transazione === "deposito")
-      {
-        
-      }
-      else if (tipo_transazione === "prelievo")
-      {
-        
-      }
-      
-      // Aggiungo la nuova transazioni
-      let sql_aggiornaTransazioni = `UPDATE banca AS b JOIN utentibanca AS u ON b.utente_id = u.id SET numero_transazioni = numero_transazioni + 1 WHERE u.username = '${username}'`;
 
-      connection.query(sql_aggiornaTransazioni, [username], (err, result) => {
+      // Prendere l'id banca dell'utente di cui mi server prendere le informazioni.
+      const bank_idQuery = `SELECT id FROM banca WHERE username = '${username}'`;
+      let idBanca;
+
+      connection.query(bank_idQuery, [username], (err, results) => {
         if (err) {
           countRighe++;
           console.error('Errore durante l\'esecuzione della query SQL:', err);
           res.status(500).json({ success: false, error: 'Errore del server' });
         }
+        else {
+          idBanca = results[0].id;
+
+          let codiceTransazione = Math.floor(Math.random() * 900000000000000) + 100000000000000; // Il codice deve essere // Probabilità di generare un numero ugaue 1/10 elevato a 15
+
+          if (tipo_transazione === "deposito")
+          {
+    
+            let deposito_sql = `INSERT INTO depositi (id_userBanca, codice_transazione, importo) VALUES (${idBanca}, ${codiceTransazione}, ${nuovoSaldo})`;
+    
+            connection.query(deposito_sql, [idBanca, codiceTransazione, nuovoSaldo], (err, result) => {
+              if (err) {
+                countRighe++;
+                console.error('Errore durante l\'esecuzione della query SQL:', err);
+                res.status(500).json({ success: false, error: 'Errore del server' });
+              }
+            })
+    
+          }
+          else if (tipo_transazione === "prelievo")
+          {
+            let prelievo_sql = `INSERT INTO prelievi (id_userBanca, codice_transazione, importo) VALUES (${idBanca}, ${codiceTransazione}, ${nuovoSaldo})`;
+    
+            connection.query(prelievo_sql, [idBanca, codiceTransazione, nuovoSaldo], (err, result) => {
+              if (err) {
+                countRighe++;
+                console.error('Errore durante l\'esecuzione della query SQL:', err);
+                res.status(500).json({ success: false, error: 'Errore del server' });
+              }
+            })
+          }
+    
+          // Aggiungo la nuova transazione eseguita con successo!
+          let sql_aggiornaTransazioni = `UPDATE banca AS b JOIN utentibanca AS u ON b.utente_id = u.id SET numero_transazioni = numero_transazioni + 1 WHERE u.username = '${username}'`;
+    
+          connection.query(sql_aggiornaTransazioni, [username], (err, result) => {
+            if (err) {
+              countRighe++;
+              console.error('Errore durante l\'esecuzione della query SQL:', err);
+              res.status(500).json({ success: false, error: 'Errore del server' });
+            }
+          })
+
+        }
+
       })
+
+      
 
       res.json({ success: true, messages: result });
     }

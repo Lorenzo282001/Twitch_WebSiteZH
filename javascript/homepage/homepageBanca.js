@@ -150,6 +150,75 @@ function takeMoneyPrelievo(saldoToTake) {
 
 }
 
+function getTransazioni() {  
+
+    fetch(`http://localhost:3000/getAllTransactions?username=${localStorage.getItem('userBank')}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+        throw new Error('Errore durante la richiesta GET /getAllTransactions');
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data)
+        {
+            data = data.messages;
+
+            let combinedArray = [];
+
+            // Verifica se l'array depositi contiene elementi
+            if (data.depositi && data.depositi.length > 0) {
+                combinedArray = combinedArray.concat(data.depositi);
+            }   
+
+        
+            // Verifica se l'array prelievi contiene elementi
+            if (data.prelievi && data.prelievi.length > 0) {
+                combinedArray = combinedArray.concat(data.prelievi);
+            }
+            
+
+            // Ordina l'array combinato solo se contiene elementi
+            if (combinedArray.length > 0) {
+                // combinedArray.sort((a, b) => new Date(a.data_deposito) - new Date(b.data_prelievo));
+                combinedArray.sort((a, b) => new Date(a.data_deposito || a.data_prelievo) - new Date(b.data_deposito || b.data_prelievo));
+            }
+
+            for (let x = combinedArray.length - 1; x >= 0; x--) {
+                let rowData = '';
+                
+                if (combinedArray[x].data_deposito) {
+                    rowData += `<div class="columnTableTransazioni"><span class='depositoPiu'>+</span></div>`;
+                    rowData += `<div class="columnTableTransazioni">€ ${combinedArray[x].importo}</div>`;
+                    rowData += `<div class="columnTableTransazioni">${combinedArray[x].codice_transazione}</div>`;
+                    rowData += `<div class="columnTableTransazioni">${new Date(combinedArray[x].data_deposito).toUTCString()}</div>`;
+                }
+                
+                if (combinedArray[x].data_prelievo) {
+                    rowData += `<div class="columnTableTransazioni"><span class='prelievoMeno'>-</span></div>`;
+                    rowData += `<div class="columnTableTransazioni">€ ${combinedArray[x].importo}</div>`;
+                    rowData += `<div class="columnTableTransazioni">${combinedArray[x].codice_transazione}</div>`;
+                    rowData += `<div class="columnTableTransazioni">${new Date(combinedArray[x].data_prelievo).toUTCString()}</div>`;
+                }
+                
+                $('#tabellaTransazioni').append(`<div class="rowTableTransazioni borderBottomDark rowTableTransazioniLayout">${rowData}</div>`);
+            }
+                    
+        }
+    })
+    .catch(error => {
+        console.error('Si è verificato un errore:', error);
+    });
+
+
+
+};
+
 // on document ready
 $(document).ready(function () {
 
@@ -190,6 +259,9 @@ $(document).ready(function () {
         console.error('Si è verificato un errore nel backend:', error);
         window.location.href = 'index.html';
     });
+
+    // carico le transazioni
+    getTransazioni();
 
     /* FORM DEPOSITO SEND MONEY */
     $("#formInputDeposito form").on("click", function (event) {

@@ -87,6 +87,49 @@ body {
     text-align: center;
 }
 
+.rowTableTransazioni {
+
+    display: flex;
+    text-align: center;
+}
+
+.columnTableTransazioni {
+
+    width: 100%;
+    
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    text-align: center;
+}
+
+.columnTableTransazioni {
+    margin: 1.5vh;
+}
+
+.depositoPiu {
+    background-color: green;
+    
+    display: flex;
+    align-items: center;
+    padding: 4px;
+}
+
+.prelievoMeno {
+    background-color: darkred;
+
+    display: flex;
+    align-items: center;
+    padding: 4px;
+
+}
+
+.rowTableTransazioniLayout {
+    background-color: blueviolet;
+}
+
+
 /* top website */
 #top {
     background-color: rgb(141, 66, 154);

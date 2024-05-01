@@ -273,31 +273,26 @@
     height: 100%;
 }
 
+#depoisitiPage {
+    display: flex;
+    justify-content: center;
+}
+
+#prelieviPage {
+    display: flex;
+    justify-content: center;
+}
+
 #depoisitiPage:hover {
     transition: 0.5s;
     background-color: rebeccapurple;
+    border-radius: 20px;
 }
 
 #prelieviPage:hover {
     transition: 0.5s;
     background-color: rebeccapurple;
-}
-
-.rowTableTransazioni {
-
-    display: flex;
-
-}
-
-.columnTableTransazioni {
-
-    width: 100%;
-    text-align: center;
-
-}
-
-.columnTableTransazioni {
-
+    border-radius: 20px;
 }
 
 

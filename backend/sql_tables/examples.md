@@ -22,3 +22,10 @@ app.post('/aggiornaSaldo', async (req, res) => {
 
 --------------
 
+
+RIGA TRANSAZIONI 
+
+(+/-)  importo codice_transazioni data
+
++ -> Green
+- -> Dark Red
