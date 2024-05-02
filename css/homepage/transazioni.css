@@ -274,25 +274,34 @@
 }
 
 #depoisitiPage {
+    transition: 0.5s;
     display: flex;
     justify-content: center;
+    border-radius: 20px;
 }
 
 #prelieviPage {
+    transition: 0.5s;
     display: flex;
     justify-content: center;
+    border-radius: 20px;
+
 }
 
 #depoisitiPage:hover {
+    transition: 0.5s;
     background-color: rebeccapurple;
-    border: 1px solid hotpink;
+    border: 2px solid pink;
     border-radius: 20px;
+    box-shadow: 5px 5px 5px 5px blueviolet;
 }
 
 #prelieviPage:hover {
+    transition: 0.5s;
     background-color: rebeccapurple;
-    border: 1px solid hotpink;
+    border: 2px solid pink;
     border-radius: 20px;
+    box-shadow: 5px 5px 5px 5px blueviolet;
 }
 
 

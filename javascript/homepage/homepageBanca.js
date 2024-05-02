@@ -2,6 +2,7 @@
 // TUTTO QUELLO CHE RIGUARDA LA BANCA
 
 let saldo = 0;
+let transazioniArray = [];
 
 let deposito = $("#transazioniDeposito");
 let prelievo = $("#transazioniPrelievo");
@@ -23,7 +24,26 @@ function formattaNumero(numero) {
     return parti.join('.');
 }
 
-
+function getMoney() {
+    // Prendo i soldi da username
+    fetch(`http://localhost:3000/bankGetMoney?username=${localStorage.getItem("userBank")}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data && data.messages && data.messages.length > 0) {
+            saldo = data.messages[0].saldo;
+            $("#moneySection").html(`<span style = "margin-right:20px;">Saldo</span> €` + formattaNumero(saldo));
+        }
+    })
+    .catch(error => {
+        console.error('Si è verificato un errore nel backend:', error);
+        window.location.href = 'index.html';
+    });
+}
 
 function addMoneyDeposito(nuovoSaldo) {  
     if (nuovoSaldo != ""){
@@ -215,29 +235,49 @@ function getTransazioni() {
             if (combinedArray.length > 0) {
                 // combinedArray.sort((a, b) => new Date(a.data_deposito) - new Date(b.data_prelievo));
                 combinedArray.sort((a, b) => new Date(a.data_deposito || a.data_prelievo) - new Date(b.data_deposito || b.data_prelievo));
-            }
+                transazioniArray = combinedArray;
 
-            for (let x = combinedArray.length - 1; x >= 0; x--) {
-                let rowData = '';
-                
-                if (combinedArray[x].data_deposito) {
-                    rowData += `<div class="columnTableTransazioni"><span class='depositoPiu'>+</span></div>`;
-                    rowData += `<div class="columnTableTransazioni">€ ${formattaNumero(combinedArray[x].importo)}</div>`;
-                    rowData += `<div class="columnTableTransazioni">${combinedArray[x].codice_transazione}</div>`;
-                    rowData += `<div class="columnTableTransazioni">${new Date(combinedArray[x].data_deposito).toUTCString()}</div>`;
-                }
-                
-                if (combinedArray[x].data_prelievo) {
-                    rowData += `<div class="columnTableTransazioni"><span class='prelievoMeno'>-</span></div>`;
-                    rowData += `<div class="columnTableTransazioni">€ ${formattaNumero(combinedArray[x].importo)}</div>`;
-                    rowData += `<div class="columnTableTransazioni">${combinedArray[x].codice_transazione}</div>`;
-                    rowData += `<div class="columnTableTransazioni">${new Date(combinedArray[x].data_prelievo).toUTCString()}</div>`;
-                }
-                
-                $('#tabellaTransazioni').append(`<div class="rowTableTransazioni borderBottomDark rowTableTransazioniLayout">${rowData}</div>`);
-            }
+                for (let x = combinedArray.length - 1; x >= 0; x--) {
+                    let rowData = '';
                     
+                    if (combinedArray[x].data_deposito) {
+                        rowData += `<div class="columnTableTransazioni"><span class='depositoPiu'>+</span></div>`;
+                        rowData += `<div class="columnTableTransazioni">€ ${formattaNumero(combinedArray[x].importo)}</div>`;
+                        rowData += `<div class="columnTableTransazioni">${combinedArray[x].codice_transazione}</div>`;
+                        rowData += `<div class="columnTableTransazioni">${new Date(combinedArray[x].data_deposito).toUTCString()}</div>`;
+                    }
+                    
+                    if (combinedArray[x].data_prelievo) {
+                        rowData += `<div class="columnTableTransazioni"><span class='prelievoMeno'>-</span></div>`;
+                        rowData += `<div class="columnTableTransazioni">€ ${formattaNumero(combinedArray[x].importo)}</div>`;
+                        rowData += `<div class="columnTableTransazioni">${combinedArray[x].codice_transazione}</div>`;
+                        rowData += `<div class="columnTableTransazioni">${new Date(combinedArray[x].data_prelievo).toUTCString()}</div>`;
+                    }
+                    
+                    $('#tabellaTransazioni').append(`<div class="rowTableTransazioni borderBottomDark rowTableTransazioniLayout allTransazioni">${rowData}</div>`);
+                }
+            }             
         }
+    })
+    .then(() => {
+        // Carico il numero di transazioni totali nella pagina TRANSAZIONI
+        fetch(`http://localhost:3000/getTransazioniTotali?username=${localStorage.getItem("userBank")}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data && data.messages && data.messages.length > 0) {
+                numeroTransazioniTotali = data.messages[0].numero_transazioni;
+                $("#transazioniTotaliPage").html("Numero Transazioni: " + numeroTransazioniTotali);
+            }
+        })
+        .catch(error => {
+            console.error('Si è verificato un errore nel backend:', error);
+            window.location.href = 'index.html';
+        });
     })
     .catch(error => {
         console.error('Si è verificato un errore:', error);
@@ -250,43 +290,8 @@ function getTransazioni() {
 // on document ready
 $(document).ready(function () {
 
-    // Prendo i soldi da username
-    fetch(`http://localhost:3000/bankGetMoney?username=${localStorage.getItem("userBank")}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data && data.messages && data.messages.length > 0) {
-            saldo = data.messages[0].saldo;
-            $("#moneySection").html(`<span style = "margin-right:20px;">Saldo</span> €` + formattaNumero(saldo));
-        }
-    })
-    .catch(error => {
-        console.error('Si è verificato un errore nel backend:', error);
-        window.location.href = 'index.html';
-    });
-
-    // Carico il numero di transazioni totali nella pagina TRANSAZIONI
-    fetch(`http://localhost:3000/getTransazioniTotali?username=${localStorage.getItem("userBank")}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data && data.messages && data.messages.length > 0) {
-            numeroTransazioniTotali = data.messages[0].numero_transazioni;
-            $("#transazioniTotaliPage").html("Transazioni Totali: " + numeroTransazioniTotali);
-        }
-    })
-    .catch(error => {
-        console.error('Si è verificato un errore nel backend:', error);
-        window.location.href = 'index.html';
-    });
+    // carico il saldo
+    getMoney();
 
     // carico le transazioni
     getTransazioni();
@@ -374,9 +379,6 @@ $(document).ready(function () {
         {
             if ($("#transazioniDepositoMain").css("display") === "none")
                 $("#transazioniDepositoMain").slideDown(750);
-            else {
-                $("#transazioniDepositoMain").slideUp(750);
-            }
         }
         else {
             $("#transazioniPrelievoMain").hide();
@@ -390,9 +392,6 @@ $(document).ready(function () {
         if ($("#transazioniDepositoMain").css('display') === 'none' && $("#transazioniCronologiaMain").css('display') === 'none'){
             if ($("#transazioniPrelievoMain").css("display") === "none")
                 $("#transazioniPrelievoMain").slideDown(750);
-            else{ 
-                $("#transazioniPrelievoMain").slideUp(750);
-            }
         }
         else{
             $("#transazioniDepositoMain").hide();
@@ -407,9 +406,6 @@ $(document).ready(function () {
         if ($("#transazioniPrelievoMain").css('display') === 'none' && $("#transazioniDepositoMain").css('display') === 'none') {
             if ($("#transazioniCronologiaMain").css("display") === "none")
                 $("#transazioniCronologiaMain").slideDown(750);
-            else{ 
-                $("#transazioniCronologiaMain").slideUp(750);
-            }
         }
         else {
             $("#transazioniDepositoMain").hide();
@@ -419,6 +415,78 @@ $(document).ready(function () {
     });
 
     /** */
+
+    // On click deposito in transazioni
+    $("#depoisitiPage").on("click", function () {  
+
+        if ($(".allTransazioni").css("display") !== "none"){
+            $(".allDeposito").remove();
+            $(".allPrelievi").remove();
+            $(".allTransazioni").hide();
+
+            $("#depoisitiPage").css("background-color", "blueviolet");
+
+            for (let x = transazioniArray.length - 1; x >= 0; x--) {
+                let rowData = '';
+                
+                if (transazioniArray[x].data_deposito) {
+                    rowData += `<div class="columnTableTransazioni"><span class='depositoPiu'>+</span></div>`;
+                    rowData += `<div class="columnTableTransazioni">€ ${formattaNumero(transazioniArray[x].importo)}</div>`;
+                    rowData += `<div class="columnTableTransazioni">${transazioniArray[x].codice_transazione}</div>`;
+                    rowData += `<div class="columnTableTransazioni">${new Date(transazioniArray[x].data_deposito).toUTCString()}</div>`;
+                }
+                
+                $('#tabellaTransazioni').append(`<div class="rowTableTransazioni borderBottomDark rowTableTransazioniLayout allDeposito">${rowData}</div>`);
+            }
+
+        }
+        else {
+            $(".allDeposito").remove();
+            $(".allPrelievi").remove();
+            $("#depoisitiPage").css("background-color", "");
+            $("#prelieviPage").css("background-color", "");
+            $(".allTransazioni").show();
+
+        }
+
+    });
+
+    $("#prelieviPage").on("click", function () {  
+
+        if ($(".allTransazioni").css("display") !== "none"){
+            $(".allDeposito").remove();
+            $(".allPrelievi").remove();
+            $(".allTransazioni").hide();
+
+            $("#prelieviPage").css("background-color", "blueviolet");
+
+
+            for (let x = transazioniArray.length - 1; x >= 0; x--) {
+                let rowData = '';
+                
+                if (transazioniArray[x].data_prelievo) {
+                    rowData += `<div class="columnTableTransazioni"><span class='prelievoMeno'>-</span></div>`;
+                    rowData += `<div class="columnTableTransazioni">€ ${formattaNumero(transazioniArray[x].importo)}</div>`;
+                    rowData += `<div class="columnTableTransazioni">${transazioniArray[x].codice_transazione}</div>`;
+                    rowData += `<div class="columnTableTransazioni">${new Date(transazioniArray[x].data_prelievo).toUTCString()}</div>`;
+                }
+                
+                $('#tabellaTransazioni').append(`<div class="rowTableTransazioni borderBottomDark rowTableTransazioniLayout allPrelievi">${rowData}</div>`);
+            }
+
+        }
+        else {
+            $(".allDeposito").remove();
+            $(".allPrelievi").remove();
+            $("#depoisitiPage").css("background-color", "");
+            $("#prelieviPage").css("background-color", "");
+            $(".allTransazioni").show();
+
+
+        }
+
+    });
+
 
 });
 
