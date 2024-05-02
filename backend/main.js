@@ -53,7 +53,7 @@ function checkUserStatusByPing() {
           const last_ping = new Date(row.last_ping).getTime();
 
           countRighe++;
-          console.log(countRighe + server + "Check Ping for -> " + username + " | Last Ping: " + new Date(row.last_ping).toLocaleTimeString());
+          console.log(countRighe + server + "Check Ping for -> " + username + " | Last Ping: " + new Date(row.last_ping).toLocaleTimeString() + " | Date Now: " + new Date(currentTime).toLocaleTimeString());
           
           if (currentTime - last_ping > offlineThreshold) {
                
