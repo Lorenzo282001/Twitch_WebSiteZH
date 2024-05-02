@@ -11,15 +11,15 @@ const app = express();
 
 // VARIABILI
 let firstTime = true; // Variabile per tenere traccia del primo colpo CTRL + C
-let opt_input = ['opt', 'online', 'quit', 'ips', 'kick [username]'];
+let opt_input = ['opt', 'quit', 'ips', 'kick [username]'];
 
 let countRighe = 1;
 let server = "\t[SERVER] -> ";
 let utente = "\t[USER] -> ";
 
-let loginNow = 0;
-let loginPeople = []; // username 
+
 let p_ip_loginUser = {};
+const updateInterval = 60000 // 60 secondi
 
 let redirectUrl_logOut = ''; // Memorizza l'URL di reindirizzamento [on logout]
 let kickByIP = ''; // Kick a User using his IP
@@ -31,6 +31,43 @@ const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout
 });
+
+function checkUserStatusByPing() {
+  const currentTime = Date.now();
+  const offlineThreshold = updateInterval; 
+  
+  // Query per ottenere gli utenti e i loro ultimi aggiornamenti dal database
+  connection.query('SELECT username, last_ping FROM utentibanca', (err, results) => {
+    if (err) {
+      console.error('Errore durante il recupero degli ultimi aggiornamenti degli utenti:', err);
+      return;
+    }
+
+    // Controllo degli ultimi aggiornamenti per ciascun utente
+    results.forEach(row => {
+      const username = row.username;
+
+      for (let p in p_ip_loginUser) {
+
+        if (p === username){
+          const last_ping = new Date(row.last_ping).getTime();
+
+          countRighe++;
+          console.log(countRighe + server + "Check Ping for -> " + username + " | Last Ping: " + new Date(row.last_ping).toLocaleTimeString());
+          
+          if (currentTime - last_ping > offlineThreshold) {
+               
+            kickByIP = p_ip_loginUser[p];
+            delete p_ip_loginUser[p];
+            countRighe++;
+            console.log(countRighe + server + "[FORCE-LOGOUT] Username: " + username + " kicked-out by console for inactivity!");
+            break;
+          }
+        }
+      }
+    });
+  });
+}
 
 function getClientIp(req) {
   return req.headers['x-forwarded-for'] || req.connection.remoteAddress.replace(/^.*:/, '');
@@ -53,17 +90,6 @@ function askQuestion() {
         for (let i in opt_input) {
           countRighe++;
           console.log(countRighe + "\t\t\t- " + opt_input[i]);
-        }
-        break;
-    
-      case 'online':
-        countRighe++;
-        console.log(countRighe + server + "Ci sono " + loginNow + " utenti nei propri conti!");
-        if (loginPeople.length > 0) {
-          for (let p in loginPeople) {
-            countRighe++;
-            console.log(countRighe + "\t\t- " + loginPeople[p]);
-          }
         }
         break;
       case 'quit':
@@ -94,7 +120,7 @@ function askQuestion() {
       case 'ips':
 
         countRighe++;
-        console.log(countRighe + server + "Ecco tutti gli utenti online con i loro IP: ");
+        console.log(countRighe + server + `Ecco tutti gli utenti online con i loro IP (Tot -> ${Object.keys(p_ip_loginUser).length}) :`);
 
         for (const chiave in p_ip_loginUser)
         {
@@ -180,9 +206,24 @@ connection.connect((err) => {
     console.log(countRighe + server + "--  Scrivi opt per i comandi -- \n");
 
     // Avvia il processo di input console!
+    setInterval(checkUserStatusByPing, updateInterval);
     askQuestion();
 });
 
+app.post('/ping', (req, res) => {
+  const { username } = req.query;  
+  const updateLastPing = `UPDATE utentibanca SET last_ping = CURRENT_TIMESTAMP WHERE username='${username}'`;
+
+  connection.query(updateLastPing, [username], (err, result) => {
+    if (err) {
+      countRighe++;
+      console.error('Errore durante l\'esecuzione della query SQL:', err);
+      return res.status(500).json({ success: false, error: 'Errore del server' });
+    } else {
+      return res.json({ success: true, messages: result });
+    }
+  });
+});
 
 app.get('/checkUserDb', (req, res) => {
   const username = req.query.username;
@@ -200,22 +241,33 @@ app.get('/checkUserDb', (req, res) => {
 })
 
 app.get('/login', (req, res) => {
-  const {username, password} = req.query;
-  
-  const sql = "SELECT * FROM utentibanca WHERE username = '" + username + "' AND password = '" + password + "'";
+  let alreadyOnline = false;
+  const { username, password } = req.query;
 
+  const sql = "SELECT * FROM utentibanca WHERE username = ? AND password = ?";
   connection.query(sql, [username, password], (err, result) => {
     if (err) {
-      countRighe++;
       console.error('Errore durante l\'esecuzione della query SQL:', err);
-      res.status(500).json({ success: false, error: 'Errore del server' });
-    } else {
-      res.json({ success: true, messages: result });
-      countRighe++;
-      console.log("\n"  + countRighe + server + "\t[LOGIN] - Richiesta Login da username -> " + username + " | IP -> " + getClientIp(req));
+      return res.status(500).json({ success: false, error: 'Errore del server' });
     }
+
+    countRighe++;
+    console.log(countRighe + server + "[LOGIN] - Richiesta Login da username -> " + username + " | IP -> " + getClientIp(req));
+
+    for (let x in p_ip_loginUser) {
+      if (x === username) {
+        alreadyOnline = true;
+        break;
+      }
+    }
+
+    if (alreadyOnline) {
+      return res.json({ success: true, messages: "AlreadyLogged" });
+    }
+
+    return res.json({ success: true, messages: result });
   });
-})
+});
 
 app.get('/admin', (req, res) => {
   const {username} = req.query;
@@ -320,7 +372,7 @@ app.post('/message', (req, res) => {
 
   const message = req.body.testo;
   countRighe++;
-  console.log("\n" + countRighe + server + "\t"+ message);
+  console.log("\n" + countRighe + server + message);
 
   if (message.includes("kick"))
   {
@@ -331,16 +383,6 @@ app.post('/message', (req, res) => {
         if (chiave === kickName)
         {
           delete p_ip_loginUser[chiave];
-          
-          let indiceUsername = loginPeople.indexOf(kickName);
-
-          if (indiceUsername !== -1)
-          {
-            loginPeople.splice(indiceUsername, 1);
-          }
-        
-          if (loginNow>0)
-            loginNow--;
 
           break;
         } 
@@ -354,21 +396,13 @@ app.post('/message', (req, res) => {
 app.post('/loginSuccess', (req, res) => {
 
   const username = req.body.testo;
-
-
   p_ip_loginUser[username] = getClientIp(req);
 
-  // Da pushare solo se non si trova già nell'array
-  if (!loginPeople.includes(username)){
-    loginPeople.push(username);
-    loginNow++;
-  }
   res.status(200).send('Ricevuto');
 });
 
 app.post('/logoutSuccess', (req, res) => {
   const username = req.body.testo;
-  let indiceUsername = loginPeople.indexOf(username);
 
   // Elimino dal dizionario l'username col suo ip
   for (const chiave in p_ip_loginUser) {
@@ -379,13 +413,6 @@ app.post('/logoutSuccess', (req, res) => {
       }
   }
 
-  if (indiceUsername !== -1)
-  {
-    loginPeople.splice(indiceUsername, 1);
-  }
-
-  if (loginNow>0)
-    loginNow--;
   res.status(200).send('Ricevuto');
 });
 
@@ -408,8 +435,7 @@ app.get('/logoutAll', (req, res) => {
   res.json({ redirectUrl_logOut });
 
   redirectUrl_logOut = '';
-  loginPeople = [];
-  loginNow = 0;
+
 });
 
 // BANK QUERY CONNECTIONS

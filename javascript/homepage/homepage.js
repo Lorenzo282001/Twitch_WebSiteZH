@@ -12,6 +12,26 @@ function checkRedirectLogOut() {
     });
 }
 
+function sendPing() {  
+
+    fetch(`http://localhost:3000/ping?username=${localStorage.getItem('userBank')}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+        })
+        .then(response => {
+        if (!response.ok) {
+            throw new Error('Errore durante il ping al server');
+        }
+        // Gestisci la risposta del server se necessario
+        })
+        .catch(error => {
+        console.error('Errore durante il ping al server:', error);
+        });
+
+}
+
 function attempt_ToKick() {  
     fetch('http://localhost:3000/kick')
       .then(response => response.json())
@@ -125,8 +145,9 @@ function modifyOptionUser() {
 }
 
 $(document).ready(function () {
-    
+    sendPing();
     setInterval(checkRedirectLogOut, 5000); // Effettua il controllo ogni secondo
+    setInterval(sendPing, 5000); // Controllo di user ancora online
 
     if ($(window).width() <= 600) {
         $("#containerWebSite").css("margin-top", "15em");

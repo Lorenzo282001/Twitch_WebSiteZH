@@ -9,6 +9,7 @@ CREATE TABLE utentiBanca (
     eta INT,
     citta VARCHAR(255),
     data_di_nascita DATE,
+    last_ping TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     admin BOOLEAN DEFAULT 0
 
 );

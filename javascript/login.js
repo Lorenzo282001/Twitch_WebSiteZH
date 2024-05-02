@@ -41,7 +41,40 @@ $(document).ready(function () {
                 .then(data => {
                         if (data && data.messages && data.messages.length >= 0) {
                             if (data.messages[0] !== undefined){
-                                if (data.messages[0].username === username && data.messages[0].password === password)
+
+                                if (data.messages === "AlreadyLogged")
+                                {
+                                    $('#failedLogin').text("User Already Logged");
+                                    $('#failedLogin').css("border" , "1px solid rebeccapurple");
+                                    $('#failedLogin').css("border-radius", "20px"); 
+
+                                    setTimeout(() => {
+                                        
+                                        $('#failedLogin').text("");
+                                        $('#failedLogin').css("border" , "none");
+
+                                        // Invia il messaggio di login al backend
+                                        fetch(`http://localhost:3000/message`, {
+                                            method: 'POST',
+                                            headers: {
+                                                'Content-Type': 'application/json',
+                                            },
+                                            body: JSON.stringify({ testo: "[LOGIN] - Username: " + username + " tentativo di accesso fallita (utene già online)!"}),
+                                        })
+                                        .then(() => {
+                                            // Reindirizza l'utente alla pagina di homepage
+                                            window.location.href = 'login.html';
+                                        })
+                                        .catch(error => {
+                                            console.error('Si è verificato un errore durante l\'invio del messaggio di login al backend:', error);
+                                            // Potresti gestire eventuali errori qui, se necessario
+                                        });
+
+
+                                    }, 1500);
+
+                                }
+                                else if (data.messages[0].username === username && data.messages[0].password === password)
                                 {   
                                     $('#failedLogin').text("Login in corso...");
                                     $('#failedLogin').css("color" , "green");
