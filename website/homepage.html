@@ -11,7 +11,8 @@
     <link rel="stylesheet" href="../css/homepage/homepage.css">
     <link rel="stylesheet" href="../css/homepage/homepageBanca.css">
     <link rel="stylesheet" href="../css/homepage/transazioni.css">
-
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="../javascript/homepage/homepage.js" defer></script>
     <script src="../javascript/homepage/homepageBanca.js" defer></script>
 
@@ -294,13 +295,19 @@
                                 </div>
 
                                 
-                                <div class="rowTableTransazioni borderBottomDark">
+                                <div class="rowTableTransazioni borderBottomDark rowDetailsCronologia">
                                     <div class="columnTableTransazioni">D/P</div>
                                     <div class="columnTableTransazioni">Importo</div>
                                     <div class="columnTableTransazioni">Codice Transazione</div>
                                     <div class="columnTableTransazioni">Data</div>
                                 </div>
+
+                                <div class="statisticheClassaPage">
+                                    <canvas id="PieChartTransazioni"></canvas>
+
+                                </div>
                                 
+
                             </div>
                             
 

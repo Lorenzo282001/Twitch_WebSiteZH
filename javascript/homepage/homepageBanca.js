@@ -1,6 +1,8 @@
 // QUI CARICO GLI SCRIPT CHE GESTISCONO IN HOMEPAGE
 // TUTTO QUELLO CHE RIGUARDA LA BANCA
 
+let myPieChart;
+
 let saldo = 0;
 let transazioniArray = [];
 
@@ -236,6 +238,7 @@ function getTransazioni() {
                 // combinedArray.sort((a, b) => new Date(a.data_deposito) - new Date(b.data_prelievo));
                 combinedArray.sort((a, b) => new Date(a.data_deposito || a.data_prelievo) - new Date(b.data_deposito || b.data_prelievo));
                 transazioniArray = combinedArray;
+            
 
                 for (let x = combinedArray.length - 1; x >= 0; x--) {
                     let rowData = '';
@@ -256,6 +259,8 @@ function getTransazioni() {
                     
                     $('#tabellaTransazioni').append(`<div class="rowTableTransazioni borderBottomDark rowTableTransazioniLayout allTransazioni">${rowData}</div>`);
                 }
+
+                PieChartTransazioni();
             }             
         }
     })
@@ -286,6 +291,63 @@ function getTransazioni() {
 
 
 };
+
+function PieChartTransazioni() {
+
+    // trovare i dati
+    let max_deposito = 0;
+    let max_prelievo = 0;
+
+    for (let d in transazioniArray) {
+
+        if (transazioniArray[d].data_deposito) {
+            max_deposito += transazioniArray[d].importo;
+        }
+
+        if (transazioniArray[d].data_prelievo) {
+            max_prelievo += transazioniArray[d].importo;
+        }
+
+    }
+    
+    /* Pie Charts Transazioni */ 
+
+    var data = {
+        labels: ['Deposito', 'Prelievo'],
+        datasets: [{
+            label: 'Transazioni Totali',
+            data: [max_deposito, max_prelievo * -1],
+            backgroundColor: [
+                'green',
+                'red'
+            ]
+        }],
+    };
+
+    // Opzioni del grafico
+    var options = {
+        responsive: false,
+        maintainAspectRatio: true,
+        plugins: {
+            legend: {
+                labels: {
+                    color: 'purple' // Colore del testo dell'etichetta
+                }
+            }
+        }
+    };
+
+    // Ottieni il contesto del canvas
+    var ctx = document.getElementById('PieChartTransazioni').getContext('2d');
+
+    // Crea il grafico a torta
+    myPieChart = new Chart(ctx, {
+        type: 'pie',
+        data: data,
+        options: options
+    });
+    
+}
 
 // on document ready
 $(document).ready(function () {
@@ -416,12 +478,31 @@ $(document).ready(function () {
 
     /** */
 
+    $('.columnDepositoCell').on("click" , function() {
+        // Ottieni il valore contenuto nell'elemento corrente
+        var valore = $(this).text();
+        if ($("#saldoDepositoToAdd")) {
+            // Assegna il valore ottenuto all'input
+            $("#saldoDepositoToAdd").val(parseInt(valore.split("€")[1]));
+        }
+    });
+
+    $('.columnPrelievoCell').on("click" , function() {
+        // Ottieni il valore contenuto nell'elemento corrente
+        var valore = $(this).text();
+        if ($("#saldoDepositoToRemove")) {
+            // Assegna il valore ottenuto all'input
+            $("#saldoPrelievoToRemove").val(parseInt(valore.split("€")[1]));
+        }
+    });
+
     // On click deposito in transazioni
     $("#depoisitiPage").on("click", function () {  
 
         if ($(".allTransazioni").css("display") !== "none"){
             $(".allDeposito").remove();
             $(".allPrelievi").remove();
+            $(".statisticheClassaPage").css("display","none");
             $(".allTransazioni").hide();
 
             $("#depoisitiPage").css("background-color", "blueviolet");
@@ -445,28 +526,13 @@ $(document).ready(function () {
             $(".allPrelievi").remove();
             $("#depoisitiPage").css("background-color", "");
             $("#prelieviPage").css("background-color", "");
+            $("#statistichePage").css("background-color", "");
+            $(".statisticheClassaPage").css("display","none");
+            $(".rowDetailsCronologia").show();
             $(".allTransazioni").show();
 
         }
 
-    });
-
-    $('.columnDepositoCell').on("click" , function() {
-        // Ottieni il valore contenuto nell'elemento corrente
-        var valore = $(this).text();
-        if ($("#saldoDepositoToAdd")) {
-            // Assegna il valore ottenuto all'input
-            $("#saldoDepositoToAdd").val(parseInt(valore.split("€")[1]));
-        }
-    });
-
-    $('.columnPrelievoCell').on("click" , function() {
-        // Ottieni il valore contenuto nell'elemento corrente
-        var valore = $(this).text();
-        if ($("#saldoDepositoToRemove")) {
-            // Assegna il valore ottenuto all'input
-            $("#saldoPrelievoToRemove").val(parseInt(valore.split("€")[1]));
-        }
     });
 
     $("#prelieviPage").on("click", function () {  
@@ -474,6 +540,7 @@ $(document).ready(function () {
         if ($(".allTransazioni").css("display") !== "none"){
             $(".allDeposito").remove();
             $(".allPrelievi").remove();
+            $(".statisticheClassaPage").css("display","none");
             $(".allTransazioni").hide();
 
             $("#prelieviPage").css("background-color", "blueviolet");
@@ -498,11 +565,48 @@ $(document).ready(function () {
             $(".allPrelievi").remove();
             $("#depoisitiPage").css("background-color", "");
             $("#prelieviPage").css("background-color", "");
+            $("#statistichePage").css("background-color", "");
+            $(".statisticheClassaPage").css("display","none");
+            $(".rowDetailsCronologia").show();
             $(".allTransazioni").show();
 
 
         }
 
+    });
+
+    $("#statistichePage").on("click", function () {  
+
+        if ($(".allTransazioni").css("display") !== "none"){
+            $(".allDeposito").remove();
+            $(".allPrelievi").remove();
+            $(".allTransazioni").hide();
+            $(".rowDetailsCronologia").hide();
+
+            $("#statistichePage").css("background-color", "blueviolet");
+            $(".statisticheClassaPage").slideDown(500);
+
+
+
+        }
+        else {
+            $(".allDeposito").remove();
+            $(".allPrelievi").remove();
+            $(".statisticheClassaPage").css("display","none");
+            $("#depoisitiPage").css("background-color", "");
+            $("#prelieviPage").css("background-color", "");
+            $("#statistichePage").css("background-color", "");
+            $(".rowDetailsCronologia").show();
+            $(".allTransazioni").show();
+
+
+        }
+
+    });
+
+    $(document).on("fullscreenchange", function() {
+        // Aggiorna le dimensioni del canvas
+        myPieChart.resize();
     });
 
 

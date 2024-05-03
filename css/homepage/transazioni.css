@@ -457,6 +457,30 @@
     box-shadow: 5px 5px 5px 5px blueviolet;
 }
 
+.statisticheClassaPage {
+    display: none;
+    justify-content: center;
+    align-items: center;
+
+
+    height: 80%;
+}
+
+#PieChartTransazioni {
+    width: 500px;
+    height: 500px;
+
+    top: 2em;
+
+    border: 2px solid rebeccapurple;
+    box-shadow: 5px 5px 10px 10px blueviolet;
+
+    margin: 2em;
+
+    padding: 20px;
+
+}
+
 @media screen and (max-width: 800px) {
 
     #TransazioniContainer {
@@ -471,11 +495,19 @@
         display: none;
     }
 
+    
+
 }
 
 @media screen and (max-width: 600px) {
 
     #TransazioniContainer {
         width: 95%;
+    }
+
+    #PieChartTransazioni {
+        width: 250px;
+        height: 250px;
+    
     }
 }
