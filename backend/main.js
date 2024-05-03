@@ -34,7 +34,7 @@ const rl = readline.createInterface({
 
 function checkUserStatusByPing() {
   const currentTime = Date.now();
-  const offlineThreshold = updateInterval; 
+  const offlineThreshold = updateInterval/2; 
   
   // Query per ottenere gli utenti e i loro ultimi aggiornamenti dal database
   connection.query('SELECT username, last_ping FROM utentibanca', (err, results) => {

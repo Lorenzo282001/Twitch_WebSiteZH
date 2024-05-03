@@ -113,8 +113,8 @@
 
 #boxDepositoMain {
     display: flex;
-    flex-direction: column;
     align-items: center;
+    justify-content: space-around;
 
     height: calc(100% - 2em);
 
@@ -132,7 +132,81 @@
 
 }
 
+#cassaDepositoLeft{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    margin-left: 2em;
+
+    padding: 20px;
+    border: 3px solid rebeccapurple;
+    border-radius: 15%;
+    box-shadow: 10px 10px 10px 10px blueviolet;
+
+}
+
+#titleDepositoMain {
+    width: 12em;
+}
+
+#titleDepositoMain p{
+    text-align: center;
+    border-bottom: 2px solid pink;
+    border-radius: 20px;
+    padding: 0;
+    margin: 0;
+}
+
+#barraCassaCenter {
+    position: relative;
+    display: flex;
+    background-color: black;
+    border: 1px solid black;
+
+    width: 2px;
+    height: 100%;
+
+
+}
+
+#cassaDepositoRight{
+    margin-right: 2em;
+    border: 3px solid rebeccapurple;
+    border-radius: 15%;
+    box-shadow: 10px 10px 10px 10px blueviolet;
+
+    width: 20%;
+
+}
+
+.rowDepositoCell {
+    margin-bottom: 2em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin: 2em;
+}
+
+.columnDepositoCell {
+    transition: 0.5s;
+
+    border-bottom: 3px solid pink;
+    border-radius: 15%;
+
+    cursor: pointer;
+}
+
+.columnDepositoCell:hover {
+    transition: 0.5s;
+    background-color: blueviolet;
+    box-shadow: 3px 3px 3px 3px blueviolet;
+
+}
+
 #formInputDeposito {
+
     width: 95%;
     height: 70%;
     margin-top: 2em;
@@ -187,8 +261,8 @@
 
 #boxPrelievoMain {
     display: flex;
-    flex-direction: column;
     align-items: center;
+    justify-content: space-around;
 
     height: calc(100% - 2em);
 
@@ -201,6 +275,70 @@
     /* Nascondi la barra di scorrimento solo su browser WebKit */
     scrollbar-width: thin; /* Per Firefox */
     scrollbar-color: transparent transparent; /* Per Firefox */
+
+}
+
+#titlePrelievoMain {
+    width: 12em;
+}
+
+#titlePrelievoMain p{
+    text-align: center;
+    border-bottom: 2px solid pink;
+    border-radius: 20px;
+    padding: 0;
+    margin: 0;
+}
+
+.rowPrelievoCell {
+    margin-bottom: 2em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin: 2em;
+}
+
+
+.columnPrelievoCell {
+    transition: 0.5s;
+
+    border-bottom: 3px solid pink;
+    border-radius: 15%;
+
+    cursor: pointer;
+}
+
+
+.columnPrelievoCell:hover {
+    transition: 0.5s;
+    background-color: blueviolet;
+    box-shadow: 3px 3px 3px 3px blueviolet;
+
+}
+
+#cassaPrelievoLeft{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    margin-left: 2em;
+
+    padding: 20px;
+    border: 3px solid rebeccapurple;
+    border-radius: 15%;
+    box-shadow: 10px 10px 10px 10px blueviolet;
+
+}
+
+
+#cassaPrelievoRight{
+    margin-right: 2em;
+    border: 3px solid rebeccapurple;
+    border-radius: 15%;
+    box-shadow: 10px 10px 10px 10px blueviolet;
+
+    width: 20%;
 
 }
 
@@ -304,12 +442,33 @@
     box-shadow: 5px 5px 5px 5px blueviolet;
 }
 
+#statistichePage {
+    transition: 0.5s;
+    display: flex;
+    justify-content: center;
+    border-radius: 20px;
+}
 
+#statistichePage:hover {
+    transition: 0.5s;
+    background-color: rebeccapurple;
+    border: 2px solid pink;
+    border-radius: 20px;
+    box-shadow: 5px 5px 5px 5px blueviolet;
+}
 
 @media screen and (max-width: 800px) {
 
     #TransazioniContainer {
         font-size: 14px;
+    }
+
+    #barraCassaCenter {
+        display: none;
+    }
+
+    #cassaDepositoRight {
+        display: none;
     }
 
 }

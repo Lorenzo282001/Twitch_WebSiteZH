@@ -451,6 +451,24 @@ $(document).ready(function () {
 
     });
 
+    $('.columnDepositoCell').on("click" , function() {
+        // Ottieni il valore contenuto nell'elemento corrente
+        var valore = $(this).text();
+        if ($("#saldoDepositoToAdd")) {
+            // Assegna il valore ottenuto all'input
+            $("#saldoDepositoToAdd").val(parseInt(valore.split("€")[1]));
+        }
+    });
+
+    $('.columnPrelievoCell').on("click" , function() {
+        // Ottieni il valore contenuto nell'elemento corrente
+        var valore = $(this).text();
+        if ($("#saldoDepositoToRemove")) {
+            // Assegna il valore ottenuto all'input
+            $("#saldoPrelievoToRemove").val(parseInt(valore.split("€")[1]));
+        }
+    });
+
     $("#prelieviPage").on("click", function () {  
 
         if ($(".allTransazioni").css("display") !== "none"){
